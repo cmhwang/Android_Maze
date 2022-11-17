@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9ECCF6"
+    android:backgroundTint="#9ECCF6"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".gui.AMazeActivity">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="#00018786"
+        android:text="Welcome to the Totoro Maze"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#000000"
+        android:textColorHighlight="@color/white"
+        android:textStyle="bold" />
+
+
+    <SeekBar
+        android:id="@+id/levelSeekBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="365dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/difficultyIns"
+        android:layout_alignLeft="@id/difficultyIns"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="13dp"
+        android:backgroundTint="@color/black"
+        android:indeterminate="true"
+        android:indeterminateTint="#000000"
+        android:max="9"
+        android:progressTint="@color/black"
+        android:thumb="@android:drawable/btn_star"
+        app:tickMarkTint="@color/white" />
+
+    <TextView
+        android:id="@+id/difficultyIns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView1"
+        android:layout_marginTop="24dp"
+        android:text="Choose Difficulty Level (0-8):"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/roomsIns"
+        android:layout_alignLeft="@id/difficultyIns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/levelSeekBar"
+        android:layout_marginTop="20dp"
+        android:text="Include Rooms:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#000000" />
+
+    <CheckBox
+        android:id="@+id/roomsCheckBox"
+        android:layout_width="136dp"
+        android:layout_height="54dp"
+        android:layout_below="@id/roomsIns"
+        android:buttonTint="#425C71"
+        android:text="NO"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#425C71"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/generationAlgo"
+        android:layout_width="283dp"
+        android:layout_height="57dp"
+        android:layout_below="@id/roomsCheckBox"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Enter Maze Generation Algorithm"
+        android:textColor="#000000" />
+
+
+
+
+</RelativeLayout>
