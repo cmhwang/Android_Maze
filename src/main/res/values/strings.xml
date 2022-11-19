@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AMazeByCheyenneHwang</string>
+    <string-array name="driver">
+        <item>Manual</item>
+        <item>Wizard</item>
+        <item>WallFollower</item>
+    </string-array>
 </resources>
