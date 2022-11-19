@@ -7,16 +7,18 @@ import android.widget.TextView;
 import edu.wm.cs.cs301.cheyennehwang.R;
 import android.widget.Toast;
 
+/**
+ * Class: equivalent to state title
+ * @author cheyennehwang
+ *
+ * Responsibilities: Display welcome an gather input parameters
+ * - set maze complexity, room input, maze generation algorithm, replay option
+ *
+ * Collaborators: Generating Activity (State Generating), Control, UI, MazeFactory
+ */
 
 public class AMazeActivity extends AppCompatActivity{
-    /**
-     * Class: equivalent to state title
-     *
-     * Responsibilities: Display welcome an gather input parameters
-     * set maze complexity, room input, maze generation algorithm, replay option
-     *
-     * Collaborators: Generating Activity (State Generating), Control, UI, MazeFactory
-     */
+
 
     SeekBar levelSeekBar;
     TextView titleText;
