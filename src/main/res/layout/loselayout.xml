@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:backgroundTint="#9ECCF6"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".gui.LosingActivity">
+
+    <TextView
+        android:id="@+id/loseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="#00018786"
+        android:text="YOU LOSE"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#000000"
+        android:textColorHighlight="@color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/xpLoss"
+        android:layout_width="382dp"
+        android:layout_height="42dp"
+        android:layout_below="@id/loseText"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="21dp"
+        android:background="#FFFFFF"
+        android:text="Why You Lost:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#4C5F71"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/losePathLength"
+        android:layout_width="382dp"
+        android:layout_height="42dp"
+        android:layout_below="@id/xpLoss"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="17dp"
+        android:background="#FFFFFF"
+        android:text="Your Path Length:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#4C5F71"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/loseShortestPathLength"
+        android:layout_width="382dp"
+        android:layout_height="42dp"
+        android:layout_below="@id/losePathLength"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="17dp"
+        android:background="#FFFFFF"
+        android:text="Shortest Path Length:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#4C5F71"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/loseFinalEnergyText"
+        android:layout_width="382dp"
+        android:layout_height="42dp"
+        android:layout_below="@id/loseShortestPathLength"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        android:text="Energy Used:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#4C5F71"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/sleepingTotoro"
+        android:layout_width="232dp"
+        android:layout_height="161dp"
+        android:layout_below="@id/loseFinalEnergyText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        app:srcCompat="@drawable/sleeptotoro" />
+
+    <Button
+        android:id="@+id/losePlayAgain"
+        android:layout_width="149dp"
+        android:layout_height="85dp"
+        android:layout_below="@id/sleepingTotoro"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:background="#4C5F71"
+        android:text="Play Again" />
+
+
+</RelativeLayout>

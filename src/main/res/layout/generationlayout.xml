@@ -10,9 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:scrollbarThumbHorizontal="@drawable/ghibli_dust"
-    android:scrollbarThumbVertical="@drawable/ghibli_dust"
-    tools:context=".gui.AMazeActivity">
+    tools:context=".gui.GeneratingActivity">
 
 
     <TextView
@@ -43,33 +41,48 @@
         android:scrollbarThumbVertical="@drawable/ghibli_dust"
         android:scrollbarTrackHorizontal="@drawable/ghibli_dust" />
 
-    <Spinner
-        android:id="@+id/driverInput"
-        android:layout_width="375dp"
-        android:layout_height="64dp"
-        android:layout_below="@id/buildProgress"
-        android:layout_marginTop="1dp"
-        android:spinnerMode="dropdown" />
 
     <LinearLayout
         android:id="@+id/driverLayout"
+        android:layout_width="395dp"
+        android:layout_height="43dp"
+        android:layout_below="@id/buildProgress"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="71dp"
+            android:layout_height="match_parent"
+            android:text="Driver"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#000000" />
+
+        <Spinner
+            android:id="@+id/driverInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/robotConfigLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/buildProgress">
+        android:layout_below="@id/driverLayout">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Driver" />
+            android:text="Robot Configuration"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#000000" />
 
+        <Spinner
+            android:id="@+id/robotConfigInput"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
-    <Spinner
-        android:id="@+id/robotConfigInput"
-        android:layout_width="373dp"
-        android:layout_height="75dp"
-        android:layout_below="@id/driverLayout"
-        android:layout_alignLeft="@id/driverLayout" />
+
 
 
 </RelativeLayout>
