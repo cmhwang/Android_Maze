@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:backgroundTint="#D3F6CB"
+    android:gravity="center_horizontal"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".gui.PlayManuallyActivity">
+
+    <ImageView
+        android:id="@+id/forestMazeHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/mazeholder" />
+
+    <ProgressBar
+        android:id="@+id/energyBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="384dp"
+        android:layout_height="43dp"
+        android:layout_below="@id/energyText"
+        android:progressBackgroundTint="#304A31"
+        android:progressTint="#304A31" />
+
+    <TextView
+        android:id="@+id/energyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forestMazeHolder"
+        android:layout_marginTop="10dp"
+        android:text="Energy Used: "
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#304A31"
+        android:textStyle="bold" />
+
+
+    <LinearLayout
+        android:id="@+id/sizeLayout"
+        android:layout_width="189dp"
+        android:layout_height="83dp"
+        android:layout_below="@id/energyBar"
+        android:layout_alignRight="@id/energyBar"
+        android:backgroundTint="#304A31"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/sizeText"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Change Size:"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#304A31"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/sizeBar"
+            android:layout_width="165dp"
+            android:layout_height="34dp"
+            android:max="10"
+            android:progress="5"
+            android:progressBackgroundTint="#304A31"
+            android:progressBackgroundTintMode="src_atop"
+            android:progressTint="#304A31"
+            android:thumbTint="#304A31" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/showMazeLayout"
+        android:layout_width="189dp"
+        android:layout_height="95dp"
+        android:layout_below="@id/sizeLayout"
+        android:layout_alignRight="@id/energyBar"
+        android:layout_marginLeft="3dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/showMazeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Show Maze:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#304A31"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/mazewidth"
+            android:layout_width="74dp"
+            android:layout_height="64dp"
+            android:layout_below="@id/showMazeText"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:checked="true"
+            android:scrollbarThumbHorizontal="#304A31"
+            android:shadowColor="#304A31"
+            android:showText="true"
+            android:textColor="#00000000"
+            android:thumbTint="#304A31"
+            app:thumbTintMode="src_in"
+            app:trackTint="#304A31" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/showWallsLayout"
+        android:layout_width="189dp"
+        android:layout_height="98dp"
+        android:layout_below="@id/showMazeLayout"
+        android:layout_alignRight="@id/energyBar"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/showWallsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Show Walls:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#304A31"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/wallSwitch"
+            android:layout_width="80dp"
+            android:layout_height="69dp"
+            android:layout_below="@id/showWallsText"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:checked="true"
+            android:scrollbarThumbHorizontal="#304A31"
+            android:shadowColor="#304A31"
+            android:showText="true"
+            android:textColor="#00000000"
+            android:thumbTint="#304A31"
+            app:thumbTintMode="src_in"
+            app:trackTint="#304A31" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/showSlnLayout"
+        android:layout_width="190dp"
+        android:layout_height="92dp"
+        android:layout_below="@id/showWallsLayout"
+        android:layout_alignRight="@id/energyBar"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/showSlnText"
+            android:layout_width="159dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Show Solution:"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#304A31"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/slnSwitch"
+            android:layout_width="71dp"
+            android:layout_height="68dp"
+            android:layout_below="@id/showSlnText"
+            android:layout_gravity="center_horizontal"
+            android:checked="true"
+            android:scrollbarThumbHorizontal="#304A31"
+            android:shadowColor="#304A31"
+            android:showText="true"
+            android:textColor="#00000000"
+            android:thumbTint="#304A31"
+            app:thumbTintMode="src_in"
+            app:trackTint="#304A31" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/navLayout"
+        android:layout_width="182dp"
+        android:layout_height="368dp"
+        android:layout_below="@id/energyBar"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/forwardButton"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:background="#304A31"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="^"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/landrLayout"
+            android:layout_below="@id/forwardButton">
+
+            <Button
+                android:id="@+id/leftButton"
+                android:layout_width="82dp"
+                android:layout_height="144dp"
+                android:layout_below="@id/forwardButton"
+                android:layout_marginTop="17dp"
+                android:background="#304A31"
+                android:text="<"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <Button
+                android:id="@+id/rightbutton"
+                android:layout_width="82dp"
+                android:layout_height="144dp"
+                android:layout_below="@id/forwardButton"
+                android:layout_marginTop="17dp"
+                android:layout_alignRight="@id/forwardButton"
+                android:layout_marginLeft="17dp"
+                android:layout_toRightof="@id/leftButton"
+                android:background="#304A31"
+                android:text=">"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/jumpButton"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:background="#304A31"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="17dp"
+            android:text="JUMP"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/navText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="clip_horizontal|center"
+            android:text="Controls"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#304A31"
+            android:textStyle="bold" />
+
+
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

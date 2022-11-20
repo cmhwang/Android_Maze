@@ -17,13 +17,14 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:background="#00018786"
-        android:text="Welcome to the Totoro Maze"
+        android:text="Welcome to The Totoro Maze"
+        android:textAlignment="center"
         android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#000000"
         android:textColorHighlight="@color/white"
-        android:layout_centerHorizontal="true"
         android:textStyle="bold" />
 
     <SeekBar
@@ -66,25 +67,27 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#000000" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/roomSwitch"
         android:layout_width="67dp"
         android:layout_height="75dp"
-        android:layout_below="@id/roomIns"
+        android:layout_below="@id/levelSeekBar"
         android:layout_alignLeft="@id/difficultyIns"
-        android:layout_marginLeft="-15dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginLeft="154dp"
+        android:layout_marginTop="34dp"
+        android:layout_toRightOf="@id/roomIns"
         android:checked="true"
         android:gravity="center_horizontal|left|center_vertical"
         android:showText="true"
-        android:thumbTint="#000000" />
+        android:thumbTint="#000000"
+        app:trackTint="#484D6C" />
 
     <EditText
         android:id="@+id/generationAlgo"
         android:layout_width="344dp"
         android:layout_height="85dp"
         android:layout_below="@id/roomSwitch"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="42dp"
         android:ems="10"
         android:inputType="text"
         android:text="Enter Maze Generation Algorithm"
@@ -93,21 +96,21 @@
 
     <Button
         android:id="@+id/replayButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="122dp"
+        android:layout_height="80dp"
         android:layout_below="@id/generationAlgo"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="51dp"
         android:backgroundTint="#000000"
-        android:layout_centerHorizontal="true"
         android:text="REPLAY" />
 
     <ImageView
         android:id="@+id/ghibliLogo"
-        android:layout_width="240dp"
-        android:layout_height="174dp"
+        android:layout_width="317dp"
+        android:layout_height="101dp"
         android:layout_below="@id/replayButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="63dp"
         app:srcCompat="@drawable/ghibli_logo" />
 
 

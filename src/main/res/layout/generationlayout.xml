@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    android:backgroundTint="#9ECCF6"
+    android:backgroundTint="#D3F6CB"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -66,8 +66,8 @@
         android:id="@+id/robotConfigLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/driverLayout">
+        android:layout_below="@id/driverLayout"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,7 +82,14 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-
+    <ImageView
+        android:id="@+id/growTreeImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/robotConfigLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="62dp"
+        app:srcCompat="@drawable/growtree" />
 
 
 </RelativeLayout>
