@@ -13,12 +13,29 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".gui.PlayManuallyActivity">
 
-    <ImageView
-        android:id="@+id/forestMazeHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/mazeholder" />
+    <LinearLayout
+        android:id="@+id/tempBckgd"
+        android:layout_width="395dp"
+        android:layout_height="301dp"
+        android:background="#717171"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/tempCircle"
+            android:layout_width="fill_parent"
+            android:layout_height="234dp"
+            app:srcCompat="@android:drawable/ic_notification_overlay" />
+
+        <Button
+            android:id="@+id/tempRect"
+            android:layout_width="fill_parent"
+            android:layout_height="62dp"
+            android:layout_below="@id/tempCircle"
+            android:background="#000000"
+            android:contentDescription="part of temporary background" />
+
+    </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/energyBar"
@@ -33,7 +50,7 @@
         android:id="@+id/energyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/forestMazeHolder"
+        android:layout_below="@id/tempBckgd"
         android:layout_marginTop="10dp"
         android:text="Energy Used: "
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -102,7 +119,6 @@
             android:layout_below="@id/showMazeText"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
-            android:scrollbarThumbHorizontal="#304A31"
             android:shadowColor="#304A31"
             android:showText="true"
             android:textColor="#00000000"
@@ -137,11 +153,9 @@
             android:layout_below="@id/showWallsText"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
-            android:scrollbarThumbHorizontal="#304A31"
             android:shadowColor="#304A31"
             android:showText="true"
             android:textColor="#00000000"
-            android:thumbTint="#304A31"
             app:thumbTintMode="src_in"
             app:trackTint="#304A31" />
 
@@ -174,11 +188,9 @@
             android:layout_below="@id/showSlnText"
             android:layout_gravity="center_horizontal"
             android:checked="true"
-            android:scrollbarThumbHorizontal="#304A31"
             android:shadowColor="#304A31"
             android:showText="true"
             android:textColor="#00000000"
-            android:thumbTint="#304A31"
             app:thumbTintMode="src_in"
             app:trackTint="#304A31" />
 
@@ -197,9 +209,9 @@
             android:layout_height="59dp"
             android:background="#304A31"
             android:gravity="center_horizontal|center_vertical"
-            android:text="^"
+            android:text="FORWARD"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -216,7 +228,7 @@
                 android:layout_below="@id/forwardButton"
                 android:layout_marginTop="17dp"
                 android:background="#304A31"
-                android:text="<"
+                android:text="L"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <Button
@@ -227,9 +239,8 @@
                 android:layout_marginTop="17dp"
                 android:layout_alignRight="@id/forwardButton"
                 android:layout_marginLeft="17dp"
-                android:layout_toRightof="@id/leftButton"
                 android:background="#304A31"
-                android:text=">"
+                android:text="R"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
         </LinearLayout>
@@ -258,9 +269,9 @@
 
 
 
-
-
     </LinearLayout>
+
+
 
 
 </RelativeLayout>

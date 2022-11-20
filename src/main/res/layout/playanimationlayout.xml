@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="end"
     android:background="#000000"
     android:backgroundTint="#D3F6CB"
     android:gravity="center_horizontal"
@@ -13,12 +14,50 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".gui.PlayAnimationActivity">
 
-    <ImageView
-        android:id="@+id/forestMazeHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/mazeholder" />
+
+    <LinearLayout
+        android:id="@+id/tempMazeBckgd"
+        android:layout_width="388dp"
+        android:layout_height="298dp"
+        android:background="#717171"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/polygonRow"
+            android:layout_width="match_parent"
+            android:layout_height="231dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/greenPolygon"
+                android:layout_width="169dp"
+                android:layout_height="231dp"
+                android:contentDescription="temp maze background"
+                app:srcCompat="@android:drawable/title_bar"
+                app:tint="#8BC34A" />
+
+            <ImageView
+                android:id="@+id/yellowPolygon"
+                android:layout_width="169dp"
+                android:layout_height="231dp"
+                android:layout_marginLeft="35dp"
+                android:contentDescription="temp maze background"
+                app:srcCompat="@android:drawable/title_bar"
+                app:tint="#FFEB3B" />
+
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/tempRect"
+            android:layout_width="fill_parent"
+            android:layout_height="62dp"
+            android:layout_below="@id/polygonRow"
+            android:background="#000000"
+            android:contentDescription="part of temporary background" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/energyBar"
@@ -33,7 +72,7 @@
         android:id="@+id/energyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/forestMazeHolder"
+        android:layout_below="@id/tempMazeBckgd"
         android:layout_marginTop="10dp"
         android:text="Energy Used: "
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -114,7 +153,6 @@
             android:layout_below="@id/showMazeText"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
-            android:scrollbarThumbHorizontal="#304A31"
             android:shadowColor="#304A31"
             android:showText="true"
             android:textColor="#00000000"
@@ -150,7 +188,6 @@
             android:layout_below="@id/showWallsText"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
-            android:scrollbarThumbHorizontal="#304A31"
             android:shadowColor="#304A31"
             android:showText="true"
             android:textColor="#00000000"
@@ -188,7 +225,6 @@
             android:layout_below="@id/showSlnText"
             android:layout_gravity="center_horizontal"
             android:checked="true"
-            android:scrollbarThumbHorizontal="#304A31"
             android:shadowColor="#304A31"
             android:showText="true"
             android:textColor="#00000000"
@@ -228,8 +264,8 @@
             android:id="@+id/leftSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_below="@id/frontSensorStatus"
+            android:layout_marginTop="10dp"
             android:background="#304A31"
             android:text="LEFT" />
 
@@ -237,8 +273,8 @@
             android:id="@+id/rightSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_below="@id/leftSensorStatus"
+            android:layout_marginTop="10dp"
             android:background="#304A31"
             android:text="RIGHT" />
 
@@ -246,13 +282,12 @@
             android:id="@+id/backSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_below="@id/rightSensorStatus"
+            android:layout_marginTop="10dp"
             android:background="#304A31"
             android:text="BACK" />
 
     </LinearLayout>
-
 
 
 </RelativeLayout>
