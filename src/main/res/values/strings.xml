@@ -1,8 +1,56 @@
 <resources>
     <string name="app_name">AMazeByCheyenneHwang</string>
-    <string-array name="driver">
+    <string name="welcome_txt">WELCOME TO THE TOTORO MAZE</string>
+    <string name="size_txt">Choose Maze Size (0 to 9):</string>
+    <string name="rooms_txt">Include Rooms:</string>
+    <string name="gen_algo_txt">Enter Maze Generation Algorithm:</string>
+    <string name="replay_txt">REPLAY</string>
+    <string name="extra_img_desc">Decorative image</string>
+    <string name="algo_txt">Maze Generation Algorithm:</string>
+    <string-array name="algo_opt">
+        <item>DFS</item>
+        <item>Boruvka</item>
+        <item>Prim</item>
+    </string-array>
+
+
+    <string name="gen_txt">Generating the Totoro Maze</string>
+    <string name="driver_txt">Driver: </string>
+    <string name="bot_config_txt">Robot Configuration:</string>
+    <string-array name="driver_opt">
         <item>Manual</item>
         <item>Wizard</item>
         <item>WallFollower</item>
     </string-array>
+    <string-array name="config_opt">
+        <item>Premium</item>
+        <item>Mediocre</item>
+        <item>Soso</item>
+        <item>Shaky</item>
+    </string-array>
+
+    <string name="lose_txt">YOU LOSE</string>
+    <string name="lose_xp_txt">Why You Lost:</string>
+    <string name="your_path_txt">Your Path Length:</string>
+    <string name="short_path_txt">Shortest Path Length:</string>
+    <string name="energy_txt">Energy Used:</string>
+    <string name="win_txt">YOU WIN</string>
+
+    <string name="temp_bckgd_txt">Temporary image for maze view holder"</string>
+    <string name="play_txt">PlAY</string>
+    <string name="pause_txt">PAUSE</string>
+    <string name="speed_txt">Change Speed:</string>
+    <string name="change_size_txt">FRONT</string>
+    <string name="show_maze_txt">Show Maze:</string>
+    <string name="show_walls_txt">Show Walls:</string>
+    <string name="show_sln_txt">Show Solution:</string>
+    <string name="sensor_status_txt">Sensor Status:</string>
+    <string name="f_txt">FRONT</string>
+    <string name="l_txt">LEFT</string>
+    <string name="r_txt">RIGHT</string>
+    <string name="b_txt">BACK</string>
+    <string name="forward_txt">FORWARD</string>
+    <string name="jump_txt">JUMP</string>
+    <string name="controls_txt">Controls</string>
+
 </resources>

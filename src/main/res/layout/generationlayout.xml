@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:background="#00018786"
-        android:text="Generating the Totoro Maze"
+        android:text="@string/gen_txt"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#000000"
@@ -52,7 +52,7 @@
         <TextView
             android:layout_width="71dp"
             android:layout_height="match_parent"
-            android:text="Driver"
+            android:text="@string/driver_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
 
@@ -72,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Robot Configuration"
+            android:text="@string/bot_config_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
 
@@ -89,7 +89,8 @@
         android:layout_below="@id/robotConfigLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="62dp"
-        app:srcCompat="@drawable/growtree" />
+        app:srcCompat="@drawable/growtree"
+        android:contentDescription="@string/extra_img_desc" />
 
 
 </RelativeLayout>

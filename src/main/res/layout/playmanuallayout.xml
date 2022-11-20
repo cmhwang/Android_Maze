@@ -24,15 +24,15 @@
             android:id="@+id/tempCircle"
             android:layout_width="fill_parent"
             android:layout_height="234dp"
-            app:srcCompat="@android:drawable/ic_notification_overlay" />
+            app:srcCompat="@android:drawable/ic_notification_overlay"
+            android:contentDescription="@string/temp_bckgd_txt" />
 
         <Button
             android:id="@+id/tempRect"
             android:layout_width="fill_parent"
             android:layout_height="62dp"
-            android:layout_below="@id/tempCircle"
             android:background="#000000"
-            android:contentDescription="part of temporary background" />
+            android:contentDescription="@string/temp_bckgd_txt" />
 
     </LinearLayout>
 
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tempBckgd"
         android:layout_marginTop="10dp"
-        android:text="Energy Used: "
+        android:text="@string/energy_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#304A31"
         android:textStyle="bold" />
@@ -63,7 +63,7 @@
         android:layout_width="189dp"
         android:layout_height="83dp"
         android:layout_below="@id/energyBar"
-        android:layout_alignRight="@id/energyBar"
+        android:layout_alignEnd="@id/energyBar"
         android:backgroundTint="#304A31"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical">
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Change Size:"
+            android:text="@string/change_size_txt"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
@@ -98,8 +98,8 @@
         android:layout_width="189dp"
         android:layout_height="95dp"
         android:layout_below="@id/sizeLayout"
-        android:layout_alignRight="@id/energyBar"
-        android:layout_marginLeft="3dp"
+        android:layout_alignEnd="@id/energyBar"
+        android:layout_marginStart="3dp"
         android:orientation="vertical">
 
         <TextView
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Show Maze:"
+            android:text="@string/show_maze_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
             android:textStyle="bold" />
@@ -116,7 +116,6 @@
             android:id="@+id/mazewidth"
             android:layout_width="74dp"
             android:layout_height="64dp"
-            android:layout_below="@id/showMazeText"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
             android:shadowColor="#304A31"
@@ -133,7 +132,7 @@
         android:layout_width="189dp"
         android:layout_height="98dp"
         android:layout_below="@id/showMazeLayout"
-        android:layout_alignRight="@id/energyBar"
+        android:layout_alignEnd="@id/energyBar"
         android:orientation="vertical">
 
         <TextView
@@ -141,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Show Walls:"
+            android:text="@string/show_walls_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
             android:textStyle="bold" />
@@ -150,7 +149,6 @@
             android:id="@+id/wallSwitch"
             android:layout_width="80dp"
             android:layout_height="69dp"
-            android:layout_below="@id/showWallsText"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
             android:shadowColor="#304A31"
@@ -166,8 +164,8 @@
         android:layout_width="190dp"
         android:layout_height="92dp"
         android:layout_below="@id/showWallsLayout"
-        android:layout_alignRight="@id/energyBar"
-        android:layout_marginLeft="5dp"
+        android:layout_alignEnd="@id/energyBar"
+        android:layout_marginStart="5dp"
         android:orientation="vertical">
 
         <TextView
@@ -175,7 +173,7 @@
             android:layout_width="159dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Show Solution:"
+            android:text="@string/show_sln_txt"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
@@ -185,7 +183,6 @@
             android:id="@+id/slnSwitch"
             android:layout_width="71dp"
             android:layout_height="68dp"
-            android:layout_below="@id/showSlnText"
             android:layout_gravity="center_horizontal"
             android:checked="true"
             android:shadowColor="#304A31"
@@ -209,7 +206,7 @@
             android:layout_height="59dp"
             android:background="#304A31"
             android:gravity="center_horizontal|center_vertical"
-            android:text="FORWARD"
+            android:text="@string/forward_txt"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold" />
@@ -218,30 +215,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/landrLayout"
-            android:layout_below="@id/forwardButton">
+            android:id="@+id/landrLayout">
 
             <Button
                 android:id="@+id/leftButton"
                 android:layout_width="82dp"
                 android:layout_height="144dp"
-                android:layout_below="@id/forwardButton"
                 android:layout_marginTop="17dp"
                 android:background="#304A31"
-                android:text="L"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                android:text="@string/l_txt"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                style="?android:attr/buttonBarButtonStyle" />
 
             <Button
                 android:id="@+id/rightbutton"
                 android:layout_width="82dp"
                 android:layout_height="144dp"
-                android:layout_below="@id/forwardButton"
                 android:layout_marginTop="17dp"
-                android:layout_alignRight="@id/forwardButton"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:background="#304A31"
-                android:text="R"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                android:text="@string/r_txt"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                style="?android:attr/buttonBarButtonStyle" />
 
         </LinearLayout>
 
@@ -252,7 +249,7 @@
             android:background="#304A31"
             android:gravity="center_horizontal|center_vertical"
             android:layout_marginTop="17dp"
-            android:text="JUMP"
+            android:text="@string/jump_txt"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold" />
@@ -262,7 +259,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="clip_horizontal|center"
-            android:text="Controls"
+            android:text="@string/controls_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
             android:textStyle="bold" />

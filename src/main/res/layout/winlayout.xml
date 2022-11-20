@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:background="#00018786"
-        android:text="YOU WIN"
+        android:text="@string/win_txt"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#000000"
@@ -33,7 +33,7 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="54dp"
         android:background="#FFFFFF"
-        android:text="Your Path Length:"
+        android:text="@string/your_path_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#4C5F71"
         android:textStyle="bold" />
@@ -46,7 +46,7 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="36dp"
         android:background="#FFFFFF"
-        android:text="Shortest Path Length:"
+        android:text="@string/short_path_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#4C5F71"
         android:textStyle="bold" />
@@ -59,7 +59,7 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="36dp"
         android:background="#FFFFFF"
-        android:text="Energy Used:"
+        android:text="@string/energy_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#4C5F71"
         android:textStyle="bold" />
@@ -71,7 +71,8 @@
         android:layout_below="@id/finalEnergyText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/catbus" />
+        app:srcCompat="@drawable/catbus"
+        android:contentDescription="@string/extra_img_desc" />
 
     <Button
         android:id="@+id/winPlayAgain"
@@ -81,7 +82,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
         android:background="#4C5F71"
-        android:text="Play Again" />
+        android:text="@string/replay_txt" />
 
 
 </RelativeLayout>

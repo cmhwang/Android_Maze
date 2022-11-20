@@ -32,7 +32,7 @@
                 android:id="@+id/greenPolygon"
                 android:layout_width="169dp"
                 android:layout_height="231dp"
-                android:contentDescription="temp maze background"
+                android:contentDescription="@string/temp_bckgd_txt"
                 app:srcCompat="@android:drawable/title_bar"
                 app:tint="#8BC34A" />
 
@@ -40,8 +40,8 @@
                 android:id="@+id/yellowPolygon"
                 android:layout_width="169dp"
                 android:layout_height="231dp"
-                android:layout_marginLeft="35dp"
-                android:contentDescription="temp maze background"
+                android:layout_marginStart="35dp"
+                android:contentDescription="@string/temp_bckgd_txt"
                 app:srcCompat="@android:drawable/title_bar"
                 app:tint="#FFEB3B" />
 
@@ -53,9 +53,8 @@
             android:id="@+id/tempRect"
             android:layout_width="fill_parent"
             android:layout_height="62dp"
-            android:layout_below="@id/polygonRow"
             android:background="#000000"
-            android:contentDescription="part of temporary background" />
+            android:contentDescription="@string/temp_bckgd_txt" />
 
     </LinearLayout>
 
@@ -74,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tempMazeBckgd"
         android:layout_marginTop="10dp"
-        android:text="Energy Used: "
+        android:text="@string/energy_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#304A31"
         android:textStyle="bold" />
@@ -87,7 +86,7 @@
         android:layout_below="@id/energyBar"
         android:layout_marginTop="4dp"
         android:background="#304A31"
-        android:text="PLAY"
+        android:text="@string/play_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <LinearLayout
@@ -95,8 +94,8 @@
         android:layout_width="165dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/energyBar"
-        android:layout_alignRight="@id/energyBar"
-        android:layout_toRightOf="@id/playButton"
+        android:layout_alignEnd="@id/energyBar"
+        android:layout_toEndOf="@id/playButton"
         android:backgroundTint="#304A31"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical">
@@ -106,7 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Change Speed:"
+            android:text="@string/speed_txt"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
@@ -131,9 +130,9 @@
         android:layout_width="192dp"
         android:layout_height="95dp"
         android:layout_below="@id/speedLayout"
-        android:layout_alignRight="@id/energyBar"
-        android:layout_marginLeft="3dp"
-        android:layout_toRightOf="@id/playButton"
+        android:layout_alignEnd="@id/energyBar"
+        android:layout_marginStart="3dp"
+        android:layout_toEndOf="@id/playButton"
         android:orientation="vertical">
 
         <TextView
@@ -141,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Show Maze:"
+            android:text="@string/show_maze_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
             android:textStyle="bold" />
@@ -150,7 +149,6 @@
             android:id="@+id/mazewidth"
             android:layout_width="74dp"
             android:layout_height="64dp"
-            android:layout_below="@id/showMazeText"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
             android:shadowColor="#304A31"
@@ -167,8 +165,8 @@
         android:layout_width="189dp"
         android:layout_height="98dp"
         android:layout_below="@id/showMazeLayout"
-        android:layout_alignRight="@id/energyBar"
-        android:layout_toRightOf="@id/playButton"
+        android:layout_alignEnd="@id/energyBar"
+        android:layout_toEndOf="@id/playButton"
         android:orientation="vertical">
 
         <TextView
@@ -176,7 +174,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Show Walls:"
+            android:text="@string/show_walls_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
             android:textStyle="bold" />
@@ -185,7 +183,6 @@
             android:id="@+id/wallSwitch"
             android:layout_width="80dp"
             android:layout_height="69dp"
-            android:layout_below="@id/showWallsText"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
             android:shadowColor="#304A31"
@@ -202,9 +199,9 @@
         android:layout_width="209dp"
         android:layout_height="93dp"
         android:layout_below="@id/showWallsLayout"
-        android:layout_alignRight="@id/energyBar"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@id/playButton"
+        android:layout_alignEnd="@id/energyBar"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/playButton"
         android:orientation="vertical">
 
         <TextView
@@ -212,7 +209,7 @@
             android:layout_width="159dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Show Solution:"
+            android:text="@string/show_sln_txt"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
@@ -222,7 +219,6 @@
             android:id="@+id/slnSwitch"
             android:layout_width="71dp"
             android:layout_height="68dp"
-            android:layout_below="@id/showSlnText"
             android:layout_gravity="center_horizontal"
             android:checked="true"
             android:shadowColor="#304A31"
@@ -246,7 +242,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Sensor Status:"
+            android:text="@string/sensor_status_txt"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
@@ -258,34 +254,35 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="#304A31"
-            android:text="FRONT" />
+            android:clickable="false"
+            android:text="@string/f_txt" />
 
         <Button
             android:id="@+id/leftSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/frontSensorStatus"
             android:layout_marginTop="10dp"
             android:background="#304A31"
-            android:text="LEFT" />
+            android:clickable="false"
+            android:text="@string/l_txt" />
 
         <Button
             android:id="@+id/rightSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/leftSensorStatus"
             android:layout_marginTop="10dp"
             android:background="#304A31"
-            android:text="RIGHT" />
+            android:clickable="false"
+            android:text="@string/r_txt" />
 
         <Button
             android:id="@+id/backSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rightSensorStatus"
             android:layout_marginTop="10dp"
             android:background="#304A31"
-            android:text="BACK" />
+            android:clickable="false"
+            android:text="@string/b_txt" />
 
     </LinearLayout>
 

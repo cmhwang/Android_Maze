@@ -1,7 +1,9 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,10 +24,26 @@ import edu.wm.cs.cs301.cheyennehwang.R;
 
 public class GeneratingActivity extends AppCompatActivity {
 
+    Spinner driverSpinner;
+    Spinner botConfigSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generationlayout);
+
+        //processes and builds spinner to accept input for robot driver configuration
+        Spinner driverSpinner = (Spinner) findViewById(R.id.driverInput);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.driver_opt, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        driverSpinner.setAdapter(adapter);
+
+        //processes and builds spinner to accept input for robot sensor configuration
+        Spinner botConfigSpinner = (Spinner) findViewById(R.id.robotConfigInput);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.config_opt, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        botConfigSpinner.setAdapter(adapter);
+
+
     }
 }
