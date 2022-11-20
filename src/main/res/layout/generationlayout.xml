@@ -33,8 +33,6 @@
         android:layout_height="62dp"
         android:layout_below="@id/genText"
         android:layout_centerHorizontal="true"
-        android:indeterminate="true"
-        android:indeterminateTint="#000000"
         android:progressTint="#000000"
         android:scrollbarStyle="insideOverlay"
         android:scrollbarThumbHorizontal="@drawable/ghibli_dust"
@@ -45,7 +43,7 @@
     <LinearLayout
         android:id="@+id/driverLayout"
         android:layout_width="395dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_below="@id/buildProgress"
         android:orientation="horizontal">
 
@@ -58,28 +56,32 @@
 
         <Spinner
             android:id="@+id/driverInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="77dp"
+            android:layout_height="match_parent"
+            android:entries="@array/driver_opt"
+            tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/robotConfigLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_below="@id/driverLayout"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/bot_config_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
 
         <Spinner
             android:id="@+id/robotConfigInput"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_width="87dp"
+            android:layout_height="match_parent"
+            android:entries="@array/config_opt"
+            tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
     <ImageView

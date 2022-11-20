@@ -101,26 +101,37 @@
 
         <Spinner
             android:id="@+id/genAlgoInput"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_width="74dp"
+            android:layout_height="48dp"
+            android:entries="@array/algo_opt" />
     </LinearLayout>
 
 
     <Button
-        android:id="@+id/replayButton"
+        android:id="@+id/exploreButton"
         android:layout_width="122dp"
         android:layout_height="80dp"
         android:layout_below="@id/genAlgoLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginStart="60dp"
         android:backgroundTint="#000000"
-        android:text="@string/replay_txt" />
+        android:text="@string/explore_txt" />
+
+    <Button
+        android:id="@+id/revisitButton"
+        android:layout_width="122dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/genAlgoLayout"
+        android:layout_toEndOf="@id/exploreButton"
+        android:layout_marginTop="52dp"
+        android:backgroundTint="#000000"
+        android:text="@string/revisit_txt" />
 
     <ImageView
         android:id="@+id/ghibliLogo"
         android:layout_width="317dp"
         android:layout_height="101dp"
-        android:layout_below="@id/replayButton"
+        android:layout_below="@id/exploreButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="63dp"
         app:srcCompat="@drawable/ghibli_logo"

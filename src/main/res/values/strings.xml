@@ -5,6 +5,8 @@
     <string name="rooms_txt">Include Rooms:</string>
     <string name="gen_algo_txt">Enter Maze Generation Algorithm:</string>
     <string name="replay_txt">REPLAY</string>
+    <string name="explore_txt">EXPLORE</string>
+    <string name="revisit_txt">REVISIT</string>
     <string name="extra_img_desc">Decorative image</string>
     <string name="algo_txt">Maze Generation Algorithm:</string>
     <string-array name="algo_opt">
@@ -12,6 +14,7 @@
         <item>Boruvka</item>
         <item>Prim</item>
     </string-array>
+    <string name="spinner_desc">filled with array items</string>
 
 
     <string name="gen_txt">Generating the Totoro Maze</string>

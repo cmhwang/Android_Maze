@@ -42,7 +42,7 @@ public class GeneratingActivity extends AppCompatActivity {
         Spinner botConfigSpinner = (Spinner) findViewById(R.id.robotConfigInput);
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.config_opt, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        botConfigSpinner.setAdapter(adapter);
+        botConfigSpinner.setAdapter(adapter2);
 
 
     }
