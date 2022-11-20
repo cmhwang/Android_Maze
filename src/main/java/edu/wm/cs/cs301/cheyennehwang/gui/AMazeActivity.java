@@ -37,6 +37,12 @@ public class AMazeActivity extends AppCompatActivity {
     Spinner genAlgoSpinner;
     SeekBar sizeSeekBar;
 
+    /**
+     * Sets up any ui features that need additional specifications
+     * - specfically here sets up sinner for accepting generation input
+     * Sets up listener for when user ready to move to next state
+     * @param savedInstanceState is what is passed around
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -62,7 +68,7 @@ public class AMazeActivity extends AppCompatActivity {
 
     /**
      * gathers all the input data for maze generation
-     * sends log message about the data gathered
+     * sends log message and toast message about the data gathered
      * also performs the navigation into GeneratingActivity/state generating
      * takes either the revisit or explore buttons as input
      * @param nextButton is either the revisit or explore buttons, needed to set up action listener
@@ -104,7 +110,7 @@ public class AMazeActivity extends AppCompatActivity {
                 transitionToGen.putExtra("generationAlgorithm", genAlgo);
                 transitionToGen.putExtra("roomsIn", incRooms);
 
-                Toast toast = Toast.makeText(AMazeActivity.this, "Begin Maze Generation", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(AMazeActivity.this, "Begin Maze Generation with level: " + String.valueOf(mazeLevel) + ", algorithm: " + genAlgo + ", rooms on: " + String.valueOf(incRooms), Toast.LENGTH_SHORT);
                 toast.show();
                 startActivity(transitionToGen);
             }

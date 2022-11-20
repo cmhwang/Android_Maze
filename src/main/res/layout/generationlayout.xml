@@ -26,18 +26,17 @@
         android:textColorHighlight="@color/white"
         android:textStyle="bold" />
 
-    <ProgressBar
+
+    <SeekBar
         android:id="@+id/buildProgress"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="365dp"
         android:layout_height="62dp"
         android:layout_below="@id/genText"
         android:layout_centerHorizontal="true"
+        android:max="100"
         android:progressTint="#000000"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbarThumbHorizontal="@drawable/ghibli_dust"
-        android:scrollbarThumbVertical="@drawable/ghibli_dust"
-        android:scrollbarTrackHorizontal="@drawable/ghibli_dust" />
+        android:thumb="@drawable/small_dust" />
+
 
 
     <LinearLayout

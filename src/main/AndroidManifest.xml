@@ -32,16 +32,15 @@
 
         <activity
             android:name=".gui.GeneratingActivity"
-            android:exported="true"
-
-            >
+            android:parentActivityName=".gui.AMazeActivity"
+            android:exported="true" >
 
         </activity>
 
         <activity
             android:name=".gui.PlayManuallyActivity"
             android:exported="true"
-
+            android:parentActivityName=".gui.AMazeActivity"
             >
 
         </activity>
@@ -49,7 +48,7 @@
         <activity
             android:name=".gui.PlayAnimationActivity"
             android:exported="true"
-
+            android:parentActivityName=".gui.AMazeActivity"
             >
 
         </activity>
@@ -57,13 +56,14 @@
         <activity
             android:name=".gui.WinningActivity"
             android:exported="true"
-
+            android:parentActivityName=".gui.AMazeActivity"
             >
         </activity>
 
         <activity
             android:name=".gui.LosingActivity"
             android:exported="true"
+            android:parentActivityName=".gui.AMazeActivity"
             >
 
         </activity>
