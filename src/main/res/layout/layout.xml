@@ -101,8 +101,9 @@
 
         <Spinner
             android:id="@+id/genAlgoInput"
-            android:layout_width="74dp"
-            android:layout_height="48dp"
+            android:layout_width="95dp"
+            android:layout_height="73dp"
+            android:background="#000000"
             android:entries="@array/algo_opt" />
     </LinearLayout>
 

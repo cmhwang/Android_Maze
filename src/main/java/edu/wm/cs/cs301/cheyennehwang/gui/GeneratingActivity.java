@@ -127,6 +127,7 @@ public class GeneratingActivity extends AppCompatActivity {
         spinner4Driver.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id){
                 driverSetting = driverSpinner.getSelectedItem().toString();
+                Log.v("Driver Set", driverSetting);
 
                 if (driverSetting.equalsIgnoreCase("Manual")){
 
@@ -144,6 +145,7 @@ public class GeneratingActivity extends AppCompatActivity {
                         toast5.show();
                         startActivity(transitionToPlay);
                     } else {
+                        Log.v("Waiting on Generation", "Play Will Begin Soon");
                         Toast toastA = Toast.makeText(GeneratingActivity.this, "Driver Set, Maze play will start soon", Toast.LENGTH_SHORT);
                         toastA.show();
                     }
@@ -165,6 +167,7 @@ public class GeneratingActivity extends AppCompatActivity {
                         startActivity(transitionToPlay);
                     } else {
                         //branch for if load not done
+                        Log.v("Waiting on Generation", "Play Will Begin Soon");
                         Toast toastA = Toast.makeText(GeneratingActivity.this, "Driver Set, Maze play will start soon", Toast.LENGTH_SHORT);
                         toastA.show();
                     }
@@ -203,6 +206,7 @@ public class GeneratingActivity extends AppCompatActivity {
                     driverSetting = driverSpinner.getSelectedItem().toString();
 
                     if (driverSetting.equalsIgnoreCase("Manual")){
+                        Log.v("Driver Set", driverSetting);
                         // processes input from robot configuration spinner
                         botConfigSetting = botConfigSpinner.getSelectedItem().toString();
                         Log.v("Robot Configuration Set", botConfigSetting);
@@ -217,7 +221,7 @@ public class GeneratingActivity extends AppCompatActivity {
                         startActivity(transitionToPlay);
 
                     } else if (driverSetting.equalsIgnoreCase("Wizard") || driverSetting.equalsIgnoreCase("WallFollower")){
-
+                        Log.v("Driver Set", driverSetting);
                         // processes input from robot configuration spinner
                         botConfigSetting = botConfigSpinner.getSelectedItem().toString();
                         Log.v("Robot Configuration Set", botConfigSetting);

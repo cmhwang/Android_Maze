@@ -1,10 +1,17 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
 
@@ -22,12 +29,57 @@ import edu.wm.cs.cs301.cheyennehwang.R;
 
 public class WinningActivity extends AppCompatActivity {
 
+
+    /**
+     * Sets up any ui features that need additional specifications
+     * - specfically here sets uptext fields for shortest path, path taken, energy used, and replay button
+     * Sets up listener for when user ready to move to next state title again if replay button hit button
+     * @param savedInstanceState is what is passed around
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.winlayout);
 
+        // updates text field for your path taken
+        TextView yourPathField = (TextView)  findViewById(R.id.yourPathInput);
+        // holder var until p7 implementation
+        String temp = "50";
+        yourPathField.setText(temp);
+
+        // updates text field for shortest path taken
+        TextView shortestPathField = (TextView)  findViewById(R.id.shortestPathInput);
+        // holder var until p7 implementation
+        String temp1 = "100";
+        shortestPathField.setText(temp1);
+
+        // updates text field for robot energy used
+        TextView energyUsedField = (TextView)  findViewById(R.id.finalEnergyInput);
+        // holder var until p7 implementation
+        String temp2 = "3500";
+        energyUsedField.setText(temp2);
+
+        returnToTitle((Button) findViewById(R.id.winPlayAgain));
+
     }
+
+    /**
+     * sets up action listener for replay button
+     * performs return to StateTitle/AMAzeActivity when hit
+     * @param nextButton is reference to the replay button
+     */
+    public void returnToTitle(Button nextButton) {
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Log.v("Replay Button Pressed", "Returned to Title");
+                Intent transitionToStart = new Intent(WinningActivity.this, AMazeActivity.class);
+                Toast toast = Toast.makeText(WinningActivity.this, "Return to Title Screen", Toast.LENGTH_SHORT);
+                toast.show();
+                startActivity(transitionToStart);
+            }
+        });
+    }
+
 
     /**
      * handles what happens if user presses back button

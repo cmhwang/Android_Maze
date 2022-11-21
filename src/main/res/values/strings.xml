@@ -60,4 +60,6 @@
     <string name="skip_lose_txt">Go2Losing</string>
     <string name="show_map_txt">Show Map:</string>
 
+    <string name="temp_ur_path">100:</string>
+
 </resources>
