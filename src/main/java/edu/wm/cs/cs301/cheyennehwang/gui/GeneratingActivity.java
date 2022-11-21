@@ -120,7 +120,7 @@ public class GeneratingActivity extends AppCompatActivity {
      * - should be null if nothing selected yet
      */
     public void checkAfterProgressLoad(String driverSetting){
-        if (driverSetting == null){
+        if (driverSetting.equalsIgnoreCase(" ")){
             Log.v("Driver Setting Null", "Please Select Driver");
             Toast toast1 = Toast.makeText(GeneratingActivity.this, "Please Select a Driver", Toast.LENGTH_SHORT);
             toast1.show();
@@ -150,14 +150,48 @@ public class GeneratingActivity extends AppCompatActivity {
     /**
      * Helper method that handles responding to input for the driver setting
      * processes input selection from the driver spinner with action listeners
-     * - sends log and toast message when set
+     * - sends log and toast message if input set
+     * - if driver not set does nothing
      * if loading is finished: will also handle transition to play state
      * if loading unfinished: sends a message that once loading done will move
      * - checks this by checking loading progress var
      * @param spinHolder is a reference to the spinner for entering driver input
      */
     public void respondToDriverSetting(Spinner spinHolder){
+        driverSpinner = (Spinner) findViewById(R.id.driverInput);
 
+        if (!(driverSpinner.getSelectedItem().toString().equalsIgnoreCase(" "))){
+            driverSetting = driverSpinner.getSelectedItem().toString();
+            Log.v("Robot Driver Set", driverSetting);
+
+            if (loadProgress >= 100){
+                // branch for if the loading is done
+
+                // process and log robot sensor configuration
+                botConfigSetting = botConfigSpinner.getSelectedItem().toString();
+                Log.v("Robot Configuration Set", botConfigSetting);
+
+                Intent transitionToPlay;
+                if (driverSetting.equalsIgnoreCase("manual")){
+                    transitionToPlay = new Intent(GeneratingActivity.this, PlayManuallyActivity.class);
+                    transitionToPlay.putExtra("driver", driverSetting);
+                    transitionToPlay.putExtra("sensorConfig", botConfigSetting);
+                } else {
+                    transitionToPlay = new Intent(GeneratingActivity.this, PlayAnimationActivity.class);
+                    transitionToPlay.putExtra("driver", driverSetting);
+                    transitionToPlay.putExtra("sensorConfig", botConfigSetting);
+                }
+
+                Toast toast3 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
+                toast3.show();
+                startActivity(transitionToPlay);
+
+
+            } else {
+                Toast toast4 = Toast.makeText(GeneratingActivity.this, "Driver Set, Maze play will start soon", Toast.LENGTH_SHORT);
+                toast4.show();
+            }
+        }
     }
 
 

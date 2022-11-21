@@ -21,6 +21,7 @@
     <string name="driver_txt">Driver: </string>
     <string name="bot_config_txt">Robot Configuration:</string>
     <string-array name="driver_opt">
+        <item> </item>
         <item>Manual</item>
         <item>Wizard</item>
         <item>WallFollower</item>
