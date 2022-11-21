@@ -68,6 +68,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
     /**
      * handles action listener for play/pause button
      * changes text based on clicked
+     * sends log and toast messages based on what's pressed
      */
     public void beginPlayPause(Button animPlayButton, int counter){
         animPlayButton.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +76,18 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 //sets up the text to switch on the play button
                 if (counter % 2 == 1){
                     animPlayButton.setText("PAUSE");
+                    Log.v("Animation Control hit", "Play");
+
+                    Toast toastPlay = Toast.makeText(PlayAnimationActivity.this, "Play Animation", Toast.LENGTH_SHORT);
+                    toastPlay.show();
                 } else {
                     animPlayButton.setText("PLAY");
+                    Log.v("Animation Control hit", "Paused");
+
+                    Toast toastPause = Toast.makeText(PlayAnimationActivity.this, "Pause Animation", Toast.LENGTH_SHORT);
+                    toastPause.show();
                 }
+                playPauseCounter = playPauseCounter + 1;
             }
 
         }
@@ -85,10 +95,10 @@ public class PlayAnimationActivity extends AppCompatActivity {
     }
 
     /**
-     * gathers all the input data for maze generation
+     * gathers all the input data for maze animation watching
      * sends log message and toast message about the data gathered
-     * also performs the navigation into GeneratingActivity/state generating
-     * takes either the revisit or explore buttons as input
+     * also performs the navigation into WinningActivity/state winning or LosingActivity/stateLosting
+     * takes either the win or lose buttons as input, differentiates vased on winPath var
      * @param nextButton is either the revisit or explore buttons, needed to set up action listener
      * @param winPath boolean to represent whether a winning button chosen
      */
@@ -99,16 +109,22 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 botRemainEnergy = (ProgressBar) findViewById(R.id.energyBar);
                 botEnergyUsed = botRemainEnergy.getProgress();
                 Log.v("Robot Energy Used", String.valueOf(botEnergyUsed));
+                Toast toastEnergy = Toast.makeText(PlayAnimationActivity.this, "Robot Energy Used: " + String.valueOf(botEnergyUsed), Toast.LENGTH_SHORT);
+                toastEnergy.show();
 
                 //sets up seekbar for gathering play speed input and processes the input
                 playSpeedBar = (SeekBar) findViewById(R.id.speedBar);
                 playSpeed = playSpeedBar.getProgress();
                 Log.v("Speed Level Setting", String.valueOf(playSpeed));
+                Toast toastSpeed = Toast.makeText(PlayAnimationActivity.this, "Animation Speed: " + String.valueOf(playSpeed), Toast.LENGTH_SHORT);
+                toastSpeed.show();
 
                 // processes input from show map switch for whether to show map with maze + sln in view
                 SwitchCompat showMapViewSwitch = findViewById(R.id.mapSwitch);
                 showMap = showMapViewSwitch.isChecked();
                 Log.v("Map View Set", String.valueOf(showMap));
+                Toast toastMapView = Toast.makeText(PlayAnimationActivity.this, "Map View Set: " + String.valueOf(showMap), Toast.LENGTH_SHORT);
+                toastMapView.show();
 
 
                 // processes input for whether we go to state winning or losing

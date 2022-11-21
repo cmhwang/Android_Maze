@@ -50,7 +50,7 @@
         android:layout_below="@id/energyBar"
         android:layout_marginTop="18dp"
         android:background="#304A31"
-        android:text="@string/play_txt"
+        android:text="@string/pause_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <LinearLayout

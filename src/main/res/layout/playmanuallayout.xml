@@ -108,7 +108,8 @@
             android:textColor="#00000000"
             android:thumbTint="#304A31"
             app:thumbTintMode="src_in"
-            app:trackTint="#304A31" />
+            app:trackTint="#304A31"
+            tools:ignore="DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
     </LinearLayout>
 
@@ -239,8 +240,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/navText"
+        <Button
+            android:id="@+id/shortcutButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"

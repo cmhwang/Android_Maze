@@ -44,7 +44,7 @@
     <string name="play_txt">PLAY</string>
     <string name="pause_txt">PAUSE</string>
     <string name="speed_txt">Change Speed:</string>
-    <string name="change_size_txt">FRONT</string>
+    <string name="change_size_txt">Change Scale Size</string>
     <string name="show_maze_txt">Show Maze:</string>
     <string name="show_walls_txt">Show Walls:</string>
     <string name="show_sln_txt">Show Solution:</string>
