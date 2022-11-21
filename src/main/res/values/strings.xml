@@ -62,4 +62,6 @@
 
     <string name="temp_ur_path">100:</string>
 
+    <string name="map_size_txt">Change Map Size:</string>
+
 </resources>

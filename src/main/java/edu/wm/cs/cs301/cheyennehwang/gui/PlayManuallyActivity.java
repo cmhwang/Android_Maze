@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -13,6 +14,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
+
+/**
+ * Class: equivalent to State Play Manually
+ * @author cheyenne hwang
+ *
+ * Responsibilities: displays maze and allows player to manually move through maze
+ * - show/hide view features based on user input: maze view, solution view, walls view
+ * - show robot energy usage and allow for map scaling
+ * - naviagate around maze with user controlled navigation buttons
+ * - option to go back to state title or forward to state winning
+ *
+ * Collaborators: AMazeActivity (State Title), WinningActivity (State Winning), UI, MazeFactory, Control
+ *
+ */
 
 public class PlayManuallyActivity extends AppCompatActivity {
 
@@ -59,6 +74,18 @@ public class PlayManuallyActivity extends AppCompatActivity {
         controlHandler((Button) findViewById(R.id.rightbutton), 2);
         controlHandler((Button) findViewById(R.id.jumpButton), 3);
 
+        //sets up listener for show Maze switch
+        setMazeView((SwitchCompat) findViewById(R.id.mazewidth));
+
+        //sets up listener for show Walls switch
+        setWallsView((SwitchCompat) findViewById(R.id.wallSwitch));
+
+        //sets up listener for show solution switch
+        setSlnView((SwitchCompat) findViewById(R.id.slnSwitch));
+
+        //sets up listener for maze size scale seek bar
+        checkScale((SeekBar) findViewById(R.id.sizeBar));
+
         //sets up listener for shortcut button
         skipEnd((Button) findViewById(R.id.shortcutButton));
 
@@ -98,6 +125,129 @@ public class PlayManuallyActivity extends AppCompatActivity {
     }
 
     /**
+     * handles action listener for show maze switch
+     * in p7 will change view based on what's clicked
+     * sends log and toast messages based on what's pressed
+     */
+    public void setMazeView(SwitchCompat viewSwitch){
+        viewSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+                if (isChecked){
+                    showMaze = true;
+                    Log.v("Show Maze Mode", "On");
+                    Toast toastMaze = Toast.makeText(PlayManuallyActivity.this, "Show Maze Mode On", Toast.LENGTH_SHORT);
+                    toastMaze.show();
+                } else {
+                    showMaze = false;
+                    Log.v("Show Maze Mode", "Off");
+                    Toast toastMaze = Toast.makeText(PlayManuallyActivity.this, "Show Maze Mode Off", Toast.LENGTH_SHORT);
+                    toastMaze.show();
+                }
+            }
+        }
+        );
+    }
+
+    /**
+     * handles action listener for show solution switch
+     * in p7 will change view based on what's clicked
+     * sends log and toast messages based on what's pressed
+     */
+    public void setSlnView(SwitchCompat viewSwitch){
+        viewSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+                if (isChecked){
+                    showSolution = true;
+                    Log.v("Show Solution Mode", "On");
+                    Toast toastSln = Toast.makeText(PlayManuallyActivity.this, "Show Solution Mode On", Toast.LENGTH_SHORT);
+                    toastSln.show();
+                } else {
+                    showSolution = false;
+                    Log.v("Show Solution Mode", "Off");
+                    Toast toastSln = Toast.makeText(PlayManuallyActivity.this, "Show Maze Mode Off", Toast.LENGTH_SHORT);
+                    toastSln.show();
+                }
+            }
+        }
+        );
+    }
+
+    /**
+     * handles action listener for show walls switch
+     * in p7 will change view based on what's clicked
+     * sends log and toast messages based on what's pressed
+     */
+    public void setWallsView(SwitchCompat viewSwitch){
+        viewSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+                if (isChecked){
+                    showWalls = true;
+                    Log.v("Show Walls Mode", "On");
+                    Toast toastWalls = Toast.makeText(PlayManuallyActivity.this, "Show Walls Mode On", Toast.LENGTH_SHORT);
+                    toastWalls.show();
+                } else {
+                    showWalls = false;
+                    Log.v("Show Walls Mode", "Off");
+                    Toast toastWalls= Toast.makeText(PlayManuallyActivity.this, "Show Walls Mode Off", Toast.LENGTH_SHORT);
+                    toastWalls.show();
+                }
+            }
+        }
+        );
+    }
+
+    /**
+     * handles action listener for maze view scale seek bar
+     * in p7 will change animation based on input
+     * sends log and toast messages based on what's selected
+     */
+    public void checkScale(SeekBar scaleBar){
+        scaleBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar scaleBar, int i, boolean b) {
+                if (scaleBar.getProgress() == 0){
+                    scaleVar = 0;
+                } else if (scaleBar.getProgress() == 1){
+                    scaleVar = 1;
+                } else if (scaleBar.getProgress() == 2){
+                    scaleVar = 2;
+                } else if (scaleBar.getProgress() == 3){
+                    scaleVar = 3;
+                } else if (scaleBar.getProgress() == 4){
+                    scaleVar = 4;
+                } else if (scaleBar.getProgress() == 5){
+                    scaleVar = 5;
+                } else if (scaleBar.getProgress() == 6){
+                    scaleVar = 6;
+                } else if (scaleBar.getProgress() == 7){
+                    scaleVar = 7;
+                } else if (scaleBar.getProgress() == 8){
+                    scaleVar = 8;
+                } else if (scaleBar.getProgress() == 9){
+                    scaleVar = 9;
+                }else {
+                    scaleVar = 10;
+                }
+                Log.v("Map Size Set", String.valueOf(scaleVar));
+
+                Toast toastSpeed = Toast.makeText(PlayManuallyActivity.this, "Maze Size: " + String.valueOf(scaleVar), Toast.LENGTH_SHORT);
+                toastSpeed.show();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar loadProgressbar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar loadProgressBar) {
+
+            }
+
+        });
+    }
+
+    /**
      * handles what happens if user presses back button
      * returns to default title screen
      */
@@ -128,33 +278,6 @@ public class PlayManuallyActivity extends AppCompatActivity {
                 Toast toastEnergy = Toast.makeText(PlayManuallyActivity.this, "Robot Energy Used: " + String.valueOf(botEnergyUsed), Toast.LENGTH_SHORT);
                 toastEnergy.show();
 
-                //sets up seekbar for gathering maze scale input and processes the input
-                scaleSeekBar = (SeekBar) findViewById(R.id.sizeBar);
-                scaleVar = scaleSeekBar.getProgress();
-                Log.v("Maze Scale Setting", String.valueOf(scaleVar));
-                Toast toastScale = Toast.makeText(PlayManuallyActivity.this, "Maze Scale: " + String.valueOf(scaleVar), Toast.LENGTH_SHORT);
-                toastScale.show();
-
-                // processes input from show maze switch for whether to show maze in view
-                mazeViewSwitch = findViewById(R.id.mazewidth);
-                showMaze = mazeViewSwitch.isChecked();
-                Log.v("Maze View Set", String.valueOf(showMaze));
-                Toast toastMazeView = Toast.makeText(PlayManuallyActivity.this, "Maze View Set: " + String.valueOf(showMaze), Toast.LENGTH_SHORT);
-                toastMazeView.show();
-
-                // processes input from show walls switch for whether to show walls in view
-                wallsViewSwitch = findViewById(R.id.wallSwitch);
-                showWalls = wallsViewSwitch.isChecked();
-                Log.v("Walls View Set", String.valueOf(showWalls));
-                Toast toastWallsView = Toast.makeText(PlayManuallyActivity.this, "Walls View Set: " + String.valueOf(showWalls), Toast.LENGTH_SHORT);
-                toastWallsView.show();
-
-                // processes input from show solution switch for whether to show solution in view
-                solutionViewSwitch = findViewById(R.id.slnSwitch);
-                showSolution = solutionViewSwitch.isChecked();
-                Log.v("Solution View Set", String.valueOf(showSolution));
-                Toast toastSlnView = Toast.makeText(PlayManuallyActivity.this, "Solution View Set: " + String.valueOf(showSolution), Toast.LENGTH_SHORT);
-                toastSlnView.show();
 
                 // does the actual transition to the next stage and passes along the needed input
                 Log.v("Switch To End Screen", "Win Screen");

@@ -10,6 +10,16 @@ import android.graphics.Paint;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
 
+/**
+ * Class: maze panel view drawer which extends view class
+ * @author cheyennehwang
+ *
+ * Responsibilities: creates the screen that depicts the maze play experience based on user input
+ *
+ * Collaborators: PlayAnimationActivity (State PlayAnimation), PlayManuallyActivity (State PlayManually), UI, MazeFactory, Control
+ *
+ */
+
 public class MazePanel extends View {
     private Bitmap mazeBitmap;
     private Canvas mazeCanvas;
@@ -28,6 +38,16 @@ public class MazePanel extends View {
         mazePaint.setColor(Color.LTGRAY);
         mazeCanvas.drawRect(0, 0, 300, 200, mazePaint);
 
+    }
+
+    protected void onDraw(Canvas mazeCanvas) {
+        super.onDraw(mazeCanvas);
+
+        mazePaint.setColor(Color.BLACK);
+        mazeCanvas.drawRect(0, 200, 388, 298, mazePaint);
+
+        mazePaint.setColor(Color.LTGRAY);
+        mazeCanvas.drawRect(0, 0, 300, 200, mazePaint);
     }
 
 }

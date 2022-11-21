@@ -78,7 +78,7 @@ public class GeneratingActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             public void run() {
                 while (loadProgress < 100) {
-                    loadProgress += 1;
+                    loadProgress += 5;
                     handler.post(new Runnable() {
                         public void run() {
                             mazeProgress.setProgress(loadProgress);

@@ -79,8 +79,8 @@
             android:id="@+id/speedBar"
             android:layout_width="165dp"
             android:layout_height="34dp"
-            android:max="10"
-            android:progress="5"
+            android:max="5"
+            android:progress="2"
             android:progressBackgroundTint="#304A31"
             android:progressBackgroundTintMode="src_atop"
             android:progressTint="#304A31"
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/show_maze_txt"
+            android:text="@string/show_map_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#304A31"
             android:textStyle="bold" />
@@ -122,6 +122,42 @@
             app:thumbTintMode="src_in"
             app:trackTint="#304A31"
             tools:ignore="DuplicateSpeakableTextCheck" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mapSizeLayout"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/showMapLayout"
+        android:layout_alignEnd="@id/energyBar"
+        android:layout_toEndOf="@id/playButton"
+        android:backgroundTint="#304A31"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/mapSizeText"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/map_size_txt"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#304A31"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/mapSizeBar"
+            android:layout_width="165dp"
+            android:layout_height="34dp"
+            android:max="5"
+            android:progress="2"
+            android:progressBackgroundTint="#304A31"
+            android:progressBackgroundTintMode="src_atop"
+            android:progressTint="#304A31"
+            android:thumbTint="#304A31" />
+
 
     </LinearLayout>
 
@@ -182,7 +218,7 @@
         android:id="@+id/skip2win"
         android:layout_width="214dp"
         android:layout_height="58dp"
-        android:layout_below="@id/showMapLayout"
+        android:layout_below="@id/mapSizeLayout"
         android:layout_alignStart="@id/showMapLayout"
         android:background="#496C88"
         android:text="@string/skip_win_txt"
