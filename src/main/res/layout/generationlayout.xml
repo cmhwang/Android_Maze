@@ -57,7 +57,6 @@
             android:id="@+id/driverInput"
             android:layout_width="77dp"
             android:layout_height="match_parent"
-            android:entries="@array/driver_opt"
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 

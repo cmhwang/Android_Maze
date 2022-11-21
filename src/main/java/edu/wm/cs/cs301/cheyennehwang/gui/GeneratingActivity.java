@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -42,6 +43,8 @@ public class GeneratingActivity extends AppCompatActivity {
     public String botConfigSetting;
     public String driverSetting;
 
+    public Boolean driverSet;
+    public Intent transitionToPlay;
     /**
      * Sets up any ui features that need additional specifications
      * - specfically here sets up sinner for accepting driver input and robot configuration
@@ -60,7 +63,7 @@ public class GeneratingActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.driver_opt, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         driverSpinner.setAdapter(adapter);
-        respondToDriverSetting(driverSpinner);
+        checkDriverInput(driverSpinner);
 
         //processes and builds spinner to accept input for robot sensor configuration
         botConfigSpinner = (Spinner) findViewById(R.id.robotConfigInput);
@@ -71,10 +74,11 @@ public class GeneratingActivity extends AppCompatActivity {
         // sets up thread that times the loading of the maze - for p6 just provides time frame to base progress updating on
         loadProgress = 0;
         SeekBar mazeProgress = findViewById(R.id.buildProgress);
+        checkSeekBarProgress(mazeProgress);
         new Thread(new Runnable() {
             public void run() {
                 while (loadProgress < 100) {
-                    loadProgress += 5;
+                    loadProgress += 1;
                     handler.post(new Runnable() {
                         public void run() {
                             mazeProgress.setProgress(loadProgress);
@@ -87,12 +91,10 @@ public class GeneratingActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                //checkAfterProgressLoad(driverSetting);
             }
         }).start();
 
-        // checks to see if there is a driver input, if no driver input send toast message for one, if there is then next screen
-        checkAfterProgressLoad(driverSetting);
+
     }
 
     /**
@@ -111,43 +113,6 @@ public class GeneratingActivity extends AppCompatActivity {
     }
 
     /**
-     * helper method that handles transition in case: load done and robot driver set, called after loading bar finishes
-     * if the driver not set sends log alert to set one
-     * if driver set: gathers the robot configuration parameter and sends related log message
-     * - sends log and toast message about driver and robot configuration setting
-     * - handles transition into either play manual or play animation depending on driver setting
-     * @param driverSetting is the param that would hold the var for the driver setting
-     * - should be null if nothing selected yet
-     */
-    public void checkAfterProgressLoad(String driverSetting){
-        if (driverSetting.equalsIgnoreCase(" ")){
-            Log.v("Driver Setting Null", "Please Select Driver");
-            Toast toast1 = Toast.makeText(GeneratingActivity.this, "Please Select a Driver", Toast.LENGTH_SHORT);
-            toast1.show();
-        } else {
-            // processes input from robot configuration spinner
-            botConfigSetting = botConfigSpinner.getSelectedItem().toString();
-            Log.v("Robot Configuration Set", botConfigSetting);
-
-            // does the actual transition to the next stage and passes along the needed input
-            Intent transitionToPlay;
-            if (driverSetting.equalsIgnoreCase("manual")){
-                transitionToPlay = new Intent(GeneratingActivity.this, PlayManuallyActivity.class);
-                transitionToPlay.putExtra("driver", driverSetting);
-                transitionToPlay.putExtra("sensorConfig", botConfigSetting);
-            } else {
-                transitionToPlay = new Intent(GeneratingActivity.this, PlayAnimationActivity.class);
-                transitionToPlay.putExtra("driver", driverSetting);
-                transitionToPlay.putExtra("sensorConfig", botConfigSetting);
-            }
-
-            Toast toast2 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
-            toast2.show();
-            startActivity(transitionToPlay);
-        }
-    }
-
-    /**
      * Helper method that handles responding to input for the driver setting
      * processes input selection from the driver spinner with action listeners
      * - sends log and toast message if input set
@@ -155,44 +120,141 @@ public class GeneratingActivity extends AppCompatActivity {
      * if loading is finished: will also handle transition to play state
      * if loading unfinished: sends a message that once loading done will move
      * - checks this by checking loading progress var
-     * @param spinHolder is a reference to the spinner for entering driver input
+     * @param spinner4Driver is a reference to the spinner for entering driver input
      */
-    public void respondToDriverSetting(Spinner spinHolder){
-        driverSpinner = (Spinner) findViewById(R.id.driverInput);
 
-        if (!(driverSpinner.getSelectedItem().toString().equalsIgnoreCase(" "))){
-            driverSetting = driverSpinner.getSelectedItem().toString();
-            Log.v("Robot Driver Set", driverSetting);
+    public void checkDriverInput(Spinner spinner4Driver){
+        spinner4Driver.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id){
+                driverSetting = driverSpinner.getSelectedItem().toString();
 
-            if (loadProgress >= 100){
-                // branch for if the loading is done
+                if (driverSetting.equalsIgnoreCase("Manual")){
 
-                // process and log robot sensor configuration
-                botConfigSetting = botConfigSpinner.getSelectedItem().toString();
-                Log.v("Robot Configuration Set", botConfigSetting);
+                    if (loadProgress >= 100){
+                        // processes input from robot configuration spinner
+                        botConfigSetting = botConfigSpinner.getSelectedItem().toString();
+                        Log.v("Robot Configuration Set", botConfigSetting);
 
-                Intent transitionToPlay;
-                if (driverSetting.equalsIgnoreCase("manual")){
-                    transitionToPlay = new Intent(GeneratingActivity.this, PlayManuallyActivity.class);
-                    transitionToPlay.putExtra("driver", driverSetting);
-                    transitionToPlay.putExtra("sensorConfig", botConfigSetting);
+                        // does the actual transition to the next stage and passes along the needed input
+                        transitionToPlay = new Intent(GeneratingActivity.this, PlayManuallyActivity.class);
+                        transitionToPlay.putExtra("driver", driverSetting);
+                        transitionToPlay.putExtra("sensorConfig", botConfigSetting);
+
+                        Toast toast5 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
+                        toast5.show();
+                        startActivity(transitionToPlay);
+                    } else {
+                        Toast toastA = Toast.makeText(GeneratingActivity.this, "Driver Set, Maze play will start soon", Toast.LENGTH_SHORT);
+                        toastA.show();
+                    }
+
+                } else if (driverSetting.equalsIgnoreCase("Wizard") || driverSetting.equalsIgnoreCase("WallFollower")){
+
+                    if (loadProgress >= 100){
+                        // processes input from robot configuration spinner
+                        botConfigSetting = botConfigSpinner.getSelectedItem().toString();
+                        Log.v("Robot Configuration Set", botConfigSetting);
+
+                        // does the actual transition to the next stage and passes along the needed input
+                        transitionToPlay = new Intent(GeneratingActivity.this, PlayAnimationActivity.class);
+                        transitionToPlay.putExtra("driver", driverSetting);
+                        transitionToPlay.putExtra("sensorConfig", botConfigSetting);
+
+                        Toast toast2 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
+                        toast2.show();
+                        startActivity(transitionToPlay);
+                    } else {
+                        //branch for if load not done
+                        Toast toastA = Toast.makeText(GeneratingActivity.this, "Driver Set, Maze play will start soon", Toast.LENGTH_SHORT);
+                        toastA.show();
+                    }
+
                 } else {
-                    transitionToPlay = new Intent(GeneratingActivity.this, PlayAnimationActivity.class);
-                    transitionToPlay.putExtra("driver", driverSetting);
-                    transitionToPlay.putExtra("sensorConfig", botConfigSetting);
+                    Log.v("Driver Setting Null", "Please Select Driver");
+                    Toast toast1 = Toast.makeText(GeneratingActivity.this, "Please Select a Driver", Toast.LENGTH_SHORT);
+                    toast1.show();
                 }
 
-                Toast toast3 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
-                toast3.show();
-                startActivity(transitionToPlay);
-
-
-            } else {
-                Toast toast4 = Toast.makeText(GeneratingActivity.this, "Driver Set, Maze play will start soon", Toast.LENGTH_SHORT);
-                toast4.show();
             }
-        }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.v("Driver Setting Null", "Please Select Driver");
+                Toast toast6 = Toast.makeText(GeneratingActivity.this, "Please Select a Driver", Toast.LENGTH_SHORT);
+                toast6.show();
+            }
+        });
+
     }
+    /**
+     * helper method that handles transition in case: load done and robot driver set, called as loading bar progress and reacts after loading bar finishes
+     * if the driver not set sends log alert to set one
+     * if driver set: gathers the robot configuration parameter and sends related log message
+     * - sends log and toast message about driver and robot configuration setting
+     * - handles transition into either play manual or play animation depending on driver setting
+     * - should be null if nothing selected yet
+     * @param loadProgressBar the loading seekbar
+     */
+    public void checkSeekBarProgress(SeekBar loadProgressBar){
+        loadProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar loadProgressBar, int i, boolean b) {
+                if (loadProgressBar.getProgress() >= 100){
+
+                    driverSetting = driverSpinner.getSelectedItem().toString();
+
+                    if (driverSetting.equalsIgnoreCase("Manual")){
+                        // processes input from robot configuration spinner
+                        botConfigSetting = botConfigSpinner.getSelectedItem().toString();
+                        Log.v("Robot Configuration Set", botConfigSetting);
+
+                        // does the actual transition to the next stage and passes along the needed input
+                        transitionToPlay = new Intent(GeneratingActivity.this, PlayManuallyActivity.class);
+                        transitionToPlay.putExtra("driver", driverSetting);
+                        transitionToPlay.putExtra("sensorConfig", botConfigSetting);
+
+                        Toast toast5 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
+                        toast5.show();
+                        startActivity(transitionToPlay);
+
+                    } else if (driverSetting.equalsIgnoreCase("Wizard") || driverSetting.equalsIgnoreCase("WallFollower")){
+
+                        // processes input from robot configuration spinner
+                        botConfigSetting = botConfigSpinner.getSelectedItem().toString();
+                        Log.v("Robot Configuration Set", botConfigSetting);
+
+                        // does the actual transition to the next stage and passes along the needed input
+                        transitionToPlay = new Intent(GeneratingActivity.this, PlayAnimationActivity.class);
+                        transitionToPlay.putExtra("driver", driverSetting);
+                        transitionToPlay.putExtra("sensorConfig", botConfigSetting);
+
+                        Toast toast2 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
+                        toast2.show();
+                        startActivity(transitionToPlay);
+                        if (loadProgress >= 100){
+
+
+                    } else {
+                        Log.v("Driver Setting Null", "Please Select Driver");
+                        Toast toast1 = Toast.makeText(GeneratingActivity.this, "Please Select a Driver", Toast.LENGTH_SHORT);
+                        toast1.show();
+                    }
+                }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar loadProgressbar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar loadProgressBar) {
+
+            }
+
+        });
+    }
+
 
 
 }

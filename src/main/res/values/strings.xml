@@ -58,5 +58,6 @@
     <string name="shortcut_txt">ShortCut</string>
     <string name="skip_win_txt">Go2Winning</string>
     <string name="skip_lose_txt">Go2Losing</string>
+    <string name="show_map_txt">Show Map:</string>
 
 </resources>

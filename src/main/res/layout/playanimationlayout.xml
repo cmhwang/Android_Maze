@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="end"
@@ -15,50 +16,11 @@
     tools:context=".gui.PlayAnimationActivity">
 
 
-    <LinearLayout
+    <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel
         android:id="@+id/tempMazeBckgd"
         android:layout_width="388dp"
         android:layout_height="298dp"
-        android:background="#717171"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/polygonRow"
-            android:layout_width="match_parent"
-            android:layout_height="231dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/greenPolygon"
-                android:layout_width="169dp"
-                android:layout_height="231dp"
-                android:contentDescription="@string/temp_bckgd_txt"
-                app:srcCompat="@android:drawable/title_bar"
-                app:tint="#8BC34A"
-                tools:ignore="ImageContrastCheck" />
-
-            <ImageView
-                android:id="@+id/yellowPolygon"
-                android:layout_width="169dp"
-                android:layout_height="231dp"
-                android:layout_marginStart="35dp"
-                android:contentDescription="@string/temp_bckgd_txt"
-                app:srcCompat="@android:drawable/title_bar"
-                app:tint="#FFEB3B" />
-
-
-        </LinearLayout>
-
-
-        <Button
-            android:id="@+id/tempRect"
-            android:layout_width="fill_parent"
-            android:layout_height="62dp"
-            android:background="#000000"
-            android:contentDescription="@string/temp_bckgd_txt"
-            tools:ignore="DuplicateSpeakableTextCheck" />
-
-    </LinearLayout>
+        custom:manualMode="false"/>
 
     <ProgressBar
         android:id="@+id/energyBar"
@@ -86,6 +48,7 @@
         android:layout_width="166dp"
         android:layout_height="60dp"
         android:layout_below="@id/energyBar"
+        android:layout_marginTop="18dp"
         android:background="#304A31"
         android:text="@string/play_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -127,7 +90,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/showMazeLayout"
+        android:id="@+id/showMapLayout"
         android:layout_width="192dp"
         android:layout_height="95dp"
         android:layout_below="@id/speedLayout"
@@ -137,7 +100,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/showMazeText"
+            android:id="@+id/showMapText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -147,7 +110,7 @@
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/mazewidth"
+            android:id="@+id/mapSwitch"
             android:layout_width="74dp"
             android:layout_height="64dp"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -162,82 +125,13 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/showWallsLayout"
-        android:layout_width="189dp"
-        android:layout_height="98dp"
-        android:layout_below="@id/showMazeLayout"
-        android:layout_alignEnd="@id/energyBar"
-        android:layout_toEndOf="@id/playButton"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/showWallsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/show_walls_txt"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#304A31"
-            android:textStyle="bold" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/wallSwitch"
-            android:layout_width="80dp"
-            android:layout_height="69dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:checked="true"
-            android:shadowColor="#304A31"
-            android:showText="true"
-            android:textColor="#00000000"
-            android:thumbTint="#304A31"
-            app:thumbTintMode="src_in"
-            app:trackTint="#304A31" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/showSlnLayout"
-        android:layout_width="209dp"
-        android:layout_height="93dp"
-        android:layout_below="@id/showWallsLayout"
-        android:layout_alignEnd="@id/energyBar"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@id/playButton"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/showSlnText"
-            android:layout_width="159dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/show_sln_txt"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#304A31"
-            android:textStyle="bold" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/slnSwitch"
-            android:layout_width="71dp"
-            android:layout_height="68dp"
-            android:layout_gravity="center_horizontal"
-            android:checked="true"
-            android:shadowColor="#304A31"
-            android:showText="true"
-            android:textColor="#00000000"
-            android:thumbTint="#304A31"
-            app:thumbTintMode="src_in"
-            app:trackTint="#304A31" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/sensorStatusLayout"
-        android:layout_width="166dp"
-        android:layout_height="wrap_content"
+        android:layout_width="162dp"
+        android:layout_height="289dp"
         android:layout_below="@id/speedLayout"
-        android:layout_marginTop="-26dp"
+        android:layout_marginTop="-2dp"
         android:orientation="vertical">
 
         <TextView
@@ -286,9 +180,10 @@
 
     <Button
         android:id="@+id/skip2win"
-        android:layout_width="160dp"
-        android:layout_height="48dp"
-        android:layout_below="@id/sensorStatusLayout"
+        android:layout_width="214dp"
+        android:layout_height="58dp"
+        android:layout_below="@id/showMapLayout"
+        android:layout_alignStart="@id/showMapLayout"
         android:background="#496C88"
         android:text="@string/skip_win_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -296,9 +191,10 @@
 
     <Button
         android:id="@+id/skip2lose"
-        android:layout_width="162dp"
-        android:layout_height="wrap_content"
+        android:layout_width="211dp"
+        android:layout_height="48dp"
         android:layout_below="@id/skip2win"
+        android:layout_alignStart="@id/showMapLayout"
         android:background="#496C88"
         android:text="@string/skip_lose_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
