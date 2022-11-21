@@ -258,10 +258,11 @@
             android:id="@+id/navText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:background="#30414A"
             android:gravity="clip_horizontal|center"
-            android:text="@string/controls_txt"
+            android:text="@string/shortcut_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#304A31"
             android:textStyle="bold" />
 
 

@@ -41,7 +41,7 @@
     <string name="win_txt">YOU WIN</string>
 
     <string name="temp_bckgd_txt">Temporary image for maze view holder"</string>
-    <string name="play_txt">PlAY</string>
+    <string name="play_txt">PLAY</string>
     <string name="pause_txt">PAUSE</string>
     <string name="speed_txt">Change Speed:</string>
     <string name="change_size_txt">FRONT</string>
@@ -55,6 +55,8 @@
     <string name="b_txt">BACK</string>
     <string name="forward_txt">FORWARD</string>
     <string name="jump_txt">JUMP</string>
-    <string name="controls_txt">Controls</string>
+    <string name="shortcut_txt">ShortCut</string>
+    <string name="skip_win_txt">Go2Winning</string>
+    <string name="skip_lose_txt">Go2Losing</string>
 
 </resources>

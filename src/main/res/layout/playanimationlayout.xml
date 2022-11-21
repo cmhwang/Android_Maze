@@ -34,7 +34,8 @@
                 android:layout_height="231dp"
                 android:contentDescription="@string/temp_bckgd_txt"
                 app:srcCompat="@android:drawable/title_bar"
-                app:tint="#8BC34A" />
+                app:tint="#8BC34A"
+                tools:ignore="ImageContrastCheck" />
 
             <ImageView
                 android:id="@+id/yellowPolygon"
@@ -54,7 +55,8 @@
             android:layout_width="fill_parent"
             android:layout_height="62dp"
             android:background="#000000"
-            android:contentDescription="@string/temp_bckgd_txt" />
+            android:contentDescription="@string/temp_bckgd_txt"
+            tools:ignore="DuplicateSpeakableTextCheck" />
 
     </LinearLayout>
 
@@ -81,10 +83,9 @@
 
     <Button
         android:id="@+id/playButton"
-        android:layout_width="165dp"
-        android:layout_height="71dp"
+        android:layout_width="166dp"
+        android:layout_height="60dp"
         android:layout_below="@id/energyBar"
-        android:layout_marginTop="4dp"
         android:background="#304A31"
         android:text="@string/play_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -156,7 +157,8 @@
             android:textColor="#00000000"
             android:thumbTint="#304A31"
             app:thumbTintMode="src_in"
-            app:trackTint="#304A31" />
+            app:trackTint="#304A31"
+            tools:ignore="DuplicateSpeakableTextCheck" />
 
     </LinearLayout>
 
@@ -232,16 +234,16 @@
 
     <LinearLayout
         android:id="@+id/sensorStatusLayout"
-        android:layout_width="162dp"
-        android:layout_height="281dp"
+        android:layout_width="166dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/speedLayout"
+        android:layout_marginTop="-26dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/sensorStatusText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="@string/sensor_status_txt"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -252,7 +254,6 @@
             android:id="@+id/frontSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="#304A31"
             android:clickable="false"
             android:text="@string/f_txt" />
@@ -261,7 +262,6 @@
             android:id="@+id/leftSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="#304A31"
             android:clickable="false"
             android:text="@string/l_txt" />
@@ -270,7 +270,6 @@
             android:id="@+id/rightSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="#304A31"
             android:clickable="false"
             android:text="@string/r_txt" />
@@ -279,12 +278,31 @@
             android:id="@+id/backSensorStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="#304A31"
             android:clickable="false"
             android:text="@string/b_txt" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/skip2win"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/sensorStatusLayout"
+        android:background="#496C88"
+        android:text="@string/skip_win_txt"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/skip2lose"
+        android:layout_width="162dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/skip2win"
+        android:background="#496C88"
+        android:text="@string/skip_lose_txt"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
 
 </RelativeLayout>
