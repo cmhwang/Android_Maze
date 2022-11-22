@@ -42,22 +42,22 @@ public class WinningActivity extends AppCompatActivity {
         setContentView(R.layout.winlayout);
 
         // updates text field for your path taken
+        Intent transitionToEnd = getIntent();
+        String pathVar = transitionToEnd.getStringExtra("pathTakenLength");
         TextView yourPathField = (TextView)  findViewById(R.id.yourPathInput);
-        // holder var until p7 implementation
-        String temp = "50";
-        yourPathField.setText(temp);
+        yourPathField.setText(pathVar);
 
         // updates text field for shortest path taken
         TextView shortestPathField = (TextView)  findViewById(R.id.shortestPathInput);
-        // holder var until p7 implementation
-        String temp1 = "100";
-        shortestPathField.setText(temp1);
+        String shortestVar = transitionToEnd.getStringExtra("shortestLength");
+        shortestPathField.setText(shortestVar);
 
         // updates text field for robot energy used
         TextView energyUsedField = (TextView)  findViewById(R.id.finalEnergyInput);
-        // holder var until p7 implementation
-        String temp2 = "3500";
-        energyUsedField.setText(temp2);
+        String energyUsed = transitionToEnd.getStringExtra("energyUsage");
+        energyUsedField.setText(energyUsed);
+
+
 
         returnToTitle((Button) findViewById(R.id.winPlayAgain));
 

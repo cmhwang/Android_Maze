@@ -79,6 +79,7 @@
         android:checked="true"
         android:gravity="center_horizontal|start|center_vertical"
         android:showText="true"
+        android:thumb="@drawable/small_dust"
         android:thumbTint="#000000"
         app:trackTint="#484D6C" />
 

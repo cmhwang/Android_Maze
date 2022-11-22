@@ -44,7 +44,6 @@ public class GeneratingActivity extends AppCompatActivity {
     public String driverSetting;
 
     public Boolean driverSet;
-    public Intent transitionToPlay;
     /**
      * Sets up any ui features that need additional specifications
      * - specfically here sets up sinner for accepting driver input and robot configuration
@@ -137,7 +136,7 @@ public class GeneratingActivity extends AppCompatActivity {
                         Log.v("Robot Configuration Set", botConfigSetting);
 
                         // does the actual transition to the next stage and passes along the needed input
-                        transitionToPlay = new Intent(GeneratingActivity.this, PlayManuallyActivity.class);
+                        Intent transitionToPlay = new Intent(GeneratingActivity.this, PlayManuallyActivity.class);
                         transitionToPlay.putExtra("driver", driverSetting);
                         transitionToPlay.putExtra("sensorConfig", botConfigSetting);
 
@@ -158,7 +157,7 @@ public class GeneratingActivity extends AppCompatActivity {
                         Log.v("Robot Configuration Set", botConfigSetting);
 
                         // does the actual transition to the next stage and passes along the needed input
-                        transitionToPlay = new Intent(GeneratingActivity.this, PlayAnimationActivity.class);
+                        Intent transitionToPlay = new Intent(GeneratingActivity.this, PlayAnimationActivity.class);
                         transitionToPlay.putExtra("driver", driverSetting);
                         transitionToPlay.putExtra("sensorConfig", botConfigSetting);
 
@@ -212,7 +211,7 @@ public class GeneratingActivity extends AppCompatActivity {
                         Log.v("Robot Configuration Set", botConfigSetting);
 
                         // does the actual transition to the next stage and passes along the needed input
-                        transitionToPlay = new Intent(GeneratingActivity.this, PlayManuallyActivity.class);
+                        Intent transitionToPlay = new Intent(GeneratingActivity.this, PlayManuallyActivity.class);
                         transitionToPlay.putExtra("driver", driverSetting);
                         transitionToPlay.putExtra("sensorConfig", botConfigSetting);
 
@@ -227,7 +226,7 @@ public class GeneratingActivity extends AppCompatActivity {
                         Log.v("Robot Configuration Set", botConfigSetting);
 
                         // does the actual transition to the next stage and passes along the needed input
-                        transitionToPlay = new Intent(GeneratingActivity.this, PlayAnimationActivity.class);
+                        Intent transitionToPlay = new Intent(GeneratingActivity.this, PlayAnimationActivity.class);
                         transitionToPlay.putExtra("driver", driverSetting);
                         transitionToPlay.putExtra("sensorConfig", botConfigSetting);
 

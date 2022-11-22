@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
     public int playPauseCounter = 0;
 
+    public String robotConfiguration;
+
 
     /**
      * Sets up any ui features that need additional specifications
@@ -72,10 +75,16 @@ public class PlayAnimationActivity extends AppCompatActivity {
         // sets up action listener for maze size scale
         checkSize((SeekBar) findViewById(R.id.mapSizeBar));
 
+        //sets robot sensor configuratoin colors
+        Intent transitionToPlay = getIntent();
+        robotConfiguration = transitionToPlay.getStringExtra("sensorConfig");
+        setSensorColor(robotConfiguration);
+
 
         //handles shortcuts for when you want to move to winning/losing screen
         skipEnd((Button) findViewById(R.id.skip2win), true);
         skipEnd((Button) findViewById(R.id.skip2lose), false);
+
 
     }
 
@@ -116,6 +125,36 @@ public class PlayAnimationActivity extends AppCompatActivity {
             }
         }
     );
+    }
+
+    /**
+     * handles setting up the sensor status visualization
+     * sends log and toast messages based on what is set
+     */
+    public void setSensorColor(String config){
+        Button frontButton = (Button) findViewById(R.id.frontSensorStatus);
+        Button leftButton = (Button) findViewById(R.id.leftSensorStatus);
+        Button rightButton = (Button) findViewById(R.id.rightSensorStatus);
+        Button backButton = (Button) findViewById(R.id.backSensorStatus);
+
+        if (config.equalsIgnoreCase("Premium")){
+            // nothing here cuz default background is green
+
+        } else if (config.equalsIgnoreCase("Mediocre")){
+            leftButton.setBackgroundColor(0xFFFF0000);
+            rightButton.setBackgroundColor(0xFFFF0000);
+        } else if (config.equalsIgnoreCase("Soso")){
+            frontButton.setBackgroundColor(0xFFFF0000);
+            backButton.setBackgroundColor(0xFFFF0000);
+        } else {
+            frontButton.setBackgroundColor(0xFFFF0000);
+            backButton.setBackgroundColor(0xFFFF0000);
+            leftButton.setBackgroundColor(0xFFFF0000);
+            rightButton.setBackgroundColor(0xFFFF0000);
+        }
+        Log.v("Show Sensor Status", config);
+        Toast toastConfig = Toast.makeText(PlayAnimationActivity.this, "Show Sensor Configuration" + config, Toast.LENGTH_SHORT);
+        toastConfig.show();
     }
 
 
@@ -172,16 +211,17 @@ public class PlayAnimationActivity extends AppCompatActivity {
                     // branch for winning choice
                     Log.v("Switch To End Screen", "Win Version");
                     transitionToEnd = new Intent(PlayAnimationActivity.this, WinningActivity.class);
-                    transitionToEnd.putExtra("energyUsage", botEnergyUsed);
-                    transitionToEnd.putExtra("pathTakenLength", 100);
-                    transitionToEnd.putExtra("shortestLength", 100);
+                    transitionToEnd.putExtra("energyUsage", String.valueOf(botEnergyUsed));
+                    transitionToEnd.putExtra("pathTakenLength", "100");
+                    transitionToEnd.putExtra("shortestLength", "100");
                 } else {
                     // branch for losing choice
                     Log.v("Switch To End Screen", "Win Version");
                     transitionToEnd = new Intent(PlayAnimationActivity.this, LosingActivity.class);
-                    transitionToEnd.putExtra("energyUsage", botEnergyUsed);
-                    transitionToEnd.putExtra("pathTakenLength", 100);
-                    transitionToEnd.putExtra("shortestLength", 100);
+                    transitionToEnd.putExtra("energyUsage", String.valueOf(botEnergyUsed));
+                    transitionToEnd.putExtra("loseReason", "idk - p6 holder");
+                    transitionToEnd.putExtra("pathTakenLength", "100");
+                    transitionToEnd.putExtra("shortestLength", "100");
                 }
 
                 // does the actual transition to the next stage and passes along the needed input

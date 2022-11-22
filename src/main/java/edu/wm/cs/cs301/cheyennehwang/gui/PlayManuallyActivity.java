@@ -282,9 +282,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
                 // does the actual transition to the next stage and passes along the needed input
                 Log.v("Switch To End Screen", "Win Screen");
                 transitionToEnd = new Intent(PlayManuallyActivity.this, WinningActivity.class);
-                transitionToEnd.putExtra("energyUsage", botEnergyUsed);
-                transitionToEnd.putExtra("pathTakenLength", stepsTaken);
-                transitionToEnd.putExtra("shortestLength", 100);
+                transitionToEnd.putExtra("energyUsage", String.valueOf(botEnergyUsed));
+                transitionToEnd.putExtra("pathTakenLength", String.valueOf(stepsTaken));
+                transitionToEnd.putExtra("shortestLength", "100");
                 Toast toast = Toast.makeText(PlayManuallyActivity.this, "Switch to Ending Screen, Path Length Taken: " + String.valueOf(stepsTaken), Toast.LENGTH_SHORT);
                 toast.show();
                 startActivity(transitionToEnd);

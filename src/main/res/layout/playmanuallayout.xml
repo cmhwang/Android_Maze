@@ -15,11 +15,10 @@
     tools:context=".gui.PlayManuallyActivity">
 
 
-    <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel
+    <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel1
         android:id="@+id/tempBckgd"
         android:layout_width="395dp"
-        android:layout_height="301dp"
-        custom:manualMode="true" />
+        android:layout_height="301dp" />
 
 
     <ProgressBar
@@ -73,7 +72,7 @@
             android:progressBackgroundTint="#304A31"
             android:progressBackgroundTintMode="src_atop"
             android:progressTint="#304A31"
-            android:thumbTint="#304A31" />
+            android:thumb="@drawable/small_dust" />
 
 
     </LinearLayout>
@@ -106,6 +105,7 @@
             android:shadowColor="#304A31"
             android:showText="true"
             android:textColor="#00000000"
+            android:thumb="@drawable/small_dust"
             android:thumbTint="#304A31"
             app:thumbTintMode="src_in"
             app:trackTint="#304A31"
@@ -140,6 +140,7 @@
             android:shadowColor="#304A31"
             android:showText="true"
             android:textColor="#00000000"
+            android:thumb="@drawable/small_dust"
             app:thumbTintMode="src_in"
             app:trackTint="#304A31" />
 
@@ -174,6 +175,7 @@
             android:shadowColor="#304A31"
             android:showText="true"
             android:textColor="#00000000"
+            android:thumb="@drawable/small_dust"
             app:thumbTintMode="src_in"
             app:trackTint="#304A31" />
 

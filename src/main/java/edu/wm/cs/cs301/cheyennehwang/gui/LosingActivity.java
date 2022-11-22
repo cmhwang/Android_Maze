@@ -38,29 +38,26 @@ public class LosingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loselayout);
 
+        Intent transitionToEnd = getIntent();
         // updates text field for reason you lost
-        TextView xpLossField = (TextView)  findViewById(R.id.xpLossInput);
-        // holder var until p7 implementation
-        String temp0 = "IDK - P6";
-        xpLossField.setText(temp0);
+        String loseVar = transitionToEnd.getStringExtra("loseReason");
+        TextView lossReasonField = (TextView)  findViewById(R.id.xpLossInput);
+        lossReasonField.setText(loseVar);
 
         // updates text field for your path taken
+        String pathVar = transitionToEnd.getStringExtra("pathTakenLength");
         TextView yourPathField = (TextView)  findViewById(R.id.yourLosePathInput);
-        // holder var until p7 implementation
-        String temp = "50";
-        yourPathField.setText(temp);
+        yourPathField.setText(pathVar);
 
-        // updates text field for shortest path taken -
+        // updates text field for shortest path taken
         TextView shortestPathField = (TextView)  findViewById(R.id.loseShortestPathInput);
-        // holder var until p7 implementation
-        String temp1 = "100";
-        shortestPathField.setText(temp1);
+        String shortestVar = transitionToEnd.getStringExtra("shortestLength");
+        shortestPathField.setText(shortestVar);
 
         // updates text field for robot energy used
         TextView energyUsedField = (TextView)  findViewById(R.id.finalEnergyInput);
-        // holder var until p7 implementation
-        String temp2 = "3500";
-        energyUsedField.setText(temp2);
+        String energyUsed = transitionToEnd.getStringExtra("energyUsage");
+        energyUsedField.setText(energyUsed);
 
         returnToTitle((Button) findViewById(R.id.losePlayAgain));
 
