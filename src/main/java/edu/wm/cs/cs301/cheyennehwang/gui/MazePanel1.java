@@ -54,7 +54,7 @@ public class MazePanel1 extends View {
         mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
 
         mazePaint.setColor(Color.GREEN);
-        int[] greenXPoints = new int[]{100, 400, 500, 200};
+        int[] greenXPoints = new int[]{50, 250, 350, 150};
         int[] greenYPoints= new int[]{500, 100, 300, 700};
         Path greenPath = new Path();
         greenPath.moveTo(greenXPoints[0], greenYPoints[0]);
@@ -65,7 +65,7 @@ public class MazePanel1 extends View {
         mazeCanvas.drawPath(greenPath, mazePaint);
 
         mazePaint.setColor(Color.YELLOW);
-        int[] yellowXPoints = new int[]{600, 900, 800, 500};
+        int[] yellowXPoints = new int[]{550, 750, 650, 450};
         int[] yellowYPoints= new int[]{100, 500, 700, 300};
         Path yellowPath = new Path();
         yellowPath.moveTo(yellowXPoints[0], yellowYPoints[0]);

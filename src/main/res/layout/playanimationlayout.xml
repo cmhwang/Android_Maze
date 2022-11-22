@@ -18,8 +18,9 @@
 
     <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel
         android:id="@+id/tempMazeBckgd"
-        android:layout_width="388dp"
-        android:layout_height="298dp" />
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:layout_centerHorizontal="true" />
 
     <ProgressBar
         android:id="@+id/energyBar"
@@ -47,7 +48,7 @@
         android:layout_width="166dp"
         android:layout_height="60dp"
         android:layout_below="@id/energyBar"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="-1dp"
         android:background="#304A31"
         android:text="@string/pause_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -90,11 +91,12 @@
 
     <LinearLayout
         android:id="@+id/showMapLayout"
-        android:layout_width="192dp"
-        android:layout_height="95dp"
+        android:layout_width="213dp"
+        android:layout_height="80dp"
         android:layout_below="@id/speedLayout"
         android:layout_alignEnd="@id/energyBar"
         android:layout_marginStart="3dp"
+        android:layout_marginEnd="-3dp"
         android:layout_toEndOf="@id/playButton"
         android:orientation="vertical">
 
@@ -110,8 +112,8 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/mapSwitch"
-            android:layout_width="74dp"
-            android:layout_height="64dp"
+            android:layout_width="89dp"
+            android:layout_height="51dp"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
             android:shadowColor="#304A31"
@@ -165,9 +167,9 @@
     <LinearLayout
         android:id="@+id/sensorStatusLayout"
         android:layout_width="162dp"
-        android:layout_height="289dp"
+        android:layout_height="268dp"
         android:layout_below="@id/speedLayout"
-        android:layout_marginTop="-2dp"
+        android:layout_marginTop="-6dp"
         android:orientation="vertical">
 
         <TextView

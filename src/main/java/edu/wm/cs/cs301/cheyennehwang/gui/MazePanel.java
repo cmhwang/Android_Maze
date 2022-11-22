@@ -35,10 +35,6 @@ public class MazePanel extends View {
         super(context, attrs);
         mazeCanvas = new Canvas();
         mazePaint = new Paint();
-
-
-
-
     }
 
     /**
@@ -56,7 +52,7 @@ public class MazePanel extends View {
         mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
 
         mazePaint.setColor(Color.RED);
-        mazeCanvas.drawCircle(500, 400, 250, mazePaint);
+        mazeCanvas.drawCircle(425, 425, 200, mazePaint);
 
 
     }
