@@ -100,7 +100,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View view){
                 //increments path length and sends log based on type of button
                 if (dir == 0){
-                    stepsTaken++;
+                    stepsTaken = stepsTaken + 1;
                     Log.v("Navigation Control Hit", "Forward");
                     Toast toastF = Toast.makeText(PlayManuallyActivity.this, "Forward Control Hit", Toast.LENGTH_SHORT);
                     toastF.show();
@@ -113,7 +113,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
                     Toast toastR = Toast.makeText(PlayManuallyActivity.this, "Right Control Hit", Toast.LENGTH_SHORT);
                     toastR.show();
                 } else {
-                    stepsTaken++;
+                    stepsTaken = stepsTaken + 1;
                     Log.v("Navigation Control Hit", "Jump");
                     Toast toastJ = Toast.makeText(PlayManuallyActivity.this, "Jump Control Hit", Toast.LENGTH_SHORT);
                     toastJ.show();

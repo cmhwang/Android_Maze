@@ -233,7 +233,6 @@ public class GeneratingActivity extends AppCompatActivity {
                         Toast toast2 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
                         toast2.show();
                         startActivity(transitionToPlay);
-                        if (loadProgress >= 100){
 
 
                     } else {
@@ -241,7 +240,7 @@ public class GeneratingActivity extends AppCompatActivity {
                         Toast toast1 = Toast.makeText(GeneratingActivity.this, "Please Select a Driver", Toast.LENGTH_SHORT);
                         toast1.show();
                     }
-                }
+
                 }
             }
 
