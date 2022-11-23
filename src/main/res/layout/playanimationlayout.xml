@@ -16,7 +16,7 @@
     tools:context=".gui.PlayAnimationActivity">
 
 
-    <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel
+    <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel1
         android:id="@+id/tempMazeBckgd"
         android:layout_width="320dp"
         android:layout_height="320dp"

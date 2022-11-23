@@ -15,7 +15,7 @@
     tools:context=".gui.PlayManuallyActivity">
 
 
-    <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel1
+    <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel
         android:id="@+id/tempBckgd"
         android:layout_width="300dp"
         android:layout_height="300dp"
