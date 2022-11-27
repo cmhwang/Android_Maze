@@ -1,152 +1,70 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
-
-import android.content.Intent;
-import android.util.AttributeSet;
-import android.view.View;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-
-import edu.wm.cs.cs301.cheyennehwang.R;
-
 /**
- * Class: maze panel view drawer which extends view class
- * @author cheyennehwang
+ * Provides an adapter for a graphics object for the first person view
+ * and the map view to draw on.
+ * To its clients it offers the notion of an editor:
+ * one can clear it by adding the background,
+ * then put graphical entities to draw into it,
+ * and finally commit the complete drawing to the UI.
+ * The naming is technical as it is for Project 7
+ * and should serve as a specification for the MazePanel class.
  *
- * Responsibilities: creates the screen that depicts the maze play experience based on user input
+ * Note that methods for drawX in AWT have a corresponding
+ * method addX with same parameters here. The naming emphasizes
+ * that the P7Panel accumulates bits and pieces for an
+ * overall drawing that is then shown on the screen
+ * when the editor's content is complete and committed
+ * for drawing.
  *
- * Collaborators: PlayAnimationActivity (State PlayAnimation), PlayManuallyActivity (State PlayManually), UI, MazeFactory, Control
+ * The documentation includes guidance which AWT method is encapsulated
+ * or can be substituted by which interface method.
+ *
+ * @author Peter Kemper
  *
  */
-
-public class MazePanel extends View implements P7PanelF22{
-    private Bitmap mazeBitmap;
-    private Canvas mazeCanvas;
-    private Paint mazePaint;
-
-    public boolean canDraw;
-
-    /**
-     * Basic constructor that sets up the maze's canvas and paints
-     */
-    public MazePanel(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        mazeCanvas = new Canvas();
-        mazePaint = new Paint();
-        canDraw = true;
-    }
-
-    /**
-     * helper method to draw the backgrounds according to specification
-     * @param canvas is the master canvas
-     */
-    protected void onDraw(Canvas canvas) {
-        mazeCanvas = canvas;
-        super.onDraw(mazeCanvas);
-
-        mazePaint.setColor(Color.BLACK);
-        mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
-
-        mazePaint.setColor(Color.LTGRAY);
-        mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
-
-        mazePaint.setColor(Color.RED);
-        mazeCanvas.drawCircle(425, 425, 200, mazePaint);
-
-
-    }
-
+public interface P7PanelF22 {
     /**
      * Commits all accumulated drawings to the UI.
      * Substitute for MazePanel.update method.
      */
-    @Override
-    public void commit(){
-        //TODO fill
-    }
+    public void commit();
 
     /**
-     * Tells if instance is able to draw.
-     * This ability depends on the context, for instance, in a testing environment, drawing may be not possible and not desired.
+     * Tells if instance is able to draw. This ability depends on the
+     * context, for instance, in a testing environment, drawing
+     * may be not possible and not desired.
      * Substitute for code that checks if graphics object for drawing is not null.
-     *
-     * personal adjustment: whether drawing possible based on whether drawing null and if the shapes requested are caable of being drawn
      * @return true if drawing is possible, false if not.
      */
-    @Override
-    public boolean isOperational(){
-        if (!canDraw || mazeCanvas == null || mazeBitmap == null){
-            return false;
-        } else {
-            return true;
-        }
-    }
+    public boolean isOperational();
 
     /**
-     * Sets the color for future drawing requests
-     * The color setting will remain in effect till this method is called again and with a different color.
+     * Sets the color for future drawing requests. The color setting
+     * will remain in effect till this method is called again and
+     * with a different color.
      * Substitute for Graphics.setColor method.
-     *
-     * How its done: sets the paint variable for the mazepanel object to the color requested
      * @param argb gives the alpha, red, green, and blue encoded value of the color
      */
-    @Override
-    public void setColor(int argb){
-        mazePaint.setColor(argb);
-    }
+    public void setColor(int argb);
 
     /**
      * Returns the ARGB value for the current color setting.
-     *
-     * how i did it: checks the paint object for the class which contains current color being used to draw, returns its int val
      * @return integer ARGB value
      */
-    @Override
-    public int getColor(){
-
-        int colorVal = mazePaint.getColor();
-        return colorVal;
-    }
+    public int getColor();
 
 
     /**
      * Draws two solid rectangles to provide a background.
      * Note that this also erases any previous drawings.
-     * The color setting adjusts to the distance to the exit to provide an additional clue for the user.
+     * The color setting adjusts to the distance to the exit to
+     * provide an additional clue for the user.
      * Colors transition from black to gold and from grey to green.
      * Substitute for FirstPersonView.drawBackground method.
-     *
-     * execution: creates a new canvas for the panel's canvas var to erase previous drawings
-     * draws two rectangles as background as background
-     * uses percent to determine what color to draw the background rectangles
-     *
      * @param percentToExit gives the distance to exit
      */
-    @Override
-    public void addBackground(float percentToExit){
-        mazeCanvas = new Canvas();
-
-        float halfVar = new Float(49.9f);
-
-        if (percentToExit < halfVar){
-            mazePaint.setColor(Color.BLACK);
-            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
-
-            mazePaint.setColor(Color.YELLOW);
-            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
-        } else {
-            mazePaint.setColor(Color.GRAY);
-            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
-
-            mazePaint.setColor(Color.GREEN);
-            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
-        }
-
-
-    }
+    public void addBackground(float percentToExit);
 
     /**
      * Adds a filled rectangle.
@@ -159,10 +77,7 @@ public class MazePanel extends View implements P7PanelF22{
      * @param width is the width of the rectangle
      * @param height is the height of the rectangle
      */
-    @Override
-    public void addFilledRectangle(int x, int y, int width, int height){
-        //TODO fill
-    }
+    public void addFilledRectangle(int x, int y, int width, int height);
 
     /**
      * Adds a filled polygon.
@@ -178,13 +93,11 @@ public class MazePanel extends View implements P7PanelF22{
      * @param yPoints are the y-coordinates of points for the polygon
      * @param nPoints is the number of points, the length of the arrays
      */
-    @Override
-    public void addFilledPolygon(int[] xPoints, int[] yPoints, int nPoints){
-        //TODO fill
-    }
+    public void addFilledPolygon(int[] xPoints, int[] yPoints, int nPoints);
 
     /**
-     * Adds an unfilled polygon.
+     * Adds a polygon.
+     * The polygon is not filled.
      * The polygon is specified with {@code (x,y)} coordinates
      * for the n points it consists of. All x-coordinates
      * are given in a single array, all y-coordinates are
@@ -197,10 +110,7 @@ public class MazePanel extends View implements P7PanelF22{
      * @param yPoints are the y-coordinates of points for the polygon
      * @param nPoints is the number of points, the length of the arrays
      */
-    @Override
-    public void addPolygon(int[] xPoints, int[] yPoints, int nPoints){
-        //TODO fill
-    }
+    public void addPolygon(int[] xPoints, int[] yPoints, int nPoints);
 
     /**
      * Adds a line.
@@ -212,10 +122,7 @@ public class MazePanel extends View implements P7PanelF22{
      * @param endX is the x-coordinate of the end point
      * @param endY is the y-coordinate of the end point
      */
-    @Override
-    public void addLine(int startX, int startY, int endX, int endY){
-        //TODO fill
-    }
+    public void addLine(int startX, int startY, int endX, int endY);
 
     /**
      * Adds a filled oval.
@@ -229,11 +136,7 @@ public class MazePanel extends View implements P7PanelF22{
      * @param width is the width of the oval
      * @param height is the height of the oval
      */
-    @Override
-    public void addFilledOval(int x, int y, int width, int height){
-        //TODO fill
-    }
-
+    public void addFilledOval(int x, int y, int width, int height);
     /**
      * Adds the outline of a circular or elliptical arc covering the specified rectangle.
      * The resulting arc begins at startAngle and extends for arcAngle degrees,
@@ -259,12 +162,7 @@ public class MazePanel extends View implements P7PanelF22{
      * @param startAngle the beginning angle.
      * @param arcAngle the angular extent of the arc, relative to the start angle.
      */
-    @Override
-    public void addArc(int x, int y, int width, int height, int startAngle, int arcAngle){
-        //TODO fill
-    }
-
-
+    public void addArc(int x, int y, int width, int height, int startAngle, int arcAngle) ;
     /**
      * Adds a string at the given position.
      * Substitute for CompassRose.drawMarker method
@@ -272,17 +170,12 @@ public class MazePanel extends View implements P7PanelF22{
      * @param y the y coordinate
      * @param str the string
      */
-    @Override
-    public void addMarker(float x, float y, String str){
-        //TODO fill
-    }
-
+    public void addMarker(float x, float y, String str) ;
     /**
      * An enumerated type to match 1-1 the awt.RenderingHints used
      * in CompassRose and MazePanel.
      */
     enum P7RenderingHints { KEY_RENDERING, VALUE_RENDER_QUALITY, KEY_ANTIALIASING, VALUE_ANTIALIAS_ON, KEY_INTERPOLATION, VALUE_INTERPOLATION_BILINEAR } ;
-
     /**
      * Sets the value of a single preference for the rendering algorithms.
      * It internally maps given parameter values into corresponding java.awt.RenderingHints
@@ -299,17 +192,5 @@ public class MazePanel extends View implements P7PanelF22{
      * @param hintKey the key of the hint to be set.
      * @param hintValue the value indicating preferences for the specified hint category.
      */
-    @Override
-    public void setRenderingHint(P7PanelF22.P7RenderingHints hintKey, P7PanelF22.P7RenderingHints hintValue){
-        //TODO fill
-    }
-
-    /**
-     * helper method to test that drawing methods and panel updating actually works
-     */
-    private void myTestImage(Canvas c){
-        //TODO fill
-    }
-
-
+    public void setRenderingHint(P7RenderingHints hintKey, P7RenderingHints hintValue);
 }
