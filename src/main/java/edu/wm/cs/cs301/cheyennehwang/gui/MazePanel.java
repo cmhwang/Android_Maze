@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
 
+
 import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -146,7 +147,7 @@ public class MazePanel extends View implements P7PanelF22{
             mazePaint.setColor(Color.BLACK);
             mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
-            mazePaint.setColor(Color.YELLOW);
+            mazePaint.setColor(ColorTheme.goldWM);
             mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         } else {
             mazePaint.setColor(Color.GRAY);
