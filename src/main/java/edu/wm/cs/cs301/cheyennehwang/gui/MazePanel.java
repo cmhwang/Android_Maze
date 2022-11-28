@@ -3,6 +3,7 @@ package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.content.Intent;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,7 +19,7 @@ import edu.wm.cs.cs301.cheyennehwang.R;
  *
  * Responsibilities: creates the screen that depicts the maze play experience based on user input
  *
- * Collaborators: PlayAnimationActivity (State PlayAnimation), PlayManuallyActivity (State PlayManually), UI, MazeFactory, Control
+ * Collaborators: Map, FirstPersonView, CompassRose, PlayAnimationActivity (State PlayAnimation), PlayManuallyActivity (State PlayManually), UI, MazeFactory, Control
  *
  */
 
@@ -45,17 +46,25 @@ public class MazePanel extends View implements P7PanelF22{
      * @param canvas is the master canvas
      */
     protected void onDraw(Canvas canvas) {
-        mazeCanvas = canvas;
-        super.onDraw(mazeCanvas);
+        super.onDraw(canvas);
 
-        mazePaint.setColor(Color.BLACK);
-        mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
+        Log.v("MazePanel", "Drawing maze panel");
 
-        mazePaint.setColor(Color.LTGRAY);
-        mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
 
-        mazePaint.setColor(Color.RED);
-        mazeCanvas.drawCircle(400, 400, 200, mazePaint);
+//        mazePaint.setColor(Color.BLACK);
+//        mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
+//
+//        mazePaint.setColor(Color.LTGRAY);
+//        mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
+//
+//        mazePaint.setColor(Color.RED);
+//        mazeCanvas.drawCircle(400, 400, 200, mazePaint);
+
+        //updates to what's requested
+        canvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
+        //resets old vars
+        mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        mazeCanvas = new Canvas(mazeBitmap);
 
 
     }
@@ -74,12 +83,12 @@ public class MazePanel extends View implements P7PanelF22{
      * This ability depends on the context, for instance, in a testing environment, drawing may be not possible and not desired.
      * Substitute for code that checks if graphics object for drawing is not null.
      *
-     * personal adjustment: whether drawing possible based on whether drawing null and if the shapes requested are caable of being drawn
-     * @return true if drawing is possible, false if not.
+     *  @return true if drawing is possible, false if not.
      */
     @Override
     public boolean isOperational(){
-        if (!canDraw || mazeCanvas == null || mazeBitmap == null){
+        if ( mazeCanvas == null ){
+            Log.e("MazePanel", "Can't draw on canvas");
             return false;
         } else {
             return true;
