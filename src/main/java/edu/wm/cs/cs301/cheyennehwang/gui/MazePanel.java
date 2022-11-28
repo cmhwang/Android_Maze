@@ -34,7 +34,8 @@ public class MazePanel extends View implements P7PanelF22{
      */
     public MazePanel(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mazeCanvas = new Canvas();
+        mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        mazeCanvas = new Canvas(mazeBitmap);
         mazePaint = new Paint();
         canDraw = true;
     }
@@ -54,7 +55,7 @@ public class MazePanel extends View implements P7PanelF22{
         mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
 
         mazePaint.setColor(Color.RED);
-        mazeCanvas.drawCircle(425, 425, 200, mazePaint);
+        mazeCanvas.drawCircle(400, 400, 200, mazePaint);
 
 
     }
@@ -127,7 +128,8 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void addBackground(float percentToExit){
-        mazeCanvas = new Canvas();
+        mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        mazeCanvas = new Canvas(mazeBitmap);
 
         float halfVar = new Float(49.9f);
 
