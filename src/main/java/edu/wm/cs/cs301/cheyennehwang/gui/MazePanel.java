@@ -3,6 +3,7 @@ package edu.wm.cs.cs301.cheyennehwang.gui;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+
+import androidx.annotation.RequiresApi;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
 
@@ -73,10 +76,15 @@ public class MazePanel extends View implements P7PanelF22{
     /**
      * Commits all accumulated drawings to the UI.
      * Substitute for MazePanel.update method.
+     *
+     * updates based on what's been added to the canvas
      */
     @Override
     public void commit(){
-        //TODO fill
+        mazeCanvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
+        mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        mazeCanvas = new Canvas(mazeBitmap);
+
     }
 
     /**
@@ -136,6 +144,7 @@ public class MazePanel extends View implements P7PanelF22{
      *
      * @param percentToExit gives the distance to exit
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void addBackground(float percentToExit){
         mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
@@ -147,7 +156,7 @@ public class MazePanel extends View implements P7PanelF22{
             mazePaint.setColor(Color.BLACK);
             mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
-            mazePaint.setColor(ColorTheme.goldWM);
+            mazePaint.setColor(ColorTheme.goldWM.toArgb());
             mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         } else {
             mazePaint.setColor(Color.GRAY);

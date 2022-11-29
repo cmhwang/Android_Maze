@@ -7,6 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import edu.wm.cs.cs301.cheyennehwang.gui.MazeFileWriter;
+import edu.wm.cs.cs301.cheyennehwang.gui.MazePanel;
 
 /**
  * A wall is a continuous sequence of wallboards in the maze.
@@ -121,7 +122,7 @@ public class Wall {
         partition = false;
         seen = false;
         // determine color
-        setColor(ColorTheme.getWallColor(distance, cc, getExtensionX()));
+//        setColor(ColotTheme.getWallColor(distance, cc, getExtensionX()));
         // all fields initialized
     }
 
