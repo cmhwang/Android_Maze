@@ -1,5 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.generation;
 
+import android.annotation.SuppressLint;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,6 +59,7 @@ public class ListOfWallsBuilder {
      * Identify continuous sequences of wallboards in a vertical direction
      * @param sl the list of walls that carries the result of the computation
      */
+	   @SuppressLint("SuspiciousIndentation")
 	   private void generateWallsForVerticalWallboards(ArrayList<Wall> sl) {
 	        int x;
 	        int y;
