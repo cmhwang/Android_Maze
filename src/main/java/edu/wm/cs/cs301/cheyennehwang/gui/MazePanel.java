@@ -3,6 +3,7 @@ package edu.wm.cs.cs301.cheyennehwang.gui;
 
 
 import android.content.Intent;
+import android.graphics.Path;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -154,16 +155,24 @@ public class MazePanel extends View implements P7PanelF22{
 
         if (percentToExit < halfVar){
             mazePaint.setColor(Color.BLACK);
-            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
+            addFilledRectangle(0, 0, 1000, 1000);
+//            mazePaint.setStyle(Paint.Style.FILL);
+//            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
             mazePaint.setColor(ColorTheme.goldWM.toArgb());
-            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
+            addFilledRectangle(0, 0, 1000, 1000);
+//            mazePaint.setStyle(Paint.Style.FILL);
+//            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         } else {
             mazePaint.setColor(Color.GRAY);
-            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
+            addFilledRectangle(0, 0, 1000, 1000);
+//            mazePaint.setStyle(Paint.Style.FILL);
+//            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
             mazePaint.setColor(Color.GREEN);
-            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
+            addFilledRectangle(0, 0, 1000, 1000);
+//            mazePaint.setStyle(Paint.Style.FILL);
+//            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         }
 
 
@@ -182,7 +191,8 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void addFilledRectangle(int x, int y, int width, int height){
-        //TODO fill
+        mazePaint.setStyle(Paint.Style.FILL);
+        mazeCanvas.drawRect((float) x, (float) y, (float) (x + width), (float) (y + height), mazePaint);
     }
 
     /**
@@ -201,7 +211,19 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void addFilledPolygon(int[] xPoints, int[] yPoints, int nPoints){
-        //TODO fill
+        mazePaint.setStyle(Paint.Style.FILL);
+
+
+        Path polyPath = new Path();
+        if (nPoints > 0){
+            polyPath.moveTo(xPoints[0], yPoints[0]);
+            for (int i = 1; i < nPoints; i++){
+                polyPath.lineTo(xPoints[i], yPoints[i]);
+            }
+            polyPath.close();
+        }
+        mazeCanvas.drawPath(polyPath, mazePaint);
+
     }
 
     /**
@@ -220,7 +242,18 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void addPolygon(int[] xPoints, int[] yPoints, int nPoints){
-        //TODO fill
+        mazePaint.setStyle(Paint.Style.STROKE);
+
+
+        Path polyPath = new Path();
+        if (nPoints > 0){
+            polyPath.moveTo(xPoints[0], yPoints[0]);
+            for (int i = 1; i < nPoints; i++){
+                polyPath.lineTo(xPoints[i], yPoints[i]);
+            }
+            polyPath.close();
+        }
+        mazeCanvas.drawPath(polyPath, mazePaint);
     }
 
     /**
@@ -235,7 +268,9 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void addLine(int startX, int startY, int endX, int endY){
-        //TODO fill
+        mazePaint.setStyle(Paint.Style.FILL);
+
+        mazeCanvas.drawLine((float) startX, (float) startY, (float) endX, (float) endY, mazePaint);
     }
 
     /**
@@ -252,7 +287,9 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void addFilledOval(int x, int y, int width, int height){
-        //TODO fill
+        mazePaint.setStyle(Paint.Style.FILL);
+
+        mazeCanvas.drawOval((float) x, (float) y, (float) (x + width), (float) (y + height), mazePaint);
     }
 
     /**
@@ -282,7 +319,9 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void addArc(int x, int y, int width, int height, int startAngle, int arcAngle){
-        //TODO fill
+        mazePaint.setStyle(Paint.Style.STROKE);
+
+
     }
 
 

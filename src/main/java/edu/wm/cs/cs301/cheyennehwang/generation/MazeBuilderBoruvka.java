@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import gui.Constants;
+import edu.wm.cs.cs301.cheyennehwang.gui.Constants;
 
 /**
  * This class has the responsibility to create a maze of given dimensions (width, height) 
@@ -146,7 +146,6 @@ public class MazeBuilderBoruvka extends MazeBuilder implements Runnable {
 	 * check if this edge has been visited
 	 * if it has been visited then retrieve previous weight
 	 * if it has not been visited then assign a new edge weight and store that in an array somewhere
-	 * @param int for the x value of cell, int for y value of cell, cardinal direction of the wall for that cell
 	 * @return int that represents edge weight for that wall
 	 */
 	public int getEdgeWeight(int x, int y, CardinalDirection cd) {
