@@ -71,6 +71,8 @@ public class MazePanel extends View implements P7PanelF22{
         mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
 
+        myTestImage(mazeCanvas);
+
 
     }
 
@@ -321,7 +323,18 @@ public class MazePanel extends View implements P7PanelF22{
     public void addArc(int x, int y, int width, int height, int startAngle, int arcAngle){
         mazePaint.setStyle(Paint.Style.STROKE);
 
+        if (arcAngle > 0){
+            mazeCanvas.drawArc((float) x, (float) y, (float) (x + width), (float) (y + height), (float) startAngle, (float) arcAngle, false, mazePaint);
+        } else {
+            int newStart = startAngle + arcAngle;
+            int newSweep = 0 - arcAngle;
 
+            if (newStart < 0){
+                newStart = newStart + 360;
+            }
+
+            mazeCanvas.drawArc((float) x, (float) y, (float) (x + width), (float) (y + height), (float) newStart, (float) newSweep, false, mazePaint);
+        }
     }
 
 
@@ -334,7 +347,9 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void addMarker(float x, float y, String str){
-        //TODO fill
+        mazePaint.setStyle(Paint.Style.STROKE);
+
+        mazeCanvas.drawText(str, x, y, mazePaint);
     }
 
     /**
@@ -368,7 +383,14 @@ public class MazePanel extends View implements P7PanelF22{
      * helper method to test that drawing methods and panel updating actually works
      */
     private void myTestImage(Canvas c){
-        //TODO fill
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            addBackground(0f);
+            setColor(Color.BLUE);
+            int[] xpoint = new int[]{1, 100, 200, 300};
+            int[] ypoint = new int[]{1, 200, 300, 350};
+            addPolygon(xpoint, ypoint, 4);
+        }
+
     }
 
 
