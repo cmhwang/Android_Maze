@@ -16,10 +16,10 @@
     tools:context=".gui.PlayAnimationActivity">
 
 
-    <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel1
+    <edu.wm.cs.cs301.cheyennehwang.gui.MazePanel
         android:id="@+id/tempMazeBckgd"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_centerHorizontal="true" />
 
     <ProgressBar

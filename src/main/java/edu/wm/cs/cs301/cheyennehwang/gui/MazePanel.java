@@ -40,7 +40,7 @@ public class MazePanel extends View implements P7PanelF22{
      */
     public MazePanel(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
         mazePaint = new Paint();
         canDraw = true;
@@ -68,7 +68,7 @@ public class MazePanel extends View implements P7PanelF22{
         //updates to what's requested
         canvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
         //resets old vars
-        mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
 
         myTestImage(mazeCanvas);
@@ -85,7 +85,7 @@ public class MazePanel extends View implements P7PanelF22{
     @Override
     public void commit(){
         mazeCanvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-        mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
 
     }
@@ -388,7 +388,7 @@ public class MazePanel extends View implements P7PanelF22{
             setColor(Color.BLUE);
             int[] xpoint = new int[]{1, 100, 200, 300};
             int[] ypoint = new int[]{1, 200, 300, 350};
-            addPolygon(xpoint, ypoint, 4);
+            addFilledPolygon(xpoint, ypoint, 4);
         }
 
     }
