@@ -46,6 +46,7 @@ public class MazePanel extends View implements P7PanelF22{
         mazePaint = new Paint();
         canDraw = true;
 
+
     }
 
     /**
@@ -56,8 +57,7 @@ public class MazePanel extends View implements P7PanelF22{
         super.onDraw(canvas);
 
         Log.v("MazePanel", "Drawing maze panel");
-
-        myTestImage(canvas);
+        myTestImage(mazeCanvas);
         commit(canvas);
 
 

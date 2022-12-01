@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 import edu.wm.cs.cs301.cheyennehwang.R;
+import edu.wm.cs.cs301.cheyennehwang.generation.SingleRandom;
+
 import android.widget.Toast;
 
 /**
@@ -36,6 +38,7 @@ public class AMazeActivity extends AppCompatActivity {
     public boolean incRooms;
     Spinner genAlgoSpinner;
     SeekBar sizeSeekBar;
+    private int seed;
 
     /**
      * Sets up any ui features that need additional specifications
@@ -97,6 +100,7 @@ public class AMazeActivity extends AppCompatActivity {
                 // processes input for whether we are creating new maze or using old one - not fully acted on in P6
                 if (newMaze){
                     // branch for explore being hit, new maze
+                    seed = SingleRandom.getRandom().nextInt();
                     Log.v("Revisit or Explore", "Explore New");
                 } else {
                     // branch for revisit being hit, for now do the same input
