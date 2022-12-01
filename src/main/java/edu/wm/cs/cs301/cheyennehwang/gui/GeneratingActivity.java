@@ -18,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
+import edu.wm.cs.cs301.cheyennehwang.generation.MazeBuilderBoruvka;
+import edu.wm.cs.cs301.cheyennehwang.generation.MazeBuilderPrim;
+import edu.wm.cs.cs301.cheyennehwang.generation.MazeBuilder;
 
 /**
  * Class: equivalent to StateGenerating
@@ -44,6 +47,12 @@ public class GeneratingActivity extends AppCompatActivity {
     public String driverSetting;
 
     public Boolean driverSet;
+
+    public int skillLevel;
+    enum Builder { DFS, Prim, Kruskal, Eller, Boruvka } ;
+    public MazeBuilder builderAlgo;
+    public boolean isPerfect;
+
     /**
      * Sets up any ui features that need additional specifications
      * - specfically here sets up sinner for accepting driver input and robot configuration
@@ -56,6 +65,36 @@ public class GeneratingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generationlayout);
+
+        Intent transitionToGen = getIntent();
+        //gathers whether new or revisiting
+        if (transitionToGen.getBooleanExtra("explore", true)){
+            //explore brance
+            //gathers difficulty level
+            skillLevel = transitionToGen.getIntExtra("diffLevel", 0);
+            //gathers builder
+            if (transitionToGen.getStringExtra("generationAlgorithm").equalsIgnoreCase("Prim")){
+                builderAlgo = new MazeBuilderPrim();
+            } else if (transitionToGen.getStringExtra("generationAlgorithm").equalsIgnoreCase("Boruvka")){
+                builderAlgo = new MazeBuilderBoruvka();
+            } else {
+                builderAlgo = new MazeBuilder();
+            }
+            // gathers whether maze includes rooms
+            if (transitionToGen.getStringExtra("roomsIn").equalsIgnoreCase("True")){
+                isPerfect = false;
+            } else {
+                isPerfect = true;
+            }
+        } else {
+            //revisit branch
+
+        }
+
+
+
+        
+
 
         //processes and builds spinner to accept input for robot driver configuration
         driverSpinner = (Spinner) findViewById(R.id.driverInput);

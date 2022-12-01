@@ -106,10 +106,12 @@ public class AMazeActivity extends AppCompatActivity {
 
                 // does the actual transition to the next stage and passes along the needed input
                 Intent transitionToGen = new Intent(AMazeActivity.this, GeneratingActivity.class);
+
                 transitionToGen.putExtra("diffLevel", mazeLevel);
                 transitionToGen.putExtra("generationAlgorithm", genAlgo);
                 transitionToGen.putExtra("roomsIn", incRooms);
                 transitionToGen.putExtra("seedVal", 0);
+                transitionToGen.putExtra("explore", newMaze);
 
                 Toast toast = Toast.makeText(AMazeActivity.this, "Begin Maze Generation with level: " + String.valueOf(mazeLevel) + ", algorithm: " + genAlgo + ", rooms on: " + String.valueOf(incRooms), Toast.LENGTH_SHORT);
                 toast.show();

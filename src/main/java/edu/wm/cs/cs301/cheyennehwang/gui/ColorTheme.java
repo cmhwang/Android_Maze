@@ -29,7 +29,7 @@ public class ColorTheme {
 	
 	
 	// General color settings across multiple screens
-	private static final Color greenWM = Color.valueOf(17f, 87f, 64f, 1f);
+	public static final Color greenWM = Color.valueOf(17f, 87f, 64f, 1f);
 	public static final Color goldWM = Color.valueOf(145f, 111f, 65f, 1f);
 	private static final Color blackWM = Color.valueOf(Color.BLACK);
 	private static final Color yellowWM = Color.valueOf(Color.YELLOW);

@@ -2,6 +2,7 @@ package edu.wm.cs.cs301.cheyennehwang.gui;
 
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Path;
 import android.os.Build;
@@ -40,10 +41,11 @@ public class MazePanel extends View implements P7PanelF22{
      */
     public MazePanel(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
         mazePaint = new Paint();
         canDraw = true;
+
     }
 
     /**
@@ -55,23 +57,8 @@ public class MazePanel extends View implements P7PanelF22{
 
         Log.v("MazePanel", "Drawing maze panel");
 
-
-//        mazePaint.setColor(Color.BLACK);
-//        mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
-//
-//        mazePaint.setColor(Color.LTGRAY);
-//        mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
-//
-//        mazePaint.setColor(Color.RED);
-//        mazeCanvas.drawCircle(400, 400, 200, mazePaint);
-
-        //updates to what's requested
-        canvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-        //resets old vars
-        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
-        mazeCanvas = new Canvas(mazeBitmap);
-
-        myTestImage(mazeCanvas);
+        myTestImage(canvas);
+        commit(canvas);
 
 
     }
@@ -85,7 +72,20 @@ public class MazePanel extends View implements P7PanelF22{
     @Override
     public void commit(){
         mazeCanvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
+        mazeCanvas = new Canvas(mazeBitmap);
+
+    }
+
+    /**
+     * Commits all accumulated drawings to the UI.
+     * Substitute for MazePanel.update method.
+     *
+     * updates based on what's been added to the canvas
+     */
+    public void commit(Canvas c){
+        c.drawBitmap(mazeBitmap, 0, 0, mazePaint);
+        mazeBitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
 
     }
@@ -147,32 +147,30 @@ public class MazePanel extends View implements P7PanelF22{
      *
      * @param percentToExit gives the distance to exit
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("NewApi")
     @Override
     public void addBackground(float percentToExit){
-        mazeBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
-        mazeCanvas = new Canvas(mazeBitmap);
 
         float halfVar = new Float(49.9f);
 
         if (percentToExit < halfVar){
             mazePaint.setColor(Color.BLACK);
-            addFilledRectangle(0, 0, 1000, 1000);
+            addFilledRectangle(0, 0, 800, 400);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
-            mazePaint.setColor(ColorTheme.goldWM.toArgb());
-            addFilledRectangle(0, 0, 1000, 1000);
+            mazePaint.setColor(Color.YELLOW);
+            addFilledRectangle(0, 400, 800, 400);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         } else {
             mazePaint.setColor(Color.GRAY);
-            addFilledRectangle(0, 0, 1000, 1000);
+            addFilledRectangle(0, 0, 400, 200);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
             mazePaint.setColor(Color.GREEN);
-            addFilledRectangle(0, 0, 1000, 1000);
+            addFilledRectangle(0, 200, 400, 200);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         }
@@ -287,6 +285,7 @@ public class MazePanel extends View implements P7PanelF22{
      * @param width is the width of the oval
      * @param height is the height of the oval
      */
+    @SuppressLint("NewApi")
     @Override
     public void addFilledOval(int x, int y, int width, int height){
         mazePaint.setStyle(Paint.Style.FILL);
@@ -319,6 +318,7 @@ public class MazePanel extends View implements P7PanelF22{
      * @param startAngle the beginning angle.
      * @param arcAngle the angular extent of the arc, relative to the start angle.
      */
+    @SuppressLint("NewApi")
     @Override
     public void addArc(int x, int y, int width, int height, int startAngle, int arcAngle){
         mazePaint.setStyle(Paint.Style.STROKE);
@@ -383,13 +383,9 @@ public class MazePanel extends View implements P7PanelF22{
      * helper method to test that drawing methods and panel updating actually works
      */
     private void myTestImage(Canvas c){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            addBackground(0f);
-            setColor(Color.BLUE);
-            int[] xpoint = new int[]{1, 100, 200, 300};
-            int[] ypoint = new int[]{1, 200, 300, 350};
-            addFilledPolygon(xpoint, ypoint, 4);
-        }
+        addBackground(0f);
+        setColor(Color.BLUE);
+        addFilledOval(0, 0 , 100, 100);
 
     }
 
