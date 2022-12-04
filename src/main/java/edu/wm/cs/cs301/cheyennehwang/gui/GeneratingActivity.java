@@ -72,6 +72,8 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generationlayout);
+        loadProgress = 0;
+
 
         //gathers prior values
         Intent transitionToGen = getIntent();
@@ -114,11 +116,14 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         botConfigSpinner.setAdapter(adapter2);
 
-        // resets load progress
-        loadProgress = 0;
+        // sets up loading process
         mazeFactory = new MazeFactory();
+        loadProgress = 0;
         mazeProgress = findViewById(R.id.buildProgress);
+        mazeProgress.setProgress(loadProgress);
         checkSeekBarProgress(mazeProgress);
+
+        // runs threads
         mazeHandler = new Handler();
         mazeThread = new Thread(this);
         mazeThread.start();
@@ -221,12 +226,36 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
     public void onBackPressed() {
         super.onBackPressed();
         mazeFactory.cancel();
+        mazeThread.interrupt();
         setResult(RESULT_CANCELED);
         Toast toast = Toast.makeText(GeneratingActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
+        reset();
         finish();
 
+    }
+
+    /**
+     * Needed otherwise won't reload maze after going back one
+     */
+    public void reset() {
+        mazeFactory = new MazeFactory() ;
+        skillLevel = 0; // default size for maze
+        builderAlgo = Builder.DFS; // default algorithm
+        isPerfect = false; // default: maze can have rooms
+        loadProgress = 0;
+        seed = 0;
+        mazeProgress.setProgress(loadProgress);
+    }
+
+    /**
+     * Needed to invoke the reset
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        reset();
     }
 
     /**
@@ -386,6 +415,7 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
             public void run() {
                 Log.v("Maze Generation", "Done!");
                 checkDriverInput(driverSpinner);
+                assert (MazeSettings.getSettings().getMaze() != null) : "Maze Generation Failed!";
             }
         });
     }
