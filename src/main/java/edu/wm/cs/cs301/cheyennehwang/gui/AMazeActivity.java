@@ -105,6 +105,8 @@ public class AMazeActivity extends AppCompatActivity {
                 genAlgo = genAlgoSpinner.getSelectedItem().toString();
                 Log.v("Maze Generation Set", genAlgo);
 
+                mySharedPreferences = getSharedPreferences(MYPREFS, mode);
+
                 // processes input for whether we are creating new maze or using old one - not fully acted on in P6
                 if (newMaze){
                     // branch for explore being hit, new maze
@@ -112,13 +114,12 @@ public class AMazeActivity extends AppCompatActivity {
                     Log.v("Revisit or Explore", "Explore New");
                 } else {
                     // branch for revisit being hit, for now do the same input
-                    // seed = mySharedPreferences.getInt(mazeLevel + genAlgo + incRooms, SingleRandom.getRandom().nextInt());
-                    seed = SingleRandom.getRandom().nextInt();
+                    seed = mySharedPreferences.getInt(mazeLevel + genAlgo + incRooms, SingleRandom.getRandom().nextInt());
+//                    seed = SingleRandom.getRandom().nextInt();
 
                     Log.v("Revisit or Explore", "Revisit Old");
                 }
                 //handles seed database
-                mySharedPreferences = getSharedPreferences(MYPREFS, mode);
                 myEditor = mySharedPreferences.edit();
                 myEditor.putInt(mazeLevel + genAlgo + incRooms, seed);
                 myEditor.apply();
