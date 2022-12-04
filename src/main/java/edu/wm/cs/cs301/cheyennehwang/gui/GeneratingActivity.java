@@ -7,20 +7,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
-import edu.wm.cs.cs301.cheyennehwang.generation.MazeBuilderBoruvka;
-import edu.wm.cs.cs301.cheyennehwang.generation.MazeBuilderPrim;
-import edu.wm.cs.cs301.cheyennehwang.generation.MazeBuilder;
+import edu.wm.cs.cs301.cheyennehwang.generation.Factory;
+import edu.wm.cs.cs301.cheyennehwang.generation.MazeFactory;
+import edu.wm.cs.cs301.cheyennehwang.generation.MazeSettings;
+import edu.wm.cs.cs301.cheyennehwang.generation.Maze;
+import edu.wm.cs.cs301.cheyennehwang.generation.Order;
 
 /**
  * Class: equivalent to StateGenerating
@@ -34,11 +32,13 @@ import edu.wm.cs.cs301.cheyennehwang.generation.MazeBuilder;
  *
  */
 
-public class GeneratingActivity extends AppCompatActivity {
+public class GeneratingActivity extends AppCompatActivity implements Runnable, Order {
 
     public Spinner driverSpinner;
     public Spinner botConfigSpinner;
+    public SeekBar mazeProgress;
 
+    // p6 thread elements
     private Thread loadingThread;
     public int loadProgress;
     private Handler handler = new Handler();
@@ -50,8 +50,15 @@ public class GeneratingActivity extends AppCompatActivity {
 
     public int skillLevel;
     enum Builder { DFS, Prim, Kruskal, Eller, Boruvka } ;
-    public MazeBuilder builderAlgo;
+    public Builder builderAlgo;
     public boolean isPerfect;
+    public boolean newMaze;
+    public int seed;
+
+    //replace with these for p7
+    public Factory mazeFactory;
+    public Handler mazeHandler;
+    public Thread mazeThread;
 
     /**
      * Sets up any ui features that need additional specifications
@@ -66,34 +73,32 @@ public class GeneratingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generationlayout);
 
+        //gathers prior values
         Intent transitionToGen = getIntent();
-        //gathers whether new or revisiting
-        if (transitionToGen.getBooleanExtra("explore", true)){
-            //explore brance
-            //gathers difficulty level
-            skillLevel = transitionToGen.getIntExtra("diffLevel", 0);
-            //gathers builder
-            if (transitionToGen.getStringExtra("generationAlgorithm").equalsIgnoreCase("Prim")){
-                builderAlgo = new MazeBuilderPrim();
-            } else if (transitionToGen.getStringExtra("generationAlgorithm").equalsIgnoreCase("Boruvka")){
-                builderAlgo = new MazeBuilderBoruvka();
-            } else {
-                builderAlgo = new MazeBuilder();
-            }
-            // gathers whether maze includes rooms
-            if (transitionToGen.getStringExtra("roomsIn").equalsIgnoreCase("True")){
-                isPerfect = false;
-            } else {
-                isPerfect = true;
-            }
+        //gets skill level
+        skillLevel = transitionToGen.getIntExtra("diffLevel", 0);
+        //sets generation algo
+        if (transitionToGen.getStringExtra("generationAlgorithm").equalsIgnoreCase("Prim")){
+            builderAlgo = Builder.Prim;
+        } else if (transitionToGen.getStringExtra("generationAlgorithm").equalsIgnoreCase("Boruvka")){
+            builderAlgo = Builder.Boruvka;
         } else {
-            //revisit branch
-
+            builderAlgo = Builder.DFS;
         }
-
-
-
-        
+        //set whether rooms
+        if (transitionToGen.getBooleanExtra("roomsIn", true)){
+            isPerfect = false;
+        } else {
+            isPerfect = true;
+        }
+        //sets whether visit or revisit
+        if (transitionToGen.getBooleanExtra("explore", true)){
+            newMaze = true;
+        } else{
+            newMaze = false;
+        }
+        //gets seed value
+        seed = transitionToGen.getIntExtra("seedVal", 0);
 
 
         //processes and builds spinner to accept input for robot driver configuration
@@ -109,30 +114,103 @@ public class GeneratingActivity extends AppCompatActivity {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         botConfigSpinner.setAdapter(adapter2);
 
-        // sets up thread that times the loading of the maze - for p6 just provides time frame to base progress updating on
+        // resets load progress
         loadProgress = 0;
-        SeekBar mazeProgress = findViewById(R.id.buildProgress);
+        mazeFactory = new MazeFactory();
+        mazeProgress = findViewById(R.id.buildProgress);
         checkSeekBarProgress(mazeProgress);
-        new Thread(new Runnable() {
-            public void run() {
-                while (loadProgress < 100) {
-                    loadProgress += 1;
-                    handler.post(new Runnable() {
-                        public void run() {
-                            mazeProgress.setProgress(loadProgress);
-                        }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+        mazeHandler = new Handler();
+        mazeThread = new Thread(this);
+        mazeThread.start();
+
+        // sets up thread that times the loading of the maze - for p6 just provides time frame to base progress updating on
+//        new Thread(new Runnable() {
+//            public void run() {
+//                while (loadProgress < 100) {
+//                    loadProgress += 1;
+//                    handler.post(new Runnable() {
+//                        public void run() {
+//                            mazeProgress.setProgress(loadProgress);
+//                        }
+//                    });
+//                    try {
+//                        // Sleep for 200 milliseconds.
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
 
 
+    }
+
+    /**
+     * needed to implement order
+     * gets skill level
+     */
+    @Override
+    public int getSkillLevel(){
+        return skillLevel;
+    }
+
+    /**
+     * needed to implement order
+     * gets builder/generation algo in order type
+     * @return
+     */
+    @Override
+    public Order.Builder getBuilder(){
+        Intent transitionToGen = getIntent();
+        if (transitionToGen.getStringExtra("generationAlgorithm").equalsIgnoreCase("Prim")){
+            return Order.Builder.Prim;
+        } else if (transitionToGen.getStringExtra("generationAlgorithm").equalsIgnoreCase("Boruvka")){
+            return Order.Builder.Boruvka;
+        } else {
+            return Order.Builder.DFS;
+        }
+    }
+
+    /**
+     * needed to implement order
+     * gets whether rooms included/perfect
+     * @return
+     */
+    @Override
+    public boolean isPerfect(){
+        return isPerfect;
+    }
+
+    /**
+     * needed to implement order
+     * returns seed int
+     * @return
+     */
+    @Override
+    public int getSeed(){
+        return seed;
+    }
+
+    /**
+     * needed to implement order
+     * delivers maze
+     */
+    @Override
+    public void deliver(Maze myMaze){
+        MazeSettings.getSettings().setMaze(myMaze);
+    }
+
+    /**
+     * needed to implement order
+     * updates progress
+     */
+    @Override
+    public void updateProgress(int loadPercent){
+        if (loadProgress < loadPercent && loadPercent <= 100){
+            loadProgress = loadPercent;
+            mazeProgress.setProgress(loadProgress);
+        }
     }
 
     /**
@@ -142,6 +220,7 @@ public class GeneratingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        mazeFactory.cancel();
         setResult(RESULT_CANCELED);
         Toast toast = Toast.makeText(GeneratingActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
@@ -293,6 +372,21 @@ public class GeneratingActivity extends AppCompatActivity {
 
             }
 
+        });
+    }
+
+    /**
+    runs maze generation thread
+     */
+    @Override
+    public void run(){
+        mazeFactory.order(this);
+        mazeFactory.waitTillDelivered();
+        mazeHandler.post(new Runnable() {
+            public void run() {
+                Log.v("Maze Generation", "Done!");
+                checkDriverInput(driverSpinner);
+            }
         });
     }
 

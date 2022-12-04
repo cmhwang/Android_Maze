@@ -1,5 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.generation;
 
+import android.util.Log;
+
 import java.util.logging.Logger;
 
 /**
@@ -59,20 +61,20 @@ public class MazeFactory implements Factory {
 			buildOrder();
 			break;
 		default:
-			LOGGER.severe("Missing implementation for requested algorithm: " + order.getBuilder());
+			Log.v("Maze Generation", "Missing implementation for requested algorithm: " + order.getBuilder());
 			return false;
 		}
 		return true ;
 	}
 	@Override
 	public void cancel() {
-		LOGGER.fine("Received call to cancel current order");
+		Log.v("Maze Generation", "Received call to cancel current order");
 		if (null != buildThread) {
 			buildThread.interrupt() ;
 			buildThread = null; // allow for next order to get through
 		}
 		else {
-			LOGGER.warning("Received call to cancel current order, but there is no thread to stop");
+			Log.v("Maze Generation", "Received call to cancel current order, but there is no thread to stop");
 		}
 		// clean up happens in interrupt handling in run method
 		builder = null;
@@ -83,12 +85,12 @@ public class MazeFactory implements Factory {
 		if (null != buildThread) {
 			try {
 				buildThread.join();
-			} catch (Exception e) { 
-				LOGGER.severe("Join synchronization with builder thread lead to an exception") ;
+			} catch (Exception e) {
+				Log.v("Maze Generation", "Join synchronization with builder thread lead to an exception");
 			}
 		}
 		else {
-			LOGGER.warning("Received call to wait for thread to finish, but there is no thread to wait for");
+			Log.v("Maze Generation", "Received call to wait for thread to finish, but there is no thread to wait for");
 		}
 		builder = null;
 		currentOrder = null;
@@ -100,7 +102,7 @@ public class MazeFactory implements Factory {
 	private void buildOrder() { 
 		if (null == builder)
 			return;
-		LOGGER.fine("Starting background thread to build the ordered maze") ;
+		Log.v("Maze Generation", "Starting background thread to build the ordered maze");
 		builder.buildOrder(currentOrder);
 		buildThread = new Thread(builder);
 		buildThread.start();

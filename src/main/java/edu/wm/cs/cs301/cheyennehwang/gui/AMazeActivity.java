@@ -3,7 +3,9 @@ package edu.wm.cs.cs301.cheyennehwang.gui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,6 +41,12 @@ public class AMazeActivity extends AppCompatActivity {
     Spinner genAlgoSpinner;
     SeekBar sizeSeekBar;
     private int seed;
+
+    public SharedPreferences mySharedPreferences;
+    public SharedPreferences.Editor myEditor;
+
+    final int mode = Activity.MODE_PRIVATE;
+    final String MYPREFS = "MyPreferences_001";
 
     /**
      * Sets up any ui features that need additional specifications
@@ -104,9 +112,16 @@ public class AMazeActivity extends AppCompatActivity {
                     Log.v("Revisit or Explore", "Explore New");
                 } else {
                     // branch for revisit being hit, for now do the same input
-                    // in the future: look through old log of seeds for an old seed
+                    // seed = mySharedPreferences.getInt(mazeLevel + genAlgo + incRooms, SingleRandom.getRandom().nextInt());
+                    seed = SingleRandom.getRandom().nextInt();
+
                     Log.v("Revisit or Explore", "Revisit Old");
                 }
+                //handles seed database
+                mySharedPreferences = getSharedPreferences(MYPREFS, mode);
+                myEditor = mySharedPreferences.edit();
+                myEditor.putInt(mazeLevel + genAlgo + incRooms, seed);
+                myEditor.apply();
 
                 // does the actual transition to the next stage and passes along the needed input
                 Intent transitionToGen = new Intent(AMazeActivity.this, GeneratingActivity.class);
@@ -114,7 +129,7 @@ public class AMazeActivity extends AppCompatActivity {
                 transitionToGen.putExtra("diffLevel", mazeLevel);
                 transitionToGen.putExtra("generationAlgorithm", genAlgo);
                 transitionToGen.putExtra("roomsIn", incRooms);
-                transitionToGen.putExtra("seedVal", 0);
+                transitionToGen.putExtra("seedVal", seed);
                 transitionToGen.putExtra("explore", newMaze);
 
                 Toast toast = Toast.makeText(AMazeActivity.this, "Begin Maze Generation with level: " + String.valueOf(mazeLevel) + ", algorithm: " + genAlgo + ", rooms on: " + String.valueOf(incRooms), Toast.LENGTH_SHORT);

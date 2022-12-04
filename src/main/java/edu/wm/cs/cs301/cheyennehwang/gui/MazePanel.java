@@ -41,7 +41,7 @@ public class MazePanel extends View implements P7PanelF22{
      */
     public MazePanel(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mazeBitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
         mazePaint = new Paint();
         canDraw = true;
@@ -72,7 +72,7 @@ public class MazePanel extends View implements P7PanelF22{
     @Override
     public void commit(){
         mazeCanvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-        mazeBitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
 
     }
@@ -85,7 +85,7 @@ public class MazePanel extends View implements P7PanelF22{
      */
     public void commit(Canvas c){
         c.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-        mazeBitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
 
     }
@@ -155,22 +155,22 @@ public class MazePanel extends View implements P7PanelF22{
 
         if (percentToExit < halfVar){
             mazePaint.setColor(Color.BLACK);
-            addFilledRectangle(0, 0, 800, 400);
+            addFilledRectangle(0, 0, 1000, 500);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
             mazePaint.setColor(Color.YELLOW);
-            addFilledRectangle(0, 400, 800, 400);
+            addFilledRectangle(0, 500, 1000, 500);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         } else {
             mazePaint.setColor(Color.GRAY);
-            addFilledRectangle(0, 0, 400, 200);
+            addFilledRectangle(0, 0, 1000, 500);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
             mazePaint.setColor(Color.GREEN);
-            addFilledRectangle(0, 200, 400, 200);
+            addFilledRectangle(0, 500, 1000, 500);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         }
@@ -385,7 +385,7 @@ public class MazePanel extends View implements P7PanelF22{
     private void myTestImage(Canvas c){
         addBackground(0f);
         setColor(Color.BLUE);
-        addFilledOval(0, 0 , 100, 100);
+        addFilledOval(0, 0 , 500, 500);
 
     }
 
