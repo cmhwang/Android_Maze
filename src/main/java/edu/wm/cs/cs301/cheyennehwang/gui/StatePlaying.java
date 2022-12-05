@@ -1,5 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
+import android.util.Log;
+
 import edu.wm.cs.cs301.cheyennehwang.generation.CardinalDirection;
 import edu.wm.cs.cs301.cheyennehwang.generation.Floorplan;
 import edu.wm.cs.cs301.cheyennehwang.generation.Maze;
@@ -36,6 +38,10 @@ import java.util.logging.Logger;
  * Refactored by Peter Kemper
  */
 public class StatePlaying implements State {
+    //activity object
+    public PlayManuallyActivity activity;
+
+
 	/**
 	 * The logger is used to track execution and report issues.
 	 * Collaborators are the UI and the MazeFactory.
@@ -91,12 +97,17 @@ public class StatePlaying implements State {
 
     // current position and direction with regard to MazeConfiguration
     int px, py ; // current position on maze grid (x,y)
-    CardinalDirection cd;
+    public CardinalDirection cd;
     
   
     Floorplan seenCells; // a matrix with cells to memorize which cells are visible from the current point of view
     // the FirstPersonView obtains this information and the Map uses it for highlighting currently visible walls on the map
-    
+
+    //additional parameters needed now that no more control and robot used differently and need to be able to switch between displays
+    public int stepCount;
+    public int viewDirection;
+
+
     // debug stuff
     //private boolean deepdebug = false;
     //private boolean allVisible = false;
@@ -119,7 +130,6 @@ public class StatePlaying implements State {
     	firstPersonView = null; // initialized in start method
     	mapView = null; // initialized in start method
     	panel = null; // provided by start method
-    	control = null; // provided by start method
     	started = false; // method start has not been called yet
 
     	maze = null; // provided by set method
@@ -138,6 +148,15 @@ public class StatePlaying implements State {
     	seenCells = null;
     	cr = null;
     }
+
+    /**
+     * extra method just so it won't throw error with new constructor type
+     * @param panel is the panel to draw graphics on
+     */
+    @Override
+    public void start(MazePanel panel) {
+        Log.v("Maze Play", "Error with no activity set");
+    }
     /**
      * Provides the maze to play.
      * @param maze a fully operational complete maze ready to play
@@ -150,15 +169,15 @@ public class StatePlaying implements State {
      * If the panel is null, all drawing operations are skipped.
      * This mode of operation is useful for testing purposes, 
      * i.e., a dryrun of the game without the graphics part.
-     * @param controller provides access to the controller this state resides in
+     * @param manualActivity provides access to the controller this state resides in
      * @param panel is part of the UI and visible on the screen, needed for drawing
      */
-    public void start(Control controller, MazePanel panel) {
+    public void start(PlayManuallyActivity manualActivity, MazePanel panel) {
     	assert null != maze : "StatePlaying.start: maze must exist!";
     	
         started = true;
         // keep the reference to the controller to be able to call method to switch the state
-        control = controller;
+        activity = manualActivity;
         // keep the reference to the panel for drawing
         this.panel = panel;
         //
@@ -172,6 +191,8 @@ public class StatePlaying implements State {
         seenCells = new Floorplan(maze.getWidth()+1,maze.getHeight()+1) ;
         // set the current position and direction consistently with the viewing direction
         setPositionDirectionViewingDirection();
+        //to count steps
+        stepCount = 0;
 
         if (panel != null) {
         	startDrawer();
@@ -181,124 +202,7 @@ public class StatePlaying implements State {
         	printWarning();
         }
  
-        if (control.robot != null) {
-        	control.robot.setController(control);
-        	
-        	control.robot.getRobotSensor(Direction.FORWARD).setMaze(maze); // sets maze for forward sensor
-        	control.robot.getRobotSensor(Direction.LEFT).setMaze(maze); // sets maze for left sensor
-        	control.robot.getRobotSensor(Direction.RIGHT).setMaze(maze);
-        	control.robot.getRobotSensor(Direction.BACKWARD).setMaze(maze);
-        	
-        	if (control.robot.getRobotType().equals("unreliable")){
-        		// implement end thread methods for the unreliable sensors
-        		if (control.robot.getRobotSensor(Direction.FORWARD).getSensorType().equals("unreliable")){// starts repair thread for forward sensor if unreliable 
-        			try {
-        				control.robot.getRobotSensor(Direction.FORWARD).startFailureAndRepairProcess(4, 2);
-            		} catch (Exception e){
-            			e.printStackTrace();
-            		}
-        		}
-        		
-        		if (control.robot.getRobotSensor(Direction.LEFT).getSensorType().equals("unreliable")){// starts repair thread for left sensor if unreliable 
-        			if (control.robot.getRobotSensor(Direction.FORWARD).getSensorType().equals("unreliable")) {// case for if sensor before was also unreliable and need to sleep before starting
-        				try {
-        					Thread.sleep(1300);
-        				} catch (Exception e) {
-        					e.printStackTrace();
-        				}
-        			}
-        			
-        			try {
-        				control.robot.getRobotSensor(Direction.LEFT).startFailureAndRepairProcess(4, 2);
-            		} catch (Exception e){
-            			e.printStackTrace();
-            		}
-        		}
-        		
-        		if (control.robot.getRobotSensor(Direction.RIGHT).getSensorType().equals("unreliable")){// starts repair thread for right sensor if unreliable 
-        			if (control.robot.getRobotSensor(Direction.LEFT).getSensorType().equals("unreliable")) {// case for if sensor before was also unreliable and need to sleep before starting
-        				try {
-        					Thread.sleep(1300);
-        				} catch (Exception e) {
-        					e.printStackTrace();
-        				}
-        			}
-        			
-        			try {
-        				control.robot.getRobotSensor(Direction.RIGHT).startFailureAndRepairProcess(4, 2);
-            		} catch (Exception e){
-            			e.printStackTrace();
-            		}
-        		}
-        		
-        		if (control.robot.getRobotSensor(Direction.BACKWARD).getSensorType().equals("unreliable")){// starts repair thread for back sensor if unreliable 
-        			if (control.robot.getRobotSensor(Direction.RIGHT).getSensorType().equals("unreliable")) {// case for if sensor before was also unreliable and need to sleep before starting
-        				try {
-        					Thread.sleep(1300);
-        				} catch (Exception e) {
-        					e.printStackTrace();
-        				}
-        			}
-        			
-        			try {
-        				control.robot.getRobotSensor(Direction.BACKWARD).startFailureAndRepairProcess(4, 2);
-            		} catch (Exception e){
-            			e.printStackTrace();
-            		}
-        		}
-        	}
-        	
- 
-        }
-        
-        if (control.driver != null) {	
-        	
-        	control.driver.setMaze(maze);
-            control.driver.setRobot(control.robot);
-            
-            if (control.driver.equals(new Wizard())) {//if driver set to wizard
-            	 try {
-                 	boolean complete = control.driver.drive2Exit();
-                 	if (complete) {
-                 		switchFromPlayingToWinning(control.robot.getOdometerReading());
-                 	} else {
-                 		switchFromPlayingToWinning(-1);
-                 	}
-                 	
-                 } catch (Exception e) {
-                 	switchFromPlayingToWinning(-1);
-                 }
-            } else if (control.driver.equals(new SmartWizard())){
-            	try {
-                 	boolean complete = control.driver.drive2Exit();
-                 	if (complete) {
-                 		switchFromPlayingToWinning(control.robot.getOdometerReading());
-                 	} else {
-                 		switchFromPlayingToWinning(-1);
-                 	}
-                 	
-                 } catch (Exception e) {
-                 	switchFromPlayingToWinning(-1);
-                 }
-            } else { // if driver set to wall follower - different in case drive2ext no longer a thing, CONSIDER delete
-            	assert control.driver.equals(new WallFollower()) : "Driver option should be wallfollower";
-            		try {
-                     	boolean complete = control.driver.drive2Exit();
-                     	if (complete) {
-                     		switchFromPlayingToWinning(control.robot.getOdometerReading());
-                     	} else {
-                     		switchFromPlayingToWinning(-1);
-                     	}
-                     	
-                     } catch (Exception e) {
-                     	switchFromPlayingToWinning(-1);
-                     }
-            	}
-            } else {
-            	//INSERT CODE FOR MANUAL
-            	control.driver = null;
-           
-            }
+
         
         
     }
@@ -309,17 +213,17 @@ public class StatePlaying implements State {
      * for this state.
      */
 	protected void startDrawer() {
-		cr = new CompassRose();
-		cr.setPositionAndSize(Constants.VIEW_WIDTH/2,
-				(int)(0.1*Constants.VIEW_HEIGHT),35);
+        cr = new CompassRose(panel);
+        cr.setPositionAndSize(Constants.VIEW_WIDTH/2,
+                (int)(0.1*Constants.VIEW_HEIGHT),35);
 
 		firstPersonView = new FirstPersonView(Constants.VIEW_WIDTH,
 				Constants.VIEW_HEIGHT, Constants.MAP_UNIT,
-				Constants.STEP_SIZE, seenCells, maze.getRootnode()) ;
+				Constants.STEP_SIZE, seenCells, maze.getRootnode(), panel) ;
 		
 		mapView = new Map(seenCells, 15, maze) ;
-		// draw the initial screen for this state
-		draw(cd.angle(), 0);
+		//begin drawing
+        draw(cd.angle(), 0);
 	}
     /**
      * Internal method to set the current position, the direction
@@ -336,94 +240,92 @@ public class StatePlaying implements State {
      * Switches the controller to the final screen
      * @param pathLength gives the length of the path
      */
-    public void switchFromPlayingToWinning(int pathLength) {
-    	// need to instantiate and configure the winning state
-    	
-    	
-    	
-        StateWinning currentState = new StateWinning();
-        
-        if (control.robot.getRobotType().equals("unreliable")){
-    		// implement end thread methods for the unreliable sensors
-    		if (control.robot.getRobotSensor(Direction.FORWARD).getSensorType().equals("unreliable")){// stops repair thread for forward sensor if unreliable 
-    			try {
-    				control.robot.getRobotSensor(Direction.FORWARD).stopFailureAndRepairProcess();
-        		} catch (Exception e){
-        			e.printStackTrace();
-        		}
-    		}
-    		
-    		if (control.robot.getRobotSensor(Direction.LEFT).getSensorType().equals("unreliable")){// stops repair thread for left sensor if unreliable 
-    			try {
-    				control.robot.getRobotSensor(Direction.LEFT).stopFailureAndRepairProcess();
-        		} catch (Exception e){
-        			e.printStackTrace();
-        		}
-    		}
-    		
-    		if (control.robot.getRobotSensor(Direction.RIGHT).getSensorType().equals("unreliable")){// stops repair thread for right sensor if unreliable 
-    			try {
-    				control.robot.getRobotSensor(Direction.RIGHT).stopFailureAndRepairProcess();
-        		} catch (Exception e){
-        			e.printStackTrace();
-        		}
-    		}
-    		
-    		if (control.robot.getRobotSensor(Direction.BACKWARD).getSensorType().equals("unreliable")){// staops repair thread for back sensor if unreliable 
-    			try {
-    				control.robot.getRobotSensor(Direction.BACKWARD).stopFailureAndRepairProcess();
-        		} catch (Exception e){
-        			e.printStackTrace();
-        		}
-    		}
-    	}
-        
-        // The playing state needs 
-        // 1) the path length
-        // 
-        currentState.setPathLength(pathLength);
-        
-        if (pathLength == -1) {
-        	LOGGER.fine("Robot failed. Sorry you lost");
-        	
-        	 // update the context class with the new state
-            // and hand over control to the new state
-            control.setState(currentState);
-            // need to redraw panel here
-            currentState.start(control, panel, true);
-        	
-        } else {
-        	 LOGGER.fine("Control switches from playing to winning screen, game completed.");
-             
-             // update the context class with the new state
-             // and hand over control to the new state
-             control.setState(currentState);
-             currentState.start(control, panel);
-        }
-        
-       
-    }
+//    public void switchFromPlayingToWinning(int pathLength) {
+//    	// need to instantiate and configure the winning state
+//
+//        StateWinning currentState = new StateWinning();
+//
+//        if (control.robot.getRobotType().equals("unreliable")){
+//    		// implement end thread methods for the unreliable sensors
+//    		if (control.robot.getRobotSensor(Direction.FORWARD).getSensorType().equals("unreliable")){// stops repair thread for forward sensor if unreliable
+//    			try {
+//    				control.robot.getRobotSensor(Direction.FORWARD).stopFailureAndRepairProcess();
+//        		} catch (Exception e){
+//        			e.printStackTrace();
+//        		}
+//    		}
+//
+//    		if (control.robot.getRobotSensor(Direction.LEFT).getSensorType().equals("unreliable")){// stops repair thread for left sensor if unreliable
+//    			try {
+//    				control.robot.getRobotSensor(Direction.LEFT).stopFailureAndRepairProcess();
+//        		} catch (Exception e){
+//        			e.printStackTrace();
+//        		}
+//    		}
+//
+//    		if (control.robot.getRobotSensor(Direction.RIGHT).getSensorType().equals("unreliable")){// stops repair thread for right sensor if unreliable
+//    			try {
+//    				control.robot.getRobotSensor(Direction.RIGHT).stopFailureAndRepairProcess();
+//        		} catch (Exception e){
+//        			e.printStackTrace();
+//        		}
+//    		}
+//
+//    		if (control.robot.getRobotSensor(Direction.BACKWARD).getSensorType().equals("unreliable")){// staops repair thread for back sensor if unreliable
+//    			try {
+//    				control.robot.getRobotSensor(Direction.BACKWARD).stopFailureAndRepairProcess();
+//        		} catch (Exception e){
+//        			e.printStackTrace();
+//        		}
+//    		}
+//    	}
+//
+//        // The playing state needs
+//        // 1) the path length
+//        //
+//        currentState.setPathLength(pathLength);
+//
+//        if (pathLength == -1) {
+//        	LOGGER.fine("Robot failed. Sorry you lost");
+//
+//        	 // update the context class with the new state
+//            // and hand over control to the new state
+//            control.setState(currentState);
+//            // need to redraw panel here
+//            currentState.start(control, panel, true);
+//
+//        } else {
+//        	 LOGGER.fine("Control switches from playing to winning screen, game completed.");
+//
+//             // update the context class with the new state
+//             // and hand over control to the new state
+//             control.setState(currentState);
+//             currentState.start(control, panel);
+//        }
+//
+//
+//    }
     
     /**
      * Switches the controller to the initial screen.
      */
-    public void switchToTitle() {
-       	// need to instantiate and configure the title state
-        StateTitle currentState = new StateTitle();
-        
-        LOGGER.fine("Control switches from playing to title screen, game play interrupted.");
-        
-        // update the context class with the new state
-        // and hand over control to the new state
- 
-        control.setState(currentState);
-        currentState.start(control, panel);
-    }
+//    public void switchToTitle() {
+//       	// need to instantiate and configure the title state
+//        StateTitle currentState = new StateTitle();
+//
+//        LOGGER.fine("Control switches from playing to title screen, game play interrupted.");
+//
+//        // update the context class with the new state
+//        // and hand over control to the new state
+//
+//        control.setState(currentState);
+//        currentState.start(control, panel);
+//    }
     
     /**
      * The method provides an appropriate response to user keyboard input. 
      * The control calls this method to communicate input and delegate its handling.
-     * Method requires {@link #start(Control, MazePanel) start} to be
+     * Method requires {@link #start(MazePanel) start} to be
      * called before.
      * @param userInput provides the feature the user selected
      * @param value is not used in this state, exists only for consistency across State classes
@@ -448,8 +350,7 @@ public class StatePlaying implements State {
             walk(1);
             // check termination, did we leave the maze?
             if (isOutside(px,py)) {
-            	// TODO: provide actual path length
-                switchFromPlayingToWinning(0);
+//                switchFromPlayingToWinning(0);
             }
             break;
         case LEFT: // turn left
@@ -466,11 +367,11 @@ public class StatePlaying implements State {
             // check termination, did we leave the maze?
             if (isOutside(px,py)) {
             	
-                switchFromPlayingToWinning(0);
+//                switchFromPlayingToWinning(0);
             }
             break;
         case RETURNTOTITLE: // escape to title screen
-            switchToTitle();
+//            switchToTitle();
             break;
         case JUMP: // make a step forward even through a wall
         	LOGGER.fine("Jump 1 step forward");
@@ -514,20 +415,20 @@ public class StatePlaying implements State {
      * @param walkStep a counter for intermediate steps within a single step forward or backward
      */
     protected void draw(int angle, int walkStep) {
-    	 
-    	if (panel == null) {
-    		printWarning();
-    		return;
-    	}
-    	// draw the first person view and the map view if wanted
-    	firstPersonView.draw(panel, px, py, walkStep, angle, 
-    			maze.getPercentageForDistanceToExit(px, py)) ;
+
+        if (panel == null) {
+            printWarning();
+            return;
+        }
+        // draw the first person view and the map view if wanted
+        firstPersonView.draw(panel, px, py, walkStep, angle,
+                maze.getPercentageForDistanceToExit(px, py)) ;
         if (isInMapMode()) {
-			mapView.draw(panel, px, py, angle, walkStep,
-					isInShowMazeMode(),isInShowSolutionMode()) ;
-		}
-		// update the screen with the buffer graphics
-        panel.update() ;
+            mapView.draw(px, py, angle, walkStep,
+                    isInShowMazeMode(),isInShowSolutionMode(), panel) ;
+        }
+        // update the screen with the buffer graphics
+        panel.commit() ;
     }
 
     /**
@@ -535,9 +436,10 @@ public class StatePlaying implements State {
      */
     boolean printedWarning = false;
     protected void printWarning() {
-    	if (printedWarning)
-    		return;
-    	LOGGER.info("No panel for drawing during executing, dry-run game without graphics!");
+    	if (printedWarning){
+            return;
+        }
+        Log.v("Maze Playing", "No panel for drawing during executing, dry-run game without graphics!");
     	printedWarning = true;
     }
     ////////////////////////////// set methods ///////////////////////////////////////////////////////////////
@@ -672,7 +574,7 @@ public class StatePlaying implements State {
     	// in testing environments, there is sometimes no panel to draw on
     	// or the panel is unable to deliver a graphics object
     	// check this and quietly move on if drawing is impossible
-    	if ((panel == null || panel.getBufferGraphics() == null)) {
+    	if (panel == null ) {
     		printWarning();
     		return;
     	}
@@ -680,14 +582,14 @@ public class StatePlaying implements State {
     	// for guidance
     	if (maze.isFacingDeadEnd(px, py, cd)) {
         	//System.out.println("Facing deadend, help by showing solution");
-        	mapView.draw(panel, px, py, cd.angle(), 0, true, true) ;
+        	mapView.draw(px, py, cd.angle(), 0, true, true, panel) ;
         }
     	else {
     		// draw compass rose
     		cr.setCurrentDirection(cd);
-    		cr.paintComponent(panel.getBufferGraphics());
+    		cr.paintComponent(panel);
     	}
-    	panel.update();
+    	panel.commit();
     }
  
     /////////////////////// Methods for debugging ////////////////////////////////

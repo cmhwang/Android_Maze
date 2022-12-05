@@ -9,6 +9,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.Shader;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class MazePanel extends View implements P7PanelF22{
     private Canvas mazeCanvas;
     private Paint mazePaint;
     public static BitmapShader mazeShader;
+    public Typeface mazeFont;
 
     public boolean canDraw;
 
@@ -436,6 +438,15 @@ public class MazePanel extends View implements P7PanelF22{
         width = widthInput;
         height = heightInput;
 
+    }
+
+    /**
+     * helper method to set fonts
+     * @param font name
+     */
+    public void setFont(String font) {
+        mazeFont = Typeface.create(font, Typeface.BOLD);
+        mazePaint.setTypeface(mazeFont);
     }
 
 }
