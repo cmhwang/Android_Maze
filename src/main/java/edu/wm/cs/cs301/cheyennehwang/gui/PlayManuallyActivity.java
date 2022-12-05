@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
+import edu.wm.cs.cs301.cheyennehwang.generation.Maze;
+import edu.wm.cs.cs301.cheyennehwang.generation.MazeSettings;
 
 /**
  * Class: equivalent to State Play Manually
@@ -50,6 +52,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
 
     public Intent transitionToEnd;
 
+    public StatePlaying state;
 
 
     /**
@@ -62,6 +65,11 @@ public class PlayManuallyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playmanuallayout);
+
+        Maze maze = MazeSettings.getSettings().getMaze();
+        state = new StatePlaying();
+        state.setMaze(maze);
+        state.start(this, findViewById(R.id.tempBckgd));
 
         //sets up ui implementation for maze view switches
         mazeViewSwitch = (SwitchCompat) findViewById(R.id.mazewidth);
@@ -89,6 +97,8 @@ public class PlayManuallyActivity extends AppCompatActivity {
         //sets up listener for shortcut button
         skipEnd((Button) findViewById(R.id.shortcutButton));
 
+
+
     }
     /**
      * handles action listener for navigation control button
@@ -101,18 +111,22 @@ public class PlayManuallyActivity extends AppCompatActivity {
                 //increments path length and sends log based on type of button
                 if (dir == 0){
                     stepsTaken = stepsTaken + 1;
+                    state.handleUserInput(Constants.UserInput.UP, 0);
                     Log.v("Navigation Control Hit", "Forward");
                     Toast toastF = Toast.makeText(PlayManuallyActivity.this, "Forward Control Hit", Toast.LENGTH_SHORT);
                     toastF.show();
                 } else if (dir == 1){
+                    state.handleUserInput(Constants.UserInput.LEFT, 0);
                     Log.v("Navigation Control Hit", "Left");
-                    Toast toastL = Toast.makeText(PlayManuallyActivity.this, "Left Control Hit", Toast.LENGTH_SHORT);
+                    Toast toastL = Toast.makeText(PlayManuallyActivity.this, "Left Turn Control Hit", Toast.LENGTH_SHORT);
                     toastL.show();
                 } else if (dir == 2){
+                    state.handleUserInput(Constants.UserInput.RIGHT, 0);
                     Log.v("Navigation Control Hit", "Right");
-                    Toast toastR = Toast.makeText(PlayManuallyActivity.this, "Right Control Hit", Toast.LENGTH_SHORT);
+                    Toast toastR = Toast.makeText(PlayManuallyActivity.this, "Right Turn Control Hit", Toast.LENGTH_SHORT);
                     toastR.show();
                 } else {
+                    state.handleUserInput(Constants.UserInput.JUMP, 0);
                     stepsTaken = stepsTaken + 1;
                     Log.v("Navigation Control Hit", "Jump");
                     Toast toastJ = Toast.makeText(PlayManuallyActivity.this, "Jump Control Hit", Toast.LENGTH_SHORT);
