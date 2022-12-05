@@ -4,7 +4,11 @@ package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Matrix;
 import android.graphics.Path;
+import android.graphics.Shader;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -33,8 +37,13 @@ public class MazePanel extends View implements P7PanelF22{
     private Bitmap mazeBitmap;
     private Canvas mazeCanvas;
     private Paint mazePaint;
+    public static BitmapShader mazeShader;
 
     public boolean canDraw;
+
+    //for flexible view dimesnions
+    public int width;
+    public int height;
 
     /**
      * Basic constructor that sets up the maze's canvas and paints
@@ -44,7 +53,10 @@ public class MazePanel extends View implements P7PanelF22{
         mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
         mazePaint = new Paint();
+        Bitmap wallDetails = BitmapFactory.decodeResource(context.getResources(), R.drawable.forest_pic);
+        mazeShader = new BitmapShader(wallDetails, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR);
         canDraw = true;
+
 
 
     }
@@ -72,7 +84,7 @@ public class MazePanel extends View implements P7PanelF22{
     @Override
     public void commit(){
         mazeCanvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(Constants.VIEW_WIDTH, Constants.VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
 
     }
@@ -155,22 +167,22 @@ public class MazePanel extends View implements P7PanelF22{
 
         if (percentToExit < halfVar){
             mazePaint.setColor(Color.BLACK);
-            addFilledRectangle(0, 0, 1000, 500);
+            addFilledRectangle(0, 0, width, height/2);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
             mazePaint.setColor(Color.YELLOW);
-            addFilledRectangle(0, 500, 1000, 500);
+            addFilledRectangle(0,height/2, width, height/2);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         } else {
             mazePaint.setColor(Color.GRAY);
-            addFilledRectangle(0, 0, 1000, 500);
+            addFilledRectangle(0, 0, width, height/2);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
             mazePaint.setColor(Color.GREEN);
-            addFilledRectangle(0, 500, 1000, 500);
+            addFilledRectangle(0,height/2, width, height/2);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         }
@@ -383,11 +395,47 @@ public class MazePanel extends View implements P7PanelF22{
      * helper method to test that drawing methods and panel updating actually works
      */
     private void myTestImage(Canvas c){
-        addBackground(0f);
         setColor(Color.BLUE);
         addFilledOval(0, 0 , 500, 500);
 
     }
 
+    /**
+     * helper method meant to replace old add wall involving graphics
+     * @param xPoints
+     * @param yPoints
+     * @param nPoints
+     */
+    public void addWall(int[] xPoints, int[] yPoints, int nPoints) {
+        Path polygonPath = new Path();
+        mazePaint.setStrokeWidth(5);
+        Matrix shaderMatrix = new Matrix();
+        float[] points = new float[nPoints * 2];
+        for (int i = 0; i < nPoints; i++) {
+            points[i] = xPoints[i];
+            points[i+1] = yPoints[i];
+        }
+        shaderMatrix.mapPoints(points);
+        mazeShader.setLocalMatrix(shaderMatrix);
+        mazePaint.setShader(mazeShader);
+        polygonPath.moveTo(xPoints[0], yPoints[0]);
+        for (int i = 1; i < nPoints; i++) {
+            polygonPath.lineTo(xPoints[i], yPoints[i]);
+        }
+        polygonPath.close();
+        mazeCanvas.drawPath(polygonPath, mazePaint);
+
+        //resets shader back to old
+        mazePaint.setShader(null);
+    }
+
+    /**
+     * helper method to make the dimensions actaully flexible
+     */
+    public void setFlexibleDimensions(int widthInput, int heightInput){
+        width = widthInput;
+        height = heightInput;
+
+    }
 
 }
