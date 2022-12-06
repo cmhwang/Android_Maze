@@ -36,10 +36,10 @@ public class PlayManuallyActivity extends AppCompatActivity {
     public int stepsTaken = 0;
 
     public ProgressBar botRemainEnergy;
-    public int botEnergyUsed;
+    public int botEnergyUsed = 0;
 
     public SeekBar scaleSeekBar;
-    public int scaleVar;
+    public int scaleVar = 1;
 
     public SwitchCompat mazeViewSwitch;
     public boolean showMaze;
@@ -53,6 +53,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
     public Intent transitionToEnd;
 
     public StatePlaying state;
+
 
 
     /**
@@ -148,11 +149,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
                 if (isChecked){
                     showMaze = true;
+                    state.handleUserInput(Constants.UserInput.TOGGLELOCALMAP, 0);
                     Log.v("Show Maze Mode", "On");
                     Toast toastMaze = Toast.makeText(PlayManuallyActivity.this, "Show Maze Mode On", Toast.LENGTH_SHORT);
                     toastMaze.show();
                 } else {
                     showMaze = false;
+                    state.handleUserInput(Constants.UserInput.TOGGLELOCALMAP, 0);
                     Log.v("Show Maze Mode", "Off");
                     Toast toastMaze = Toast.makeText(PlayManuallyActivity.this, "Show Maze Mode Off", Toast.LENGTH_SHORT);
                     toastMaze.show();
@@ -172,11 +175,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
                 if (isChecked){
                     showSolution = true;
+                    state.handleUserInput(Constants.UserInput.TOGGLESOLUTION, 0);
                     Log.v("Show Solution Mode", "On");
                     Toast toastSln = Toast.makeText(PlayManuallyActivity.this, "Show Solution Mode On", Toast.LENGTH_SHORT);
                     toastSln.show();
                 } else {
                     showSolution = false;
+                    state.handleUserInput(Constants.UserInput.TOGGLESOLUTION, 0);
                     Log.v("Show Solution Mode", "Off");
                     Toast toastSln = Toast.makeText(PlayManuallyActivity.this, "Show Maze Mode Off", Toast.LENGTH_SHORT);
                     toastSln.show();
@@ -196,11 +201,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
                 if (isChecked){
                     showWalls = true;
+                    state.handleUserInput(Constants.UserInput.TOGGLEFULLMAP, 0);
                     Log.v("Show Walls Mode", "On");
                     Toast toastWalls = Toast.makeText(PlayManuallyActivity.this, "Show Walls Mode On", Toast.LENGTH_SHORT);
                     toastWalls.show();
                 } else {
                     showWalls = false;
+                    state.handleUserInput(Constants.UserInput.TOGGLEFULLMAP, 0);
                     Log.v("Show Walls Mode", "Off");
                     Toast toastWalls= Toast.makeText(PlayManuallyActivity.this, "Show Walls Mode Off", Toast.LENGTH_SHORT);
                     toastWalls.show();
@@ -220,6 +227,12 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar scaleBar, int i, boolean b) {
                 if (scaleBar.getProgress() == 0){
+                    int scaleDiff = scaleVar - 0;
+                    if (scaleDiff > 0){
+                        for (int a = 0; a < scaleVar; a++){
+                            state.handleUserInput(Constants.UserInput.ZOOMOUT, 0);
+                        }
+                    }
                     scaleVar = 0;
                 } else if (scaleBar.getProgress() == 1){
                     scaleVar = 1;

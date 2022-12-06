@@ -69,7 +69,7 @@
             android:layout_width="165dp"
             android:layout_height="34dp"
             android:max="10"
-            android:progress="5"
+            android:progress="0"
             android:progressBackgroundTint="#304A31"
             android:progressBackgroundTintMode="src_atop"
             android:progressTint="#304A31"

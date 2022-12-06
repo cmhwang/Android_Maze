@@ -105,7 +105,6 @@ public class StatePlaying implements State {
 
     //additional parameters needed now that no more control and robot used differently and need to be able to switch between displays
     public int stepCount;
-    public int viewDirection;
 
 
     // debug stuff

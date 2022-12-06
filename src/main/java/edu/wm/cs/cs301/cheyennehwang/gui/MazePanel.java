@@ -71,7 +71,7 @@ public class MazePanel extends View implements P7PanelF22{
         super.onDraw(canvas);
 
         Log.v("MazePanel", "Drawing maze panel");
-        myTestImage(mazeCanvas);
+//        myTestImage(mazeCanvas);
         commit(canvas);
 
 
@@ -85,9 +85,13 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void commit(){
-        mazeCanvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-        mazeBitmap = Bitmap.createBitmap(Constants.VIEW_WIDTH, Constants.VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
-        mazeCanvas = new Canvas(mazeBitmap);
+        // only create new objects in the constructor, redraw the rest
+        // in commit invalidate method which will send it to on draw
+//        mazeCanvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
+//        mazeBitmap = Bitmap.createBitmap(Constants.VIEW_WIDTH, Constants.VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
+//        mazeCanvas = new Canvas(mazeBitmap);
+        invalidate();
+
 
     }
 
@@ -98,8 +102,9 @@ public class MazePanel extends View implements P7PanelF22{
      * updates based on what's been added to the canvas
      */
     public void commit(Canvas c){
+
         c.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-        mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
+        mazeBitmap = Bitmap.createBitmap(Constants.VIEW_WIDTH, Constants.VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
 
     }
