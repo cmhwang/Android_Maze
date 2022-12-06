@@ -1,5 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.generation;
 
+import android.graphics.Color;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -123,7 +125,10 @@ public class Wall {
         seen = false;
         // determine color
 //        setColor(ColotTheme.getWallColor(distance, cc, getExtensionX()));
+        int treeColor = Color.argb(255, 180, 149, 106);
+        setColor(treeColor);
         // all fields initialized
+
     }
 
     /**
@@ -314,7 +319,8 @@ public class Wall {
      * @return the color
      */
     public int getColor() {
-        return col;
+        int treeColor = Color.argb(255, 180, 149, 106);
+        return treeColor;
     }
 
     /**
@@ -330,7 +336,8 @@ public class Wall {
          * int b = SingleRandom.getRandom().nextIntWithinInterval(20,240) ;
          * this.col = new Color(r,g,b).getRGB(); return ;
          */
-    	col = color;
+        int treeColor = Color.argb(255, 180, 149, 106);
+    	col = treeColor;
     }
     
     /**
