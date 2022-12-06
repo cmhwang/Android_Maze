@@ -349,6 +349,7 @@ public class StatePlaying implements State {
             walk(1);
             // check termination, did we leave the maze?
             if (isOutside(px,py)) {
+                activity.skipEnd();
 //                switchFromPlayingToWinning(0);
             }
             break;
@@ -367,9 +368,11 @@ public class StatePlaying implements State {
             if (isOutside(px,py)) {
             	
 //                switchFromPlayingToWinning(0);
+                activity.skipEnd();
             }
             break;
         case RETURNTOTITLE: // escape to title screen
+            activity.onBackPressed();
 //            switchToTitle();
             break;
         case JUMP: // make a step forward even through a wall
@@ -379,6 +382,9 @@ public class StatePlaying implements State {
         	if (maze.isValidPosition(px + tmpDxDy[0], py + tmpDxDy[1])) {
                 setCurrentPosition(px + tmpDxDy[0], py + tmpDxDy[1]) ;
                 draw(cd.angle(), 0) ;
+            }
+            if (isOutside(px,py)) {
+                activity.skipEnd();
             }
             break;
         case TOGGLELOCALMAP: // show local information: current position and visible walls

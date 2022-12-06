@@ -22,33 +22,14 @@
         android:layout_centerHorizontal="true" />
 
 
-    <ProgressBar
-        android:id="@+id/energyBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="384dp"
-        android:layout_height="43dp"
-        android:layout_below="@id/energyText"
-        android:progressBackgroundTint="#304A31"
-        android:progressTint="#304A31" />
-
-    <TextView
-        android:id="@+id/energyText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tempBckgd"
-        android:layout_marginTop="10dp"
-        android:text="@string/energy_txt"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#304A31"
-        android:textStyle="bold" />
-
-
     <LinearLayout
         android:id="@+id/sizeLayout"
-        android:layout_width="189dp"
-        android:layout_height="83dp"
-        android:layout_below="@id/energyBar"
-        android:layout_alignEnd="@id/energyBar"
+        android:layout_width="207dp"
+        android:layout_height="124dp"
+        android:layout_below="@id/tempBckgd"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="43dp"
+        android:layout_toEndOf="@id/navLayout"
         android:backgroundTint="#304A31"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical">
@@ -64,16 +45,40 @@
             android:textColor="#304A31"
             android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/sizeBar"
-            android:layout_width="165dp"
-            android:layout_height="34dp"
-            android:max="10"
-            android:progress="0"
-            android:progressBackgroundTint="#304A31"
-            android:progressBackgroundTintMode="src_atop"
-            android:progressTint="#304A31"
-            android:thumb="@drawable/small_dust" />
+        <LinearLayout
+            android:id="@+id/incanddecLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/incButton"
+                android:layout_width="76dp"
+                android:layout_height="62dp"
+                android:layout_gravity="left"
+                android:layout_marginRight="2dp"
+                android:background="#304A31"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/plus"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/decButton"
+                android:layout_width="76dp"
+                android:layout_height="62dp"
+                android:layout_marginLeft="2dp"
+                android:background="#304A31"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/minus"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
 
 
     </LinearLayout>
@@ -83,7 +88,7 @@
         android:layout_width="189dp"
         android:layout_height="95dp"
         android:layout_below="@id/sizeLayout"
-        android:layout_alignEnd="@id/energyBar"
+        android:layout_toRightOf="@id/navLayout"
         android:layout_marginStart="3dp"
         android:orientation="vertical">
 
@@ -116,10 +121,10 @@
 
     <LinearLayout
         android:id="@+id/showWallsLayout"
-        android:layout_width="189dp"
-        android:layout_height="98dp"
+        android:layout_width="197dp"
+        android:layout_height="85dp"
         android:layout_below="@id/showMazeLayout"
-        android:layout_alignEnd="@id/energyBar"
+        android:layout_toRightOf="@id/navLayout"
         android:orientation="vertical">
 
         <TextView
@@ -134,8 +139,8 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/wallSwitch"
-            android:layout_width="80dp"
-            android:layout_height="69dp"
+            android:layout_width="82dp"
+            android:layout_height="58dp"
             android:layout_gravity="center_horizontal|center_vertical"
             android:checked="true"
             android:shadowColor="#304A31"
@@ -149,11 +154,13 @@
 
     <LinearLayout
         android:id="@+id/showSlnLayout"
-        android:layout_width="190dp"
-        android:layout_height="92dp"
+        android:layout_width="192dp"
+        android:layout_height="95dp"
         android:layout_below="@id/showWallsLayout"
-        android:layout_alignEnd="@id/energyBar"
         android:layout_marginStart="5dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="1dp"
+        android:layout_toRightOf="@id/navLayout"
         android:orientation="vertical">
 
         <TextView
@@ -169,8 +176,8 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/slnSwitch"
-            android:layout_width="71dp"
-            android:layout_height="68dp"
+            android:layout_width="82dp"
+            android:layout_height="59dp"
             android:layout_gravity="center_horizontal"
             android:checked="true"
             android:shadowColor="#304A31"
@@ -185,14 +192,15 @@
     <LinearLayout
         android:id="@+id/navLayout"
         android:layout_width="182dp"
-        android:layout_height="368dp"
-        android:layout_below="@id/energyBar"
+        android:layout_height="393dp"
+        android:layout_below="@id/tempBckgd"
+        android:layout_marginTop="42dp"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/forwardButton"
             android:layout_width="match_parent"
-            android:layout_height="59dp"
+            android:layout_height="86dp"
             android:background="#304A31"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/forward_txt"
@@ -201,59 +209,47 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/landrLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/landrLayout">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/leftButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="82dp"
                 android:layout_height="144dp"
                 android:layout_marginTop="17dp"
                 android:background="#304A31"
                 android:text="@string/l_txt"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="bold"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/rightbutton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="82dp"
                 android:layout_height="144dp"
-                android:layout_marginTop="17dp"
                 android:layout_marginStart="17dp"
+                android:layout_marginTop="17dp"
                 android:background="#304A31"
                 android:text="@string/r_txt"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="bold"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <Button
             android:id="@+id/jumpButton"
             android:layout_width="match_parent"
-            android:layout_height="59dp"
+            android:layout_height="87dp"
+            android:layout_marginTop="17dp"
             android:background="#304A31"
             android:gravity="center_horizontal|center_vertical"
-            android:layout_marginTop="17dp"
             android:text="@string/jump_txt"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/shortcutButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:background="#30414A"
-            android:gravity="clip_horizontal|center"
-            android:text="@string/shortcut_txt"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
-
 
 
     </LinearLayout>

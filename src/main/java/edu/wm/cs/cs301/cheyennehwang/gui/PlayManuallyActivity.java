@@ -15,6 +15,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
 import edu.wm.cs.cs301.cheyennehwang.generation.Maze;
+import edu.wm.cs.cs301.cheyennehwang.generation.MazeFactory;
 import edu.wm.cs.cs301.cheyennehwang.generation.MazeSettings;
 
 /**
@@ -34,12 +35,10 @@ import edu.wm.cs.cs301.cheyennehwang.generation.MazeSettings;
 public class PlayManuallyActivity extends AppCompatActivity {
 
     public int stepsTaken = 0;
+    public int shortestPath;
 
-    public ProgressBar botRemainEnergy;
-    public int botEnergyUsed = 0;
 
     public SeekBar scaleSeekBar;
-    public int scaleVar = 1;
 
     public SwitchCompat mazeViewSwitch;
     public boolean showMaze;
@@ -71,6 +70,8 @@ public class PlayManuallyActivity extends AppCompatActivity {
         state = new StatePlaying();
         state.setMaze(maze);
         state.start(this, findViewById(R.id.tempBckgd));
+        int[] startPos = maze.getStartingPosition();
+        shortestPath = maze.getDistanceToExit(startPos[0], startPos[1]);
 
         //sets up ui implementation for maze view switches
         mazeViewSwitch = (SwitchCompat) findViewById(R.id.mazewidth);
@@ -93,14 +94,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
         setSlnView((SwitchCompat) findViewById(R.id.slnSwitch));
 
         //sets up listener for maze size scale seek bar
-        checkScale((SeekBar) findViewById(R.id.sizeBar));
-
-        //sets up listener for shortcut button
-        skipEnd((Button) findViewById(R.id.shortcutButton));
+        setMazeScale((Button) findViewById(R.id.incButton), 0);
+        setMazeScale((Button) findViewById(R.id.decButton), 1);
 
 
 
     }
+
     /**
      * handles action listener for navigation control button
      * increments path length taken var if its jump or forward button that's pressed
@@ -219,58 +219,24 @@ public class PlayManuallyActivity extends AppCompatActivity {
 
     /**
      * handles action listener for maze view scale seek bar
-     * in p7 will change animation based on input
      * sends log and toast messages based on what's selected
      */
-    public void checkScale(SeekBar scaleBar){
-        scaleBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar scaleBar, int i, boolean b) {
-                if (scaleBar.getProgress() == 0){
-                    int scaleDiff = scaleVar - 0;
-                    if (scaleDiff > 0){
-                        for (int a = 0; a < scaleVar; a++){
-                            state.handleUserInput(Constants.UserInput.ZOOMOUT, 0);
-                        }
-                    }
-                    scaleVar = 0;
-                } else if (scaleBar.getProgress() == 1){
-                    scaleVar = 1;
-                } else if (scaleBar.getProgress() == 2){
-                    scaleVar = 2;
-                } else if (scaleBar.getProgress() == 3){
-                    scaleVar = 3;
-                } else if (scaleBar.getProgress() == 4){
-                    scaleVar = 4;
-                } else if (scaleBar.getProgress() == 5){
-                    scaleVar = 5;
-                } else if (scaleBar.getProgress() == 6){
-                    scaleVar = 6;
-                } else if (scaleBar.getProgress() == 7){
-                    scaleVar = 7;
-                } else if (scaleBar.getProgress() == 8){
-                    scaleVar = 8;
-                } else if (scaleBar.getProgress() == 9){
-                    scaleVar = 9;
-                }else {
-                    scaleVar = 10;
+    public void setMazeScale(Button changeButton, int changeDir){
+        changeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (changeDir == 0){
+                    //branch for increment hit
+                    state.handleUserInput(Constants.UserInput.ZOOMIN, 0);
+                    Log.v("Maze Scale Changed", "Zoomed In");
+                    Toast toastWalls= Toast.makeText(PlayManuallyActivity.this, "Maze Zoom In", Toast.LENGTH_SHORT);
+                    toastWalls.show();
+                } else {
+                    state.handleUserInput(Constants.UserInput.ZOOMOUT, 0);
+                    Log.v("Maze Scale Changed", "Zoomed Out");
+                    Toast toastWalls= Toast.makeText(PlayManuallyActivity.this, "Maze Zoom Out", Toast.LENGTH_SHORT);
+                    toastWalls.show();
                 }
-                Log.v("Map Size Set", String.valueOf(scaleVar));
-
-                Toast toastSpeed = Toast.makeText(PlayManuallyActivity.this, "Maze Size: " + String.valueOf(scaleVar), Toast.LENGTH_SHORT);
-                toastSpeed.show();
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar loadProgressbar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar loadProgressBar) {
-
-            }
-
         });
     }
 
@@ -285,37 +251,33 @@ public class PlayManuallyActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(PlayManuallyActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
+        reset();
         finish();
 
     }
 
     /**
-     * gathers all the input data for maze playing view
-     * sends log message and toast message about the data gathered
-     * also performs the navigation into StateWinning/WinningActivity
-     * @param nextButton is the shortcut button hit
+     * Needed otherwise won't reload maze after going back one
      */
-    public void skipEnd(Button nextButton){
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //sets up seekbar for gathering robot energy used input and processes the input so it can be passed
-                botRemainEnergy = (ProgressBar) findViewById(R.id.energyBar);
-                botEnergyUsed = botRemainEnergy.getProgress();
-                Log.v("Robot Energy Used", String.valueOf(botEnergyUsed));
-                Toast toastEnergy = Toast.makeText(PlayManuallyActivity.this, "Robot Energy Used: " + String.valueOf(botEnergyUsed), Toast.LENGTH_SHORT);
-                toastEnergy.show();
+    public void reset() {
+        stepsTaken = 0;
+        state = null;
+    }
 
 
-                // does the actual transition to the next stage and passes along the needed input
-                Log.v("Switch To End Screen", "Win Screen");
-                transitionToEnd = new Intent(PlayManuallyActivity.this, WinningActivity.class);
-                transitionToEnd.putExtra("energyUsage", String.valueOf(botEnergyUsed));
-                transitionToEnd.putExtra("pathTakenLength", String.valueOf(stepsTaken));
-                transitionToEnd.putExtra("shortestLength", "100");
-                Toast toast = Toast.makeText(PlayManuallyActivity.this, "Switch to Ending Screen, Path Length Taken: " + String.valueOf(stepsTaken), Toast.LENGTH_SHORT);
-                toast.show();
-                startActivity(transitionToEnd);
-            }
-        });
+    /**
+     * called by state playing when at end
+     * colllects data for final page
+     */
+    public void skipEnd(){
+        // does the actual transition to the next stage and passes along the needed input
+        Log.v("Switch To End Screen", "Win Screen");
+        transitionToEnd = new Intent(PlayManuallyActivity.this, WinningActivity.class);
+        transitionToEnd.putExtra("energyUsage", "N/A - Manual");
+        transitionToEnd.putExtra("pathTakenLength", String.valueOf(stepsTaken));
+        transitionToEnd.putExtra("shortestLength", String.valueOf(shortestPath));
+        Toast toast = Toast.makeText(PlayManuallyActivity.this, "Switch to Ending Screen, Path Length Taken: " + String.valueOf(stepsTaken), Toast.LENGTH_SHORT);
+        toast.show();
+        startActivity(transitionToEnd);
     }
 }

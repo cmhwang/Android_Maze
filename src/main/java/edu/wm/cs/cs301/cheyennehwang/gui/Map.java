@@ -86,7 +86,7 @@ public class Map {
 		this.mapUnit = mapUnit ;
 		this.stepSize = stepSize ;
 		this.seenWalls = seenWalls ;
-		this.mapScale = mapScale >= 1 ? mapScale: 1 ; // 1 <= map_scale
+		this.mapScale = mapScale >= 5 ? mapScale: 5 ; // 1 <= map_scale
 		this.maze = maze ;
 		// correctness considerations
 		assert maze != null : "Map: maze configuration can't be null at instantiation!" ;
@@ -109,14 +109,14 @@ public class Map {
 	 * Make the map being drawn bigger on the screen
 	 */
 	public void incrementMapScale() {
-		mapScale += 1 ;
+		mapScale += 5 ;
 	}
 	
 	/**
 	 * Make the map being drawn smaller on the screen
 	 */
 	public void decrementMapScale() {
-		mapScale -= 1 ;
+		mapScale -= 5 ;
 		if (1 > mapScale)
 			mapScale = 1 ;
 	}

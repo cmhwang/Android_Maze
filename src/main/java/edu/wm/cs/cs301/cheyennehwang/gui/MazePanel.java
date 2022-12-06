@@ -55,8 +55,7 @@ public class MazePanel extends View implements P7PanelF22{
         mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
         mazePaint = new Paint();
-        Bitmap wallDetails = BitmapFactory.decodeResource(context.getResources(), R.drawable.forest_pic);
-        mazeShader = new BitmapShader(wallDetails, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR);
+        mazeShader = new BitmapShader(mazeBitmap, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR);
         canDraw = true;
 
 
