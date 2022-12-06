@@ -3,6 +3,8 @@
  */
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
+import android.graphics.Color;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -238,6 +240,8 @@ public class FirstPersonView {
 		// if dot >= 0 consider right node before left node
 		BSPNode right = n.getRightBranch();
 		if ((dot >= 0) && (boundingBoxIsVisible(right))) {
+			int treeColor = Color.argb(255, 180, 149, 106);
+			panel.setColor(treeColor);
 			drawAllVisibleSectors(right, panel);
 		}
 		// consider left node
@@ -246,6 +250,8 @@ public class FirstPersonView {
 			drawAllVisibleSectors(left, panel);
 		// if dot < 0 consider right node now (after left node)
 		if ((dot < 0) && (boundingBoxIsVisible(right))) {
+			int treeColor = Color.argb(255, 180, 149, 106);
+			panel.setColor(treeColor);
 			drawAllVisibleSectors(right, panel);
 		}
 		nesting--; // debug
@@ -370,6 +376,8 @@ public class FirstPersonView {
 		for (Wall wall: allWalls) {
 			// draw rectangle
 			Wall thisWall = allWalls.get(i);
+			int treeColor = Color.argb(255, 180, 149, 106);
+			panel.setColor(treeColor);
 			drawWall(panel, thisWall);
 			// debug
 			if (deepDebug) {
@@ -418,7 +426,8 @@ public class FirstPersonView {
 		
 		// moved code for drawing bits and pieces into yet another method to 
 		// gain more clarity on what information is actually needed
-		panel.setColor(wall.getColor());
+		int treeColor = Color.argb(255, 180, 149, 106);
+		panel.setColor(treeColor);
 		boolean drawn = drawPolygons(x1, x2, y11, y12, y21, y22, panel);
 		
 		if (drawn && !wall.isSeen()) {
@@ -498,7 +507,9 @@ public class FirstPersonView {
 			// debug
 			//dbg("polygon-x: " + xps[0] + ", " + xps[1] + ", " + xps[2] + ", " + xps[3]) ;
 			//dbg("polygon-y: " + yps[0] + ", " + yps[1] + ", " + yps[2] + ", " + yps[3]) ;
-			panel.addWall(xps, yps, 4);
+			int treeColor = Color.argb(255, 180, 149, 106);
+			panel.setColor(treeColor);
+			panel.addFilledPolygon(xps, yps, 4);
 			// for debugging purposes, code will draw a red line around polygon
 			// this makes individual walls visible
 			/*

@@ -38,9 +38,9 @@ public class ColorTheme {
 	// fixed configuration for arms
     private static final Color MAIN_COLOR = greenWM; //new Color(0.4f, 0.4f, 1.0f);
     // fixed configuration for circle surrounding arms
-    private static final Color CIRCLE_HIGHLIGHT = Color.valueOf(1.0f, 1.0f, 1.0f, 0.8f);
+    private static final Color CIRCLE_HIGHLIGHT = Color.valueOf(1.0f, 1.0f, 1.0f, 1.0f);
     //Color.decode("#115740").darker();// = new Color(1.0f, 1.0f, 1.0f, 0.8f); 
-    public static final Color CIRCLE_SHADE = Color.valueOf(1.0f, 1.0f, 1.0f, 0.3f);
+    public static final Color CIRCLE_SHADE = Color.valueOf(1.0f, 1.0f, 1.0f, 1.0f);
     //Color.decode("#115740").brighter(); //new Color(0.0f, 0.0f, 0.0f, 0.2f); 
     // fixed configuration for letters used to indicate direction
     private static final Color MARKER_COLOR = Color.valueOf(Color.BLACK);

@@ -190,7 +190,7 @@ public class Map {
 		final int mazeWidth = maze.getWidth() ;
 		final int mazeHeight = maze.getHeight() ;
 		
-		panel.setColor(Color.WHITE);
+		panel.setColor(Color.BLACK);
 		
 		// note: 1/2 of width and height is the center of the screen
 		// the whole map is centered at the current position
@@ -240,8 +240,8 @@ public class Map {
 		if (hasAVerticalWall(x, y) && 
 				(seenWalls.hasWall(x, y, CardinalDirection.West) || showMaze)) {
 			panel.setColor(seenWalls.hasWall(x, y, CardinalDirection.West) ?
-					Color.WHITE :
-					Color.GRAY);
+					Color.GREEN :
+					Color.BLACK);
 			panel.addLine(startX, startY, startX, startY - mapScale);
 		}
 	}
@@ -271,8 +271,8 @@ public class Map {
 			int startY, MazePanel panel) {
 		if (hasAHorizontalWall(x, y) && (seenWalls.hasWall(x,y, CardinalDirection.North) || showMaze) ) {
 			panel.setColor(seenWalls.hasWall(x,y, CardinalDirection.North) ?
-					Color.WHITE :
-					Color.GRAY);
+					Color.GREEN :
+					Color.BLACK);
 			panel.addLine(startX, startY, startX + mapScale, startY);
 		}
 	}
@@ -400,7 +400,8 @@ public class Map {
 	 * @param viewDY is the current viewing direction, y coordinate
 	 */
 	private void drawCurrentLocation(int viewDX, int viewDY, MazePanel panel) {
-		panel.setColor(Color.RED);
+		int personalColor = Color.argb(255, 246, 197, 244);
+		panel.setColor(personalColor);
 		// draw oval of appropriate size at the center of the screen
 		int centerX = viewWidth/2; // center x
 		int centerY = viewHeight/2; // center y
@@ -429,6 +430,8 @@ public class Map {
 		final int tipX = startX + mapToOffset(arrowLength, viewDX);
 		final int tipY = startY - mapToOffset(arrowLength, viewDY);
 		// draw main line, goes from starting (x,y) to end (tipX,tipY)
+		int personalColor = Color.argb(255, 246, 197, 244);
+		panel.setColor(personalColor);
 		panel.addLine(startX, startY, tipX, tipY);
 		// calculate length and positions for 2 lines pointing towards (tipX,tipY)
 		// find intermediate point (tmpX,tmpY) on main line
@@ -477,7 +480,7 @@ public class Map {
 		int sy = py;
 		int distance = maze.getDistanceToExit(sx, sy);
 
-		panel.setColor(Color.YELLOW);
+		panel.setColor(Color.RED);
 		
 		// while we are more than 1 step away from the final position
 		while (distance > 1) {

@@ -172,22 +172,26 @@ public class MazePanel extends View implements P7PanelF22{
         float halfVar = new Float(49.9f);
 
         if (percentToExit < halfVar){
-            mazePaint.setColor(Color.BLACK);
+            int skyColor = Color.argb(255, 197, 214, 246);
+            mazePaint.setColor(skyColor);
             addFilledRectangle(0, 0, width, height/2);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
-            mazePaint.setColor(Color.YELLOW);
+            int grassColor = Color.argb(255, 197, 246, 203);
+            mazePaint.setColor(grassColor);
             addFilledRectangle(0,height/2, width, height/2);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
         } else {
-            mazePaint.setColor(Color.GRAY);
+            int eveningColor = Color.argb(255, 246, 239, 197);
+            mazePaint.setColor(eveningColor);
             addFilledRectangle(0, 0, width, height/2);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 500, 1000, 1000, mazePaint);
 
-            mazePaint.setColor(Color.GREEN);
+            int grassColor = Color.argb(255, 197, 246, 203);
+            mazePaint.setColor(grassColor);
             addFilledRectangle(0,height/2, width, height/2);
 //            mazePaint.setStyle(Paint.Style.FILL);
 //            mazeCanvas.drawRect(0, 0, 1000, 500, mazePaint);
@@ -230,6 +234,8 @@ public class MazePanel extends View implements P7PanelF22{
     @Override
     public void addFilledPolygon(int[] xPoints, int[] yPoints, int nPoints){
         mazePaint.setStyle(Paint.Style.FILL);
+        int treeColor = Color.argb(255, 180, 149, 106);
+        mazePaint.setColor(treeColor);
 
 
         Path polyPath = new Path();
@@ -261,6 +267,8 @@ public class MazePanel extends View implements P7PanelF22{
     @Override
     public void addPolygon(int[] xPoints, int[] yPoints, int nPoints){
         mazePaint.setStyle(Paint.Style.STROKE);
+        int treeColor = Color.argb(255, 180, 149, 106);
+        mazePaint.setColor(treeColor);
 
 
         Path polyPath = new Path();
@@ -307,6 +315,7 @@ public class MazePanel extends View implements P7PanelF22{
     @Override
     public void addFilledOval(int x, int y, int width, int height){
         mazePaint.setStyle(Paint.Style.FILL);
+
 
         mazeCanvas.drawOval((float) x, (float) y, (float) (x + width), (float) (y + height), mazePaint);
     }
@@ -452,5 +461,6 @@ public class MazePanel extends View implements P7PanelF22{
         mazeFont = Typeface.create(font, Typeface.BOLD);
         mazePaint.setTypeface(mazeFont);
     }
+
 
 }
