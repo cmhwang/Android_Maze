@@ -178,7 +178,7 @@ public class StatePlayingAnimated implements State {
      * @param animationActivity provides access to the controller this state resides in
      * @param panel is part of the UI and visible on the screen, needed for drawing
      */
-    public void start(PlayAnimationActivity animationActivity, MazePanel panel) {
+    public void start(PlayAnimationActivity animationActivity, MazePanel panel, String config, String driverType) throws InterruptedException {
         assert null != maze : "StatePlaying.start: maze must exist!";
 
         started = true;
@@ -200,8 +200,66 @@ public class StatePlayingAnimated implements State {
         //to count steps
         stepCount = 0;
 
+        //handles robot and driver configurations, connect it to this control object and activity
+        robot.setController(this);
+        robot.getRobotSensor(Direction.FORWARD).setMaze(maze);
+        robot.getRobotSensor(Direction.LEFT).setMaze(maze);
+        robot.getRobotSensor(Direction.RIGHT).setMaze(maze);
+        robot.getRobotSensor(Direction.BACKWARD).setMaze(maze);
 
+        if (config.equalsIgnoreCase("Mediocre")){
+            robot.getRobotSensor(Direction.LEFT).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Direction.RIGHT).startFailureAndRepairProcess(4, 2);
 
+        } else if (config.equalsIgnoreCase("Soso")){
+            robot.getRobotSensor(Direction.FORWARD).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Direction.BACKWARD).startFailureAndRepairProcess(4, 2);
+        } else if (config.equalsIgnoreCase("shaky")){
+            robot.getRobotSensor(Direction.FORWARD).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Direction.LEFT).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Direction.RIGHT).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Direction.BACKWARD).startFailureAndRepairProcess(4, 2);
+        }
+
+        driver.setMaze(maze);
+        driver.setRobot(robot);
+
+        if (driverType.equalsIgnoreCase("Wizard")){
+            try {
+                boolean complete = driver.drive2Exit();
+                if (complete) {
+                    animationActivity.skipEnd(true, robot.getOdometerReading(),robot.getBatteryLevel());
+//                    switchFromPlayingToWinning(control.robot.getOdometerReading());
+                } else {
+                    animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
+//                    switchFromPlayingToWinning(-1);
+                }
+
+            } catch (Exception e) {
+                animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
+//                switchFromPlayingToWinning(-1);
+            }
+        } else {
+            try {
+                boolean complete = driver.drive2Exit();
+                if (complete) {
+//                    switchFromPlayingToWinning(control.robot.getOdometerReading());
+                    animationActivity.skipEnd(true, robot.getOdometerReading(), robot.getBatteryLevel());
+                } else {
+//                    switchFromPlayingToWinning(-1);
+                    animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
+                }
+
+            } catch (Exception e) {
+//                switchFromPlayingToWinning(-1);
+                animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
+            }
+        }
 
         if (panel != null) {
             startDrawer();
@@ -359,7 +417,7 @@ public class StatePlayingAnimated implements State {
                 walk(1);
                 // check termination, did we leave the maze?
                 if (isOutside(px,py)) {
-                    activity.skipEnd();
+                    activity.skipEnd(true, driver.getPathLength(), driver.getEnergyConsumption());
 //                switchFromPlayingToWinning(0);
                 }
                 break;
@@ -378,7 +436,7 @@ public class StatePlayingAnimated implements State {
                 if (isOutside(px,py)) {
 
 //                switchFromPlayingToWinning(0);
-                    activity.skipEnd();
+                  activity.skipEnd(true, driver.getPathLength(), driver.getEnergyConsumption());
                 }
                 break;
             case RETURNTOTITLE: // escape to title screen
@@ -394,7 +452,7 @@ public class StatePlayingAnimated implements State {
                     draw(cd.angle(), 0) ;
                 }
                 if (isOutside(px,py)) {
-                    activity.skipEnd();
+                    activity.skipEnd(true, robot.getOdometerReading(), robot.getBatteryLevel());
                 }
                 break;
             case TOGGLELOCALMAP: // show local information: current position and visible walls
@@ -510,7 +568,7 @@ public class StatePlayingAnimated implements State {
         LOGGER.fine("Drawing intermediate figures: angle " + angle + ", walkStep " + walkStep);
         draw(angle, walkStep) ;
         try {
-            Thread.sleep(25);
+            Thread.sleep(1000);
         } catch (Exception e) {
             // may happen if thread is interrupted
             // no reason to do anything about it, ignore exception
@@ -615,6 +673,23 @@ public class StatePlayingAnimated implements State {
     public void setRobotAndDriver(Robot r, RobotDriver d){
         robot = r;
         driver = d;
+    }
+
+    /**
+     * Helper method to return robot that is used in the automated playing mode.
+     * Null if run in the manual mode.
+     * @return the robot, may be null
+     */
+    public Robot getRobot() {
+        return robot;
+    }
+    /**
+     * helper method to return the robot driver that is used in the automated playing mode.
+     * Null if run in the manual mode.
+     * @return the driver, may be null
+     */
+    public RobotDriver getDriver() {
+        return driver;
     }
 
     /////////////////////// Methods for debugging ////////////////////////////////

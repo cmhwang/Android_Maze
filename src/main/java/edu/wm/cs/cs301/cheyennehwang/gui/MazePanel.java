@@ -236,8 +236,6 @@ public class MazePanel extends View implements P7PanelF22{
     @Override
     public void addFilledPolygon(int[] xPoints, int[] yPoints, int nPoints){
         mazePaint.setStyle(Paint.Style.FILL);
-        int treeColor = Color.argb(255, 180, 149, 106);
-        mazePaint.setColor(treeColor);
 
 
         Path polyPath = new Path();
@@ -269,9 +267,6 @@ public class MazePanel extends View implements P7PanelF22{
     @Override
     public void addPolygon(int[] xPoints, int[] yPoints, int nPoints){
         mazePaint.setStyle(Paint.Style.STROKE);
-        int treeColor = Color.argb(255, 180, 149, 106);
-        mazePaint.setColor(treeColor);
-
 
         Path polyPath = new Path();
         if (nPoints > 0){
@@ -426,22 +421,13 @@ public class MazePanel extends View implements P7PanelF22{
      * @param nPoints
      */
     public void addWall(int[] xPoints, int[] yPoints, int nPoints) {
-        Path polygonPath = new Path();
         Matrix shaderMatrix = new Matrix();
         float[] points = new float[nPoints * 2];
-        for (int i = 0; i < nPoints; i++) {
-            points[i] = xPoints[i];
-            points[i+1] = yPoints[i];
-        }
         shaderMatrix.mapPoints(points);
         mazeShader.setLocalMatrix(shaderMatrix);
         mazePaint.setShader(mazeShader);
-        polygonPath.moveTo(xPoints[0], yPoints[0]);
-        for (int i = 1; i < nPoints; i++) {
-            polygonPath.lineTo(xPoints[i], yPoints[i]);
-        }
-        polygonPath.close();
-        mazeCanvas.drawPath(polygonPath, mazePaint);
+
+        addFilledPolygon(xPoints, yPoints, nPoints);
 
         //resets shader back to old
         mazePaint.setShader(null);

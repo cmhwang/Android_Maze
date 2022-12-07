@@ -54,6 +54,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
 
 
 
+
     /**
      * Sets up any ui features that need additional specifications
      * - specfically here sets up switches for map view mode, scale view size, walls view mode, solution view mode, controls, shortcut to end button

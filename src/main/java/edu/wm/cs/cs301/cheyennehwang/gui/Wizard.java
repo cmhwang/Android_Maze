@@ -94,7 +94,6 @@ public class Wizard implements RobotDriver {
 		
 		while (!robot.hasStopped() && notReachedThisStep) {
 			notReachedThisStep = drive1Step2Exit();
-			
 		}
 		if (!notReachedThisStep) {
 			toReturn = true;
@@ -201,6 +200,7 @@ public class Wizard implements RobotDriver {
 			if (robot.hasStopped()) {
 				throw new Exception();
 			}
+
 			return toReturn;
 		}
 		
