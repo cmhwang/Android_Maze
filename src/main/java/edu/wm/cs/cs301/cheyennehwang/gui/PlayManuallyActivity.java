@@ -38,7 +38,6 @@ public class PlayManuallyActivity extends AppCompatActivity {
     public int shortestPath;
 
 
-    public SeekBar scaleSeekBar;
 
     public SwitchCompat mazeViewSwitch;
     public boolean showMaze;
@@ -66,6 +65,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playmanuallayout);
 
+        //sets up maze and drive and state
         Maze maze = MazeSettings.getSettings().getMaze();
         state = new StatePlaying();
         state.setMaze(maze);

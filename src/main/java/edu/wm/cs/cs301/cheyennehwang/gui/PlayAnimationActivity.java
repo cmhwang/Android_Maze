@@ -16,6 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
+import edu.wm.cs.cs301.cheyennehwang.generation.Maze;
+import edu.wm.cs.cs301.cheyennehwang.generation.MazeSettings;
+import edu.wm.cs.cs301.cheyennehwang.gui.Robot;
+import edu.wm.cs.cs301.cheyennehwang.gui.RobotDriver;
 
 /**
  * Class: equivalent to State Play Animation
@@ -49,7 +53,15 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
     public int playPauseCounter = 0;
 
+    public String robotType;
     public String robotConfiguration;
+
+    public int stepsTaken = 0;
+    public int shortestPath;
+
+    public StatePlayingAnimated state;
+    public RobotDriver driver;
+    public Robot robot;
 
 
     /**
@@ -63,6 +75,53 @@ public class PlayAnimationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playanimationlayout);
 
+        //sets up maze and drive and state
+        Maze maze = MazeSettings.getSettings().getMaze();
+        state = new StatePlayingAnimated();
+        state.setMaze(maze);
+        state.start(this, findViewById(R.id.tempMazeBckgd));
+        int[] startPos = maze.getStartingPosition();
+        shortestPath = maze.getDistanceToExit(startPos[0], startPos[1]);
+
+        //creates robot, set up its sensor and type, connect the robot to the state playing object
+        Intent transitionToPlay = getIntent();
+        robotConfiguration = transitionToPlay.getStringExtra("sensorConfig");
+        setSensorColor(robotConfiguration);
+        if (robotConfiguration.equalsIgnoreCase("Premium")){
+            robot = new ReliableRobot();
+
+            ReliableSensor forwardSensor = new ReliableSensor();
+            forwardSensor.setSensorDirection(Robot.Direction.FORWARD);
+            robot.addDistanceSensor(forwardSensor, Robot.Direction.FORWARD);
+
+            ReliableSensor leftSensor = new ReliableSensor();
+            leftSensor.setSensorDirection(Robot.Direction.LEFT);
+            robot.addDistanceSensor(leftSensor, Robot.Direction.LEFT);
+
+            ReliableSensor rightSensor = new ReliableSensor();
+            rightSensor.setSensorDirection(Robot.Direction.RIGHT);
+            robot.addDistanceSensor(rightSensor, Robot.Direction.RIGHT);
+
+            ReliableSensor backSensor = new ReliableSensor();
+            backSensor.setSensorDirection(Robot.Direction.BACKWARD);
+            robot.addDistanceSensor(backSensor, Robot.Direction.BACKWARD);
+        } else if (robotConfiguration.equalsIgnoreCase("Mediocre")){
+            robot = new UnreliableRobot();
+
+        }
+
+        //creates driver based on type, connects driver to state playing object, with final set method
+        robotType = transitionToPlay.getStringExtra("driver");
+        if (robotType.equalsIgnoreCase("Wizard")){
+            driver = new Wizard();
+        } else {
+            driver = new WallFollower();
+        }
+        state.setRobotAndDriver(robot, driver);
+
+
+
+
         // sets up action listener and input handler for play/pause button
         beginPlayPause((Button) findViewById(R.id.playButton));
 
@@ -75,15 +134,6 @@ public class PlayAnimationActivity extends AppCompatActivity {
         // sets up action listener for maze size scale
         checkSize((SeekBar) findViewById(R.id.mapSizeBar));
 
-        //sets robot sensor configuratoin colors
-        Intent transitionToPlay = getIntent();
-        robotConfiguration = transitionToPlay.getStringExtra("sensorConfig");
-        setSensorColor(robotConfiguration);
-
-
-        //handles shortcuts for when you want to move to winning/losing screen
-        skipEnd((Button) findViewById(R.id.skip2win), true);
-        skipEnd((Button) findViewById(R.id.skip2lose), false);
 
 
     }
@@ -189,47 +239,20 @@ public class PlayAnimationActivity extends AppCompatActivity {
     }
 
     /**
-     * gathers all the input data for maze animation watching
-     * sends log message and toast message about the data gathered
-     * also performs the navigation into WinningActivity/state winning or LosingActivity/stateLosting
-     * takes either the win or lose buttons as input, differentiates vased on winPath var
-     * @param nextButton is either the revisit or explore buttons, needed to set up action listener
-     * @param winPath boolean to represent whether a winning button chosen
+     * called by state playing when at end
+     * colllects data for final page
      */
-    public void skipEnd(Button nextButton, Boolean winPath){
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //sets up seekbar for gathering robot energy used input and processes the input so it can be passed
-                botRemainEnergy = (ProgressBar) findViewById(R.id.energyBar);
-                botEnergyUsed = botRemainEnergy.getProgress();
-                Log.v("Robot Energy Used", String.valueOf(botEnergyUsed));
-                Toast toastEnergy = Toast.makeText(PlayAnimationActivity.this, "Robot Energy Used: " + String.valueOf(botEnergyUsed), Toast.LENGTH_SHORT);
-                toastEnergy.show();
-
-                // processes input for whether we go to state winning or losing
-                if (winPath){
-                    // branch for winning choice
-                    Log.v("Switch To End Screen", "Win Version");
-                    transitionToEnd = new Intent(PlayAnimationActivity.this, WinningActivity.class);
-                    transitionToEnd.putExtra("energyUsage", String.valueOf(botEnergyUsed));
-                    transitionToEnd.putExtra("pathTakenLength", "100");
-                    transitionToEnd.putExtra("shortestLength", "100");
-                } else {
-                    // branch for losing choice
-                    Log.v("Switch To End Screen", "Win Version");
-                    transitionToEnd = new Intent(PlayAnimationActivity.this, LosingActivity.class);
-                    transitionToEnd.putExtra("energyUsage", String.valueOf(botEnergyUsed));
-                    transitionToEnd.putExtra("loseReason", "idk - p6 holder");
-                    transitionToEnd.putExtra("pathTakenLength", "100");
-                    transitionToEnd.putExtra("shortestLength", "100");
-                }
-
-                // does the actual transition to the next stage and passes along the needed input
-                Toast toast = Toast.makeText(PlayAnimationActivity.this, "Switch to Ending Screen: Won? " + String.valueOf(winPath), Toast.LENGTH_SHORT);
-                toast.show();
-                startActivity(transitionToEnd);
-            }
-        });
+    public void skipEnd(){
+        // does the actual transition to the next stage and passes along the needed input
+        // TODO: get actual input values and whether win or lose
+        Log.v("Switch To End Screen", "Win Screen");
+        transitionToEnd = new Intent(PlayAnimationActivity.this, WinningActivity.class);
+        transitionToEnd.putExtra("energyUsage", "N/A - Manual");
+        transitionToEnd.putExtra("pathTakenLength", String.valueOf(stepsTaken));
+        transitionToEnd.putExtra("shortestLength", String.valueOf(shortestPath));
+        Toast toast = Toast.makeText(PlayAnimationActivity.this, "Switch to Ending Screen, Path Length Taken: " + String.valueOf(stepsTaken), Toast.LENGTH_SHORT);
+        toast.show();
+        startActivity(transitionToEnd);
     }
 
     /**
@@ -312,6 +335,15 @@ public class PlayAnimationActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    /**
+     * helper accessor method so that the robot can be interracted with the state object
+     *
+     */
+
+    public StatePlayingAnimated getState(){
+        return state;
     }
 
 

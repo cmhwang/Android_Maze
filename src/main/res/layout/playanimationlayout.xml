@@ -166,10 +166,10 @@
 
     <LinearLayout
         android:id="@+id/sensorStatusLayout"
-        android:layout_width="162dp"
-        android:layout_height="268dp"
+        android:layout_width="163dp"
+        android:layout_height="208dp"
         android:layout_below="@id/speedLayout"
-        android:layout_marginTop="-6dp"
+        android:layout_marginTop="-23dp"
         android:orientation="vertical">
 
         <TextView
@@ -215,28 +215,6 @@
             android:text="@string/b_txt" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/skip2win"
-        android:layout_width="214dp"
-        android:layout_height="58dp"
-        android:layout_below="@id/mapSizeLayout"
-        android:layout_alignStart="@id/showMapLayout"
-        android:background="#496C88"
-        android:text="@string/skip_win_txt"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
-
-    <Button
-        android:id="@+id/skip2lose"
-        android:layout_width="211dp"
-        android:layout_height="48dp"
-        android:layout_below="@id/skip2win"
-        android:layout_alignStart="@id/showMapLayout"
-        android:background="#496C88"
-        android:text="@string/skip_lose_txt"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
 
 </RelativeLayout>
