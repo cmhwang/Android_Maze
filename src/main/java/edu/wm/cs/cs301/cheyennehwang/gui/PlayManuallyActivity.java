@@ -94,7 +94,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         //sets up listener for show solution switch
         setSlnView((SwitchCompat) findViewById(R.id.slnSwitch));
 
-        //sets up listener for maze size scale seek bar
+        //sets up listener for maze size buttons
         setMazeScale((Button) findViewById(R.id.incButton), 0);
         setMazeScale((Button) findViewById(R.id.decButton), 1);
 

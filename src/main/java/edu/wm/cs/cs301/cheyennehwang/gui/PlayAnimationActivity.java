@@ -46,8 +46,6 @@ public class PlayAnimationActivity extends AppCompatActivity {
     public int botEnergyUsed;
     public ProgressBar botRemainEnergy;
 
-    public int mapSizeVar;
-
     public boolean showMap;
 
     public Intent transitionToEnd;
@@ -104,12 +102,16 @@ public class PlayAnimationActivity extends AppCompatActivity {
         // sets up action listener for speed scale
         checkSpeed((SeekBar) findViewById(R.id.speedBar));
 
-        // sets up action listener for maze size scale
-        checkSize((SeekBar) findViewById(R.id.mapSizeBar));
+        // sets up action listener for maze size scale buttons
+        setMazeScale((Button) findViewById(R.id.incButton), 0);
+        setMazeScale((Button) findViewById(R.id.decButton), 1);
 
         botRemainEnergy = findViewById(R.id.energyBar);
 
         state.start(this, findViewById(R.id.tempMazeBckgd));
+
+        animHandler = new Handler();
+        beginAnimation();
 
     }
 
@@ -163,6 +165,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             robot.getRobotSensor(Robot.Direction.LEFT).startFailureAndRepairProcess(4, 2);
             Thread.sleep(1300);
             robot.getRobotSensor(Robot.Direction.RIGHT).startFailureAndRepairProcess(4, 2);
+            Log.v("Animation Set Up", " unreliable threads started");
 
         } else if (robotConfiguration.equalsIgnoreCase("Soso")){
             robot = new UnreliableRobot();
@@ -186,7 +189,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             robot.getRobotSensor(Robot.Direction.FORWARD).startFailureAndRepairProcess(4, 2);
             Thread.sleep(1300);
             robot.getRobotSensor(Robot.Direction.BACKWARD).startFailureAndRepairProcess(4, 2);
-
+            Log.v("Animation Set Up", " unreliable threads started");
         } else { // branch for shaky configuration
             robot = new UnreliableRobot();
 
@@ -213,6 +216,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             robot.getRobotSensor(Robot.Direction.RIGHT).startFailureAndRepairProcess(4, 2);
             Thread.sleep(1300);
             robot.getRobotSensor(Robot.Direction.BACKWARD).startFailureAndRepairProcess(4, 2);
+            Log.v("Animation Set Up", " unreliable threads started");
         }
 
         //creates driver based on type, connects driver to state playing object, with final set method
@@ -231,7 +235,32 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
         driver.setMaze(m);
         driver.setRobot(robot);
-        Log.v("Animation Set-Up", " robot and driver set up");
+        Log.v("Animation Set-Up", " robot, sensors, and driver set up");
+    }
+
+    /**
+     * method that runs the animation through a runnable
+     * basically does what control used to do with the driver object but pauses at each step so frame can be drawn
+     */
+
+    public void beginAnimation(){
+        anim = () -> {
+            try {
+                driver.drive1Step2Exit();
+                if (robot.isAtExit()) {
+                    if(robotType.equalsIgnoreCase("wizard")){
+                        ((Wizard)driver).finalDrive2End(robot.getCurrentPosition());
+                        skipEnd(true, robot.getOdometerReading(), robot.getBatteryLevel());
+                    }
+
+                }
+                else animHandler.postDelayed(anim, (long) 500);
+            } catch (Exception e) {
+                Log.w("Failure", e.toString());
+                skipEnd(false, robot.getOdometerReading(), robot.getBatteryLevel());
+            }
+        };
+        animHandler.postDelayed(anim, (long) 500);
     }
 
     /**
@@ -250,7 +279,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
     }
 
     /**
-     * handles action listener for show map button
+     * handles action listener for show maze switch
      * in p7 will change view based on what's clicked
      * sends log and toast messages based on what's pressed
      */
@@ -259,18 +288,20 @@ public class PlayAnimationActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
                 if (isChecked){
                     showMap = true;
-                    Log.v("Show Map Mode", "On");
-                    Toast toastMap = Toast.makeText(PlayAnimationActivity.this, "Show Map Mode On", Toast.LENGTH_SHORT);
-                    toastMap.show();
+                    state.handleUserInput(Constants.UserInput.TOGGLELOCALMAP, 0);
+                    Log.v("Show Maze Mode", "On");
+                    Toast toastMaze = Toast.makeText(PlayAnimationActivity.this, "Show Maze Mode On", Toast.LENGTH_SHORT);
+                    toastMaze.show();
                 } else {
                     showMap = false;
-                    Log.v("Show Map Mode", "Off");
-                    Toast toastMap = Toast.makeText(PlayAnimationActivity.this, "Show Map Mode Off", Toast.LENGTH_SHORT);
-                    toastMap.show();
+                    state.handleUserInput(Constants.UserInput.TOGGLELOCALMAP, 0);
+                    Log.v("Show Maze Mode", "Off");
+                    Toast toastMaze = Toast.makeText(PlayAnimationActivity.this, "Show Maze Mode Off", Toast.LENGTH_SHORT);
+                    toastMaze.show();
                 }
             }
         }
-    );
+        );
     }
 
     /**
@@ -301,6 +332,29 @@ public class PlayAnimationActivity extends AppCompatActivity {
         Log.v("Show Sensor Status", config);
         Toast toastConfig = Toast.makeText(PlayAnimationActivity.this, "Show Sensor Configuration" + config, Toast.LENGTH_SHORT);
         toastConfig.show();
+    }
+
+    /**
+     * handles action listener for maze view scale buttons
+     * sends log and toast messages based on what's selected
+     */
+    public void setMazeScale(Button changeButton, int changeDir){
+        changeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (changeDir == 0){
+                    //branch for increment hit
+                    state.handleUserInput(Constants.UserInput.ZOOMIN, 0);
+                    Log.v("Maze Scale Changed", "Zoomed In");
+                    Toast toastWalls= Toast.makeText(PlayAnimationActivity.this, "Maze Zoom In", Toast.LENGTH_SHORT);
+                    toastWalls.show();
+                } else {
+                    state.handleUserInput(Constants.UserInput.ZOOMOUT, 0);
+                    Log.v("Maze Scale Changed", "Zoomed Out");
+                    Toast toastWalls= Toast.makeText(PlayAnimationActivity.this, "Maze Zoom Out", Toast.LENGTH_SHORT);
+                    toastWalls.show();
+                }
+            }
+        });
     }
 
 
@@ -405,47 +459,6 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar loadProgressBar) {
-
-            }
-
-        });
-    }
-
-    /**
-     * handles action listener for map scale seek bar
-     * in p7 will change animation based on input
-     * sends log and toast messages based on what's selected
-     */
-    public void checkSize(SeekBar sizeScale){
-        sizeScale.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar sizeScale, int i, boolean b) {
-                if (sizeScale.getProgress() == 0){
-                    mapSizeVar = 0;
-                } else if (sizeScale.getProgress() == 1){
-                    mapSizeVar = 1;
-                } else if (sizeScale.getProgress() == 2){
-                    mapSizeVar= 2;
-                } else if (sizeScale.getProgress() == 3){
-                    mapSizeVar = 3;
-                } else if (sizeScale.getProgress() == 4){
-                    mapSizeVar = 4;
-                } else {
-                    mapSizeVar = 5;
-                }
-                Log.v("Map Size Set", String.valueOf(mapSizeVar));
-
-                Toast toastSize= Toast.makeText(PlayAnimationActivity.this, "Map Size: " + String.valueOf(mapSizeVar), Toast.LENGTH_SHORT);
-                toastSize.show();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar sizeScale) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar sizeScale) {
 
             }
 

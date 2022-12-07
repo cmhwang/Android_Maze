@@ -149,16 +149,39 @@
             android:textColor="#304A31"
             android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/mapSizeBar"
-            android:layout_width="165dp"
-            android:layout_height="34dp"
-            android:max="5"
-            android:progress="2"
-            android:progressBackgroundTint="#304A31"
-            android:progressBackgroundTintMode="src_atop"
-            android:progressTint="#304A31"
-            android:thumb="@drawable/small_dust" />
+        <LinearLayout
+            android:id="@+id/incanddecLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/incButton"
+                android:layout_width="76dp"
+                android:layout_height="62dp"
+                android:layout_gravity="left"
+                android:layout_marginRight="2dp"
+                android:background="#304A31"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/plus"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/decButton"
+                android:layout_width="76dp"
+                android:layout_height="62dp"
+                android:layout_marginLeft="2dp"
+                android:background="#304A31"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/minus"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

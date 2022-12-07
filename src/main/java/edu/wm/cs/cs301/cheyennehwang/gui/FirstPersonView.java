@@ -481,7 +481,7 @@ public class FirstPersonView {
 			// get one intersection for our interval[x1i,x2] with rset
 			intersect = rSet.getIntersection(x1i, x2);
 			if (null == intersect){
-				Log.v("testing", "test message");
+//				Log.v("testing", "test message");
 				break; // exit point for loop
 			}
 
