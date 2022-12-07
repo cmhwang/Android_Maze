@@ -113,6 +113,7 @@ public class StatePlayingAnimated implements State {
     public Robot robot;
 
 
+
     // debug stuff
     //private boolean deepdebug = false;
     //private boolean allVisible = false;
@@ -178,7 +179,7 @@ public class StatePlayingAnimated implements State {
      * @param animationActivity provides access to the controller this state resides in
      * @param panel is part of the UI and visible on the screen, needed for drawing
      */
-    public void start(PlayAnimationActivity animationActivity, MazePanel panel, String config, String driverType) throws InterruptedException {
+    public void start(PlayAnimationActivity animationActivity, MazePanel panel){
         assert null != maze : "StatePlaying.start: maze must exist!";
 
         started = true;
@@ -200,66 +201,37 @@ public class StatePlayingAnimated implements State {
         //to count steps
         stepCount = 0;
 
-        //handles robot and driver configurations, connect it to this control object and activity
-        robot.setController(this);
-        robot.getRobotSensor(Direction.FORWARD).setMaze(maze);
-        robot.getRobotSensor(Direction.LEFT).setMaze(maze);
-        robot.getRobotSensor(Direction.RIGHT).setMaze(maze);
-        robot.getRobotSensor(Direction.BACKWARD).setMaze(maze);
-
-        if (config.equalsIgnoreCase("Mediocre")){
-            robot.getRobotSensor(Direction.LEFT).startFailureAndRepairProcess(4, 2);
-            Thread.sleep(1300);
-            robot.getRobotSensor(Direction.RIGHT).startFailureAndRepairProcess(4, 2);
-
-        } else if (config.equalsIgnoreCase("Soso")){
-            robot.getRobotSensor(Direction.FORWARD).startFailureAndRepairProcess(4, 2);
-            Thread.sleep(1300);
-            robot.getRobotSensor(Direction.BACKWARD).startFailureAndRepairProcess(4, 2);
-        } else if (config.equalsIgnoreCase("shaky")){
-            robot.getRobotSensor(Direction.FORWARD).startFailureAndRepairProcess(4, 2);
-            Thread.sleep(1300);
-            robot.getRobotSensor(Direction.LEFT).startFailureAndRepairProcess(4, 2);
-            Thread.sleep(1300);
-            robot.getRobotSensor(Direction.RIGHT).startFailureAndRepairProcess(4, 2);
-            Thread.sleep(1300);
-            robot.getRobotSensor(Direction.BACKWARD).startFailureAndRepairProcess(4, 2);
-        }
-
-        driver.setMaze(maze);
-        driver.setRobot(robot);
-
-        if (driverType.equalsIgnoreCase("Wizard")){
-            try {
-                boolean complete = driver.drive2Exit();
-                if (complete) {
-                    animationActivity.skipEnd(true, robot.getOdometerReading(),robot.getBatteryLevel());
-//                    switchFromPlayingToWinning(control.robot.getOdometerReading());
-                } else {
-                    animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
-//                    switchFromPlayingToWinning(-1);
-                }
-
-            } catch (Exception e) {
-                animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
-//                switchFromPlayingToWinning(-1);
-            }
-        } else {
-            try {
-                boolean complete = driver.drive2Exit();
-                if (complete) {
-//                    switchFromPlayingToWinning(control.robot.getOdometerReading());
-                    animationActivity.skipEnd(true, robot.getOdometerReading(), robot.getBatteryLevel());
-                } else {
-//                    switchFromPlayingToWinning(-1);
-                    animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
-                }
-
-            } catch (Exception e) {
-//                switchFromPlayingToWinning(-1);
-                animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
-            }
-        }
+//        if (driverType.equalsIgnoreCase("Wizard")){
+//            try {
+//                boolean complete = driver.drive2Exit();
+//                if (complete) {
+//                    animationActivity.skipEnd(true, robot.getOdometerReading(),robot.getBatteryLevel());
+////                    switchFromPlayingToWinning(control.robot.getOdometerReading());
+//                } else {
+//                    animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
+////                    switchFromPlayingToWinning(-1);
+//                }
+//
+//            } catch (Exception e) {
+//                animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
+////                switchFromPlayingToWinning(-1);
+//            }
+//        } else {
+//            try {
+//                boolean complete = driver.drive2Exit();
+//                if (complete) {
+////                    switchFromPlayingToWinning(control.robot.getOdometerReading());
+//                    animationActivity.skipEnd(true, robot.getOdometerReading(), robot.getBatteryLevel());
+//                } else {
+////                    switchFromPlayingToWinning(-1);
+//                    animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
+//                }
+//
+//            } catch (Exception e) {
+////                switchFromPlayingToWinning(-1);
+//                animationActivity.skipEnd(false, robot.getOdometerReading(),robot.getBatteryLevel());
+//            }
+//        }
 
         if (panel != null) {
             startDrawer();
@@ -436,7 +408,6 @@ public class StatePlayingAnimated implements State {
                 if (isOutside(px,py)) {
 
 //                switchFromPlayingToWinning(0);
-                  activity.skipEnd(true, driver.getPathLength(), driver.getEnergyConsumption());
                 }
                 break;
             case RETURNTOTITLE: // escape to title screen

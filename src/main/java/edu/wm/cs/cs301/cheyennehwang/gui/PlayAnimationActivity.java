@@ -3,6 +3,7 @@ package edu.wm.cs.cs301.cheyennehwang.gui;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -63,6 +64,10 @@ public class PlayAnimationActivity extends AppCompatActivity {
     public RobotDriver driver;
     public Robot robot;
 
+    //handler and thread for animation
+    public Handler animHandler;
+    public Runnable anim;
+
 
 
     /**
@@ -84,7 +89,37 @@ public class PlayAnimationActivity extends AppCompatActivity {
         shortestPath = maze.getDistanceToExit(startPos[0], startPos[1]);
 
         //creates robot, set up its sensor and type, connect the robot to the state playing object
-        // code below is what controller used to do
+        try {
+            configurePieces(maze, state);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // sets up action listener and input handler for play/pause button
+        beginPlayPause((Button) findViewById(R.id.playButton));
+
+        // sets up action listener for maze switch
+        setMazeView((SwitchCompat) findViewById(R.id.mapSwitch));
+
+        // sets up action listener for speed scale
+        checkSpeed((SeekBar) findViewById(R.id.speedBar));
+
+        // sets up action listener for maze size scale
+        checkSize((SeekBar) findViewById(R.id.mapSizeBar));
+
+        botRemainEnergy = findViewById(R.id.energyBar);
+
+        state.start(this, findViewById(R.id.tempMazeBckgd));
+
+    }
+
+    /**
+     * helper method for organization: creates robot + driver objects according to specifications
+     * also connects robot and driver to state and maze pieces
+     * does what used to be done in control
+     * also starts up the unreliable threads if applicable
+     */
+    public void configurePieces(Maze m, StatePlayingAnimated animState) throws InterruptedException {
         Intent transitionToPlay = getIntent();
         robotConfiguration = transitionToPlay.getStringExtra("sensorConfig");
         setSensorColor(robotConfiguration);
@@ -125,6 +160,10 @@ public class PlayAnimationActivity extends AppCompatActivity {
             rightSensor.setSensorDirection(Robot.Direction.RIGHT);
             robot.addDistanceSensor(rightSensor, Robot.Direction.RIGHT);
 
+            robot.getRobotSensor(Robot.Direction.LEFT).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Robot.Direction.RIGHT).startFailureAndRepairProcess(4, 2);
+
         } else if (robotConfiguration.equalsIgnoreCase("Soso")){
             robot = new UnreliableRobot();
 
@@ -144,6 +183,10 @@ public class PlayAnimationActivity extends AppCompatActivity {
             rightSensor.setSensorDirection(Robot.Direction.RIGHT);
             robot.addDistanceSensor(rightSensor, Robot.Direction.RIGHT);
 
+            robot.getRobotSensor(Robot.Direction.FORWARD).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Robot.Direction.BACKWARD).startFailureAndRepairProcess(4, 2);
+
         } else { // branch for shaky configuration
             robot = new UnreliableRobot();
 
@@ -162,6 +205,14 @@ public class PlayAnimationActivity extends AppCompatActivity {
             UnreliableSensor rightSensor = new UnreliableSensor();
             rightSensor.setSensorDirection(Robot.Direction.RIGHT);
             robot.addDistanceSensor(rightSensor, Robot.Direction.RIGHT);
+
+            robot.getRobotSensor(Robot.Direction.FORWARD).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Robot.Direction.LEFT).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Robot.Direction.RIGHT).startFailureAndRepairProcess(4, 2);
+            Thread.sleep(1300);
+            robot.getRobotSensor(Robot.Direction.BACKWARD).startFailureAndRepairProcess(4, 2);
         }
 
         //creates driver based on type, connects driver to state playing object, with final set method
@@ -172,31 +223,15 @@ public class PlayAnimationActivity extends AppCompatActivity {
             driver = new WallFollower();
         }
         state.setRobotAndDriver(robot, driver);
+        robot.setController(state);
+        robot.getRobotSensor(Robot.Direction.FORWARD).setMaze(m);
+        robot.getRobotSensor(Robot.Direction.LEFT).setMaze(m);
+        robot.getRobotSensor(Robot.Direction.RIGHT).setMaze(m);
+        robot.getRobotSensor(Robot.Direction.BACKWARD).setMaze(m);
 
-        try {
-            state.start(this, findViewById(R.id.tempMazeBckgd), robotConfiguration, robotType);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-        // sets up action listener and input handler for play/pause button
-        beginPlayPause((Button) findViewById(R.id.playButton));
-
-        // sets up action listener for maze switch
-        setMazeView((SwitchCompat) findViewById(R.id.mapSwitch));
-
-        // sets up action listener for speed scale
-        checkSpeed((SeekBar) findViewById(R.id.speedBar));
-
-        // sets up action listener for maze size scale
-        checkSize((SeekBar) findViewById(R.id.mapSizeBar));
-
-        botRemainEnergy = findViewById(R.id.energyBar);
-
-
-
-
+        driver.setMaze(m);
+        driver.setRobot(robot);
+        Log.v("Animation Set-Up", " robot and driver set up");
     }
 
     /**
