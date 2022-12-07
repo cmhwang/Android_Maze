@@ -1,5 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.generation;
 
+import android.util.Log;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Iterator;
@@ -661,14 +663,14 @@ public class Floorplan {
         // check conditions
         // warning: step 2 could range for sx, sy such that starting point may be at -1,
         // but this does not happen
-        assert (0 <= sx && sx < width) : "Starting position for x must be in range";
-        assert (0 <= sy && sy < height) : "Starting position for y must be in range";
+        assert (0 <= sx && sx < width) : Log.e("Error Test", "x start error") ;
+        assert (0 <= sy && sy < height) :Log.e("Error Test", "y start error");
         assert (sdsx != 0 && sdsy == 0) || (sdsx == 0 && sdsy != 0)
             : "Wall needs to extend into exactly one direction";
         // note: step 2 possibly changes range for sx, sy such that end point may be at -1
         // this does happen, for loop below does not go to full length
-        assert ((-1 <= sx + sdsx*len) && (sx + sdsx*len <= width)) : "End position for x must be in range";
-        assert ((-1 <= sy + sdsy*len) && (sy + sdsy*len <= height)) : "End position for y must be in range";
+        assert ((-1 <= sx + sdsx*len) && (sx + sdsx*len <= width)) : Log.e("Error Test", "x end error");
+        assert ((-1 <= sy + sdsy*len) && (sy + sdsy*len <= height)) : Log.e("Error Test", "y end error");
         
         // Step 3: add wallboard information to this cells object for each wallboard in wall
         Wallboard wallboard = new Wallboard(0,0,CardinalDirection.East) ; // initial values don't matter

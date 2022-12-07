@@ -261,6 +261,8 @@ public class StatePlayingAnimated implements State {
                 Constants.STEP_SIZE, seenCells, maze.getRootnode(), panel) ;
 
         mapView = new Map(seenCells, 15, maze) ;
+
+
         //begin drawing
         draw(cd.angle(), 0);
     }

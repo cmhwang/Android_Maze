@@ -40,7 +40,6 @@ import edu.wm.cs.cs301.cheyennehwang.gui.RobotDriver;
 
 public class PlayAnimationActivity extends AppCompatActivity {
 
-    public int playSpeed;
     public SeekBar playSpeedBar;
 
     public int botEnergyUsed;
@@ -65,6 +64,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
     //handler and thread for animation
     public Handler animHandler;
     public Runnable anim;
+    public long playSpeed = 1600;
 
 
 
@@ -106,6 +106,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         setMazeScale((Button) findViewById(R.id.incButton), 0);
         setMazeScale((Button) findViewById(R.id.decButton), 1);
 
+
         botRemainEnergy = findViewById(R.id.energyBar);
 
         state.start(this, findViewById(R.id.tempMazeBckgd));
@@ -124,7 +125,6 @@ public class PlayAnimationActivity extends AppCompatActivity {
     public void configurePieces(Maze m, StatePlayingAnimated animState) throws InterruptedException {
         Intent transitionToPlay = getIntent();
         robotConfiguration = transitionToPlay.getStringExtra("sensorConfig");
-        setSensorColor(robotConfiguration);
         if (robotConfiguration.equalsIgnoreCase("Premium")){
             robot = new ReliableRobot();
 
@@ -244,23 +244,30 @@ public class PlayAnimationActivity extends AppCompatActivity {
      */
 
     public void beginAnimation(){
+        // checks that animation runnable isn't already running, then begins running
         anim = () -> {
             try {
                 driver.drive1Step2Exit();
+                setEnergyUsed(driver.getEnergyConsumption());
+                setSensorColor(robot);
                 if (robot.isAtExit()) {
                     if(robotType.equalsIgnoreCase("wizard")){
                         ((Wizard)driver).finalDrive2End(robot.getCurrentPosition());
-                        skipEnd(true, robot.getOdometerReading(), robot.getBatteryLevel());
+                        Log.w("You Won!", " Congratulations!");
+                        skipEnd(true, robot.getOdometerReading(), driver.getEnergyConsumption());
                     }
 
                 }
-                else animHandler.postDelayed(anim, (long) 500);
+                else {
+                    animHandler.postDelayed(anim, playSpeed);
+                }
             } catch (Exception e) {
                 Log.w("Failure", e.toString());
                 skipEnd(false, robot.getOdometerReading(), robot.getBatteryLevel());
             }
         };
-        animHandler.postDelayed(anim, (long) 500);
+        //handles the pausing
+        animHandler.postDelayed(anim, playSpeed);
     }
 
     /**
@@ -307,30 +314,48 @@ public class PlayAnimationActivity extends AppCompatActivity {
     /**
      * handles setting up the sensor status visualization
      * sends log and toast messages based on what is set
+     * r is the robot object to act on
      */
-    public void setSensorColor(String config){
+    public void setSensorColor(Robot r){
         Button frontButton = (Button) findViewById(R.id.frontSensorStatus);
         Button leftButton = (Button) findViewById(R.id.leftSensorStatus);
         Button rightButton = (Button) findViewById(R.id.rightSensorStatus);
         Button backButton = (Button) findViewById(R.id.backSensorStatus);
 
-        if (config.equalsIgnoreCase("Premium")){
-            // nothing here cuz default background is green
-
-        } else if (config.equalsIgnoreCase("Mediocre")){
-            leftButton.setBackgroundColor(0xFFFF0000);
-            rightButton.setBackgroundColor(0xFFFF0000);
-        } else if (config.equalsIgnoreCase("Soso")){
+        if (r.getRobotSensor(Robot.Direction.FORWARD).checkRepairStatus()){
+            // branch if forward sensor is down for repair
             frontButton.setBackgroundColor(0xFFFF0000);
+        } else {
+            // branch if forward sensor not down for repair
+            frontButton.setBackgroundColor(0xFF304A31);
+        }
+
+        if (r.getRobotSensor(Robot.Direction.LEFT).checkRepairStatus()){
+            // branch if forward sensor is down for repair
+            leftButton.setBackgroundColor(0xFFFF0000);
+        } else {
+            // branch if forward sensor not down for repair
+            leftButton.setBackgroundColor(0xFF304A31);
+        }
+
+        if (r.getRobotSensor(Robot.Direction.RIGHT).checkRepairStatus()){
+            // branch if forward sensor is down for repair
+            rightButton.setBackgroundColor(0xFFFF0000);
+        } else {
+            // branch if forward sensor not down for repair
+            rightButton.setBackgroundColor(0xFF304A31);
+        }
+
+        if (r.getRobotSensor(Robot.Direction.BACKWARD).checkRepairStatus()){
+            // branch if forward sensor is down for repair
             backButton.setBackgroundColor(0xFFFF0000);
         } else {
-            frontButton.setBackgroundColor(0xFFFF0000);
-            backButton.setBackgroundColor(0xFFFF0000);
-            leftButton.setBackgroundColor(0xFFFF0000);
-            rightButton.setBackgroundColor(0xFFFF0000);
+            // branch if forward sensor not down for repair
+            backButton.setBackgroundColor(0xFF304A31);
         }
-        Log.v("Show Sensor Status", config);
-        Toast toastConfig = Toast.makeText(PlayAnimationActivity.this, "Show Sensor Configuration" + config, Toast.LENGTH_SHORT);
+
+        Log.v("Show Sensor Status", "Updated");
+        Toast toastConfig = Toast.makeText(PlayAnimationActivity.this, "Show Sensor Configuration", Toast.LENGTH_SHORT);
         toastConfig.show();
     }
 
@@ -434,17 +459,17 @@ public class PlayAnimationActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar speedScale, int i, boolean b) {
                 if (speedScale.getProgress() == 0){
-                    playSpeed = 0;
+                    playSpeed = (long) 400;
                 } else if (speedScale.getProgress() == 1){
-                    playSpeed = 1;
+                    playSpeed = (long) 800;
                 } else if (speedScale.getProgress() == 2){
-                    playSpeed = 2;
+                    playSpeed = (long) 1200;
                 } else if (speedScale.getProgress() == 3){
-                    playSpeed = 3;
+                    playSpeed = (long) 1600;
                 } else if (speedScale.getProgress() == 4){
-                    playSpeed = 4;
+                    playSpeed = (long) 2000;
                 } else {
-                    playSpeed = 5;
+                    playSpeed = (long) 2400;
                 }
                 Log.v("Animation Speed Set", String.valueOf(playSpeed));
 
@@ -478,8 +503,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
      * method to update energy usage bar
      * called on in stateplaying to update
      */
-    public void setEnergyUsed(int energyVal){
-        botRemainEnergy.setProgress(energyVal);
+    public void setEnergyUsed(float energyVal){
+        int temp = (int) energyVal;
+        botRemainEnergy.setProgress(temp);
     }
 
 

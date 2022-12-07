@@ -103,10 +103,9 @@ public class MazePanel extends View implements P7PanelF22{
      * updates based on what's been added to the canvas
      */
     public void commit(Canvas c){
-
         c.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-        mazeBitmap = Bitmap.createBitmap(Constants.VIEW_WIDTH, Constants.VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
-        mazeCanvas = new Canvas(mazeBitmap);
+//        mazeBitmap = Bitmap.createBitmap(Constants.VIEW_WIDTH, Constants.VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
+//        mazeCanvas = new Canvas(mazeBitmap);
 
     }
 
@@ -266,6 +265,7 @@ public class MazePanel extends View implements P7PanelF22{
      */
     @Override
     public void addPolygon(int[] xPoints, int[] yPoints, int nPoints){
+        //can make add polygon one class with an additional style parameter
         mazePaint.setStyle(Paint.Style.STROKE);
 
         Path polyPath = new Path();
@@ -426,6 +426,7 @@ public class MazePanel extends View implements P7PanelF22{
         shaderMatrix.mapPoints(points);
         mazeShader.setLocalMatrix(shaderMatrix);
         mazePaint.setShader(mazeShader);
+        mazePaint.setStyle(Paint.Style.FILL);
 
         addFilledPolygon(xPoints, yPoints, nPoints);
 

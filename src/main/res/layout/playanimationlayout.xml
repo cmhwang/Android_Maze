@@ -28,6 +28,8 @@
         android:layout_width="384dp"
         android:layout_height="43dp"
         android:layout_below="@id/energyText"
+        android:max="3500"
+        android:progress="0"
         android:progressBackgroundTint="#304A31"
         android:progressTint="#304A31" />
 
@@ -80,7 +82,7 @@
             android:layout_width="165dp"
             android:layout_height="34dp"
             android:max="5"
-            android:progress="2"
+            android:progress="3"
             android:progressBackgroundTint="#304A31"
             android:progressBackgroundTintMode="src_atop"
             android:progressTint="#304A31"
