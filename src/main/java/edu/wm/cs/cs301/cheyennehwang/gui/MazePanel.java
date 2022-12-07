@@ -55,7 +55,9 @@ public class MazePanel extends View implements P7PanelF22{
         mazeBitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         mazeCanvas = new Canvas(mazeBitmap);
         mazePaint = new Paint();
-        mazeShader = new BitmapShader(mazeBitmap, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR);
+
+        Bitmap image = BitmapFactory.decodeResource(context.getResources(), R.drawable.forest_pic);
+        mazeShader = new BitmapShader(image, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR);
         canDraw = true;
 
 
@@ -417,13 +419,14 @@ public class MazePanel extends View implements P7PanelF22{
 
     /**
      * helper method meant to replace old add wall involving graphics
+     * meant to translate over directly
+     * also allows for shader to be set without interfering with drawing of non-wall polygons
      * @param xPoints
      * @param yPoints
      * @param nPoints
      */
     public void addWall(int[] xPoints, int[] yPoints, int nPoints) {
         Path polygonPath = new Path();
-        mazePaint.setStrokeWidth(5);
         Matrix shaderMatrix = new Matrix();
         float[] points = new float[nPoints * 2];
         for (int i = 0; i < nPoints; i++) {

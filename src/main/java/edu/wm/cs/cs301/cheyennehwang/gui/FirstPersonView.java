@@ -4,6 +4,7 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -479,8 +480,11 @@ public class FirstPersonView {
 			// that are not covered by a polygon yet
 			// get one intersection for our interval[x1i,x2] with rset
 			intersect = rSet.getIntersection(x1i, x2);
-			if (null == intersect)
+			if (null == intersect){
+				Log.v("testing", "test message");
 				break; // exit point for loop
+			}
+
 			x1i = intersect[0]; // progress: can not be less than previous x1i
 			x2i = intersect[1]; // x1i <= x2i 
 			// draw polygon for intersection (x1i,x2i) on x-axis
@@ -509,7 +513,7 @@ public class FirstPersonView {
 			//dbg("polygon-y: " + yps[0] + ", " + yps[1] + ", " + yps[2] + ", " + yps[3]) ;
 			int treeColor = Color.argb(255, 180, 149, 106);
 			panel.setColor(treeColor);
-			panel.addFilledPolygon(xps, yps, 4);
+			panel.addWall(xps, yps, 4);
 			// for debugging purposes, code will draw a red line around polygon
 			// this makes individual walls visible
 			/*

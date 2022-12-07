@@ -1,6 +1,5 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
-import static org.junit.Assert.assertTrue;
 
 import edu.wm.cs.cs301.cheyennehwang.generation.CardinalDirection;
 import edu.wm.cs.cs301.cheyennehwang.gui.Constants.UserInput;
@@ -12,34 +11,34 @@ import edu.wm.cs.cs301.cheyennehwang.gui.Robot.Direction;
  * interaction with driver algorithms (wizard, wall-follower, etc): robot's decisions controlled by this algorithm, the robot is the body for the driver that acts as a brain
  * interaction with distance sensor class: uses distance sensor to avoid crashing into walls, if a wall is crashed into the game is over
  * This specific robot is like ReliableRobot but it has handling features for unreliable sensors
- * 
+ *
  * has a sensor feature that utilizes the distance sensor
  * can sense directions, whether its in a room, if its in an exit position
  * UnreliableRobot can use unreliable sensors or reliable sensors
- * 
+ *
  * can move through actuators
  * can move forward, turn, or jump - all of which take energy
- * 
+ *
  * has an energy variable/element that decreases with any movement or sensing process
  * if it runs out of energy the game is over and the robot loses
- * 
+ *
  * @author Cheyenne Hwang
  *
  */
 
 public class UnreliableRobot implements Robot {
-	
+
 	public StatePlayingAnimated controller;
 	public float energyLevel;
 	public int odometerReading;
 	public boolean isDead;
-	
-	
+
+
 	public DistanceSensor forwardSensor;
 	public DistanceSensor leftSensor;
 	public DistanceSensor rightSensor;
 	public DistanceSensor backSensor;
-	
+
 	public String robotType = "unreliable";
 
 	/**
@@ -52,11 +51,11 @@ public class UnreliableRobot implements Robot {
 		isDead = false;
 		energyLevel = (float) 3500;
 		odometerReading = 0;
-		
+
 		robotType = "unreliable";
 
 	}
-	
+
 	/**
 	 * part of class coordination: specifies to the robot what control object to work with
 	 * @throw exceptions if controller no, wrong playing state, or if there is no maze for the controller
@@ -77,7 +76,7 @@ public class UnreliableRobot implements Robot {
 		}
 
 	}
-	
+
 	/**
 	 * adjusting method to add actual distance sensor to the robot so that it can measure distance to wall in the given direction
 	 * used for initial setup of robot to get ready for drive
@@ -94,7 +93,7 @@ public class UnreliableRobot implements Robot {
 		// parameters: takes the sensor to be added and the relative direction
 		// CONSIDER: actually do this action somewhere in this class not in the generation part so that I can test
 		// has assert statement on to do sanity check that final direction option is actually right
-		
+
 		if (sensor == null || mountedDirection == null) {
 			throw new IllegalArgumentException();
 		} else if (mountedDirection == Direction.FORWARD) {
@@ -109,7 +108,7 @@ public class UnreliableRobot implements Robot {
 		}
 
 	}
-	
+
 	/**
 	 * info accessor method that gives the current position of the robot in x,y coordinates in the same format as the maze/floorplan
 	 *  @return: the array of length 2 that represents the current position within the maze
@@ -121,17 +120,17 @@ public class UnreliableRobot implements Robot {
 		// how it works: will pull from the robot's instance variable for position
 		// returns the array of length 2 that represents the current position within the maze
 		// will throw exception if position is not within maze or some kind of robot failure
-		
+
 		int[] toReturn = controller.getCurrentPosition();
-		
+
 		if (!((toReturn[0] >= 0) && (toReturn[0] < controller.getMaze().getWidth()) && (toReturn[1] >= 0) && (toReturn[1] < controller.getMaze().getHeight()))) {
 			throw new Exception();
 		} else {
 			return toReturn;
 		}
-		
+
 	}
-	
+
 	/**
 	 * info accessor method that gives the current direction the robot is facing (not relative but cardinal)
 	 * @return: the cardinal direction the robot is facing
@@ -143,11 +142,11 @@ public class UnreliableRobot implements Robot {
 		// how it works: will pull from the robot's instance variable for current direction faced
 		// returns the cardinal direction the robot is facing
 		// having this helper method will speed up process of translating to relative direction
-		
+
 		return controller.getCurrentDirection();
 	}
-	
-	
+
+
 	/**
 	 * info accessor method that gives the current battery/energy level of the robot
 	 * @return if battery > 0 then it will return energy level as a float or if battery is 0 or below 0 will call hasStopped and set it to true
@@ -155,17 +154,17 @@ public class UnreliableRobot implements Robot {
 	@Override
 	public float getBatteryLevel() {
 		// info accessor method that gives the current battery/energy level of the robot
-		// how it works: will pull from the robot's instance variable for energy level, 
+		// how it works: will pull from the robot's instance variable for energy level,
 		// returns: if battery > 0 then it will return energy level as a float
 		// or if battery is 0 or below 0 will call hasStopped and set it to true
 		if (energyLevel <= 0) {
 			isDead = true;
-			
+
 		}
-		return energyLevel;	
+		return energyLevel;
 	}
-	
-	
+
+
 	/**
 	 * variable adjustor method that will change the battery level of the robot to the paramter
 	 * helper method that takes the energy level bot should be at after action called as input, used by other methods to adjust
@@ -181,7 +180,7 @@ public class UnreliableRobot implements Robot {
 		// if battery falls below 0 then stops robot by setting hasStopped() to true
 		// parameter: a float representing what the level should be
 		// throws exception if level negative
-		
+
 		if (level < 0) {
 			throw new IllegalArgumentException();
 		}else {
@@ -190,11 +189,11 @@ public class UnreliableRobot implements Robot {
 				isDead = true;
 			}
 		}
-		
-		
+
+
 	}
-	
-	
+
+
 	/**
 	 * info accessor method for getting the amount of energy used by the robot after a full rotation
 	 * will be called when rotation needed: this return var will be divided by 2, 3, or 4 depending on how much rotation needed in another methods
@@ -206,11 +205,11 @@ public class UnreliableRobot implements Robot {
 		// how it works: calculates the energy for full rotation
 		// will be called when rotation needed: this return var will be divided by 2, 3, or 4 depending on how much rotation needed in another methods
 		// returns a float that represents the energy used for a full rotation
-		
+
 		return (float) 12;
 	}
-	
-	
+
+
 	/**
 	 * info accessing method that gives the energy consumed for moving forward one step
 	 * how it will be called on: for the drive method or drive1step, this will be called, multiplied, and utilized to represent the energy used by that drive (in addition to other energy used for other functions)
@@ -222,11 +221,11 @@ public class UnreliableRobot implements Robot {
 		// how it works: just returns energy amount needed for one movement forward
 		// how it will be called on: for the drive method or drive1step, this will be called, multiplied, and utilized to represent the energy used by that drive (in addition to other energy used for other functions)
 		// returns a float to represent energy for just a step forward
-		
+
 		return (float) 6;
 	}
-	
-	
+
+
 	/**
 	 *  info accessing method that gives the the distance traveled by the robot - acts as an odomoter
 	 *  @return the distance traveled measured in cells traversed
@@ -238,11 +237,11 @@ public class UnreliableRobot implements Robot {
 		// how it will be called: driver methods will call on these to calculate the distance moved from that path, will gelp the energy level calculator methods
 		// can be reset with other method
 		// returns the distance traveled measured in cells traversed
-		
+
 		return odometerReading;
 	}
-	
-	
+
+
 	/**
 	 * info adjustor method that resets odometer reading to 0
 	 * how it will be called: needed at start of game
@@ -252,11 +251,11 @@ public class UnreliableRobot implements Robot {
 		// info adjustor method that resets odometer reading to 0
 		// how it works: adjusts the instance var pack to 0
 		// how it will be called: needed at start of game
-		
+
 		odometerReading = 0;
 	}
-	
-	 
+
+
 	/**
 	 * adjustor method that turns the robot on spot for amount of degrees
 	 * @param turn is the direction to turn towards relative to fromt
@@ -271,47 +270,47 @@ public class UnreliableRobot implements Robot {
 		// reminder: update energy level here
 		// will stop if out of energy - how it will work is that it will check hasStopped() to see if enough energy to do
 		// has assert statement on to do sanity check that final distance option is actually east
-		
-		
+
+
 		if (turn == Turn.LEFT) {
 			energyLevel = energyLevel - (getEnergyForFullRotation()/(float)3);
-			
+
 			if (energyLevel <= 0) {
 				isDead = true;
 			} else {
-				controller.handleKeyboardInput(UserInput.LEFT, 0);
-			}		
-			
+				controller.handleUserInput(UserInput.LEFT, 0);
+			}
+
 		} else if (turn == Turn.RIGHT) {
 			energyLevel = energyLevel - (getEnergyForFullRotation()/(float)3);
-			
+
 			if (energyLevel <= 0) {
 				isDead = true;
 			} else {
-				controller.handleKeyboardInput(UserInput.RIGHT, 0);
+				controller.handleUserInput(UserInput.RIGHT, 0);
 			}
-			
+
 		} else {
 			assert turn == Turn.AROUND : "Last remaining turn option";
 			energyLevel = energyLevel - (getEnergyForFullRotation()/(float)2);
-			
+
 			if (energyLevel <= 0) {
 				isDead = true;
 			} else {
-				controller.handleKeyboardInput(UserInput.LEFT, 0);
-				controller.handleKeyboardInput(UserInput.LEFT, 0);
+				controller.handleUserInput(UserInput.LEFT, 0);
+				controller.handleUserInput(UserInput.LEFT, 0);
 			}
-			
+
 		}
 
 	}
-	
+
 	/**
 	 * adjustor method that turns moves robot forward a given number of steps/cells
 	 * special cases: if sensor down for repair then waits until repair over
 	 * special cases: if energy runs out stops (does this through checking hasStopped or battery level
 	 * special cases: if robot hits wall then adjusts has stopped to end game
-	 * @param takes an int distance to move forward that amount, given by driver/distance sensor
+	 * @param distance takes an int distance to move forward that amount, given by driver/distance sensor
 	 * @throw exception if distance negative
 	 */
 	@Override
@@ -325,7 +324,7 @@ public class UnreliableRobot implements Robot {
 		// parameter: takes an int distance to move forward that amount, given by driver/distance sensor
 		// throws exception if distance negative
 		// has assert statement on to do sanity check that final distance option is actually east
-		
+
 		if (distance < 0) {
 			throw new IllegalArgumentException();
 		} else if (distance > 0) {
@@ -345,20 +344,20 @@ public class UnreliableRobot implements Robot {
 					if (energyLevel <= 0) { // CHECK ON THIS
 						isDead = true;
 					} else {
-						controller.handleKeyboardInput(UserInput.UP, 0); 
+						controller.handleUserInput(UserInput.UP, 0);
 						odometerReading = odometerReading + 1;
-						
+
 					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 
 	}
-	
-	
+
+
 	/**
 	 * adjustor method that makes robot move in a forward direction even if there is a wall in front
 	 * functionally forces robot to jump it, distance is 1 step and direction is forward
@@ -373,15 +372,15 @@ public class UnreliableRobot implements Robot {
 		// special case: if tries to jump border then stay in location and trigger has stopped
 		// how it works: just moves it forward one, will be called by move/driving methods to assist
 		// has assert statement on to do sanity check that final distance option is actually east
-		
+
 		energyLevel = energyLevel - 40;
 		if (energyLevel <= 0) { // case for if energy dies
 			isDead = true;
 		} else {
 			try {
 				int[] curPos = getCurrentPosition();
-				
-				
+
+
 				if (curPos[1] == 0 && getCurrentDirection() == CardinalDirection.North) {// cases for if jump over border
 					isDead = true;
 				} else if (curPos[0] == 0 && getCurrentDirection() == CardinalDirection.West) {// cases for if jump over border
@@ -392,32 +391,32 @@ public class UnreliableRobot implements Robot {
 					isDead = true;
 				} else {
 					if (getCurrentDirection() == CardinalDirection.North) {
-						controller.handleKeyboardInput(UserInput.UP, 0);
+						controller.handleUserInput(UserInput.UP, 0);
 						odometerReading = odometerReading + 1;
-						
+
 					} else if (getCurrentDirection() == CardinalDirection.West) {
-						controller.handleKeyboardInput(UserInput.UP, 0);
+						controller.handleUserInput(UserInput.UP, 0);
 						odometerReading = odometerReading + 1;
-						
+
 					} else if (getCurrentDirection() == CardinalDirection.South) {
-						controller.handleKeyboardInput(UserInput.UP, 0);
+						controller.handleUserInput(UserInput.UP, 0);
 						odometerReading = odometerReading + 1;
-						
+
 					} else {
 						assert getCurrentDirection() == CardinalDirection.East : "No direction is correct here";
-						controller.handleKeyboardInput(UserInput.UP, 0);
+						controller.handleUserInput(UserInput.UP, 0);
 						odometerReading = odometerReading + 1;
 					}
 				}
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 
 	}
-	
+
 	/**
 	 * info retrieval method that tells if the current position is at maze
 	 * note: doesn't guarantee right direction
@@ -435,10 +434,10 @@ public class UnreliableRobot implements Robot {
 		} else {
 			return false;
 		}
-		
+
 	}
-	
-	
+
+
 	/**
 	 * info retrieval method that tells if the current position is in maze
 	 * @return boolean true if robot is in room, false otherwise
@@ -448,17 +447,17 @@ public class UnreliableRobot implements Robot {
 		// info retrieval method that tells if the current position is in maze
 		// how it works: works with controller var to examine floorplan and uses current position var to check if in room
 		// returns true if robot is in room, false otherwise
-		
+
 		int[] position = controller.getCurrentPosition();
-		
+
 		if (controller.getMaze().isInRoom(position[0], position[1])) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	
+
+
 	/**
 	 * info retrieval method that tells if robot has stopped
 	 * potential reasons for stop: no energy, hit wall
@@ -478,8 +477,8 @@ public class UnreliableRobot implements Robot {
 			return false;
 		}
 	}
-	
-	
+
+
 	/**
 	 * into retrieval method that tells the distance to a wall in given input direction
 	 * @param direction to check in relative way to forward direction
@@ -501,19 +500,19 @@ public class UnreliableRobot implements Robot {
 		// returns the number of steps to obstacle
 		// will throw exception if no sensor in the direction asked for
 		// has assert statement on to do sanity check that final distance option is actually east
-		
+
 		int toReturn;
-		
-		float[] energyRep = new float[1]; 
+
+		float[] energyRep = new float[1];
 		energyRep[0] = energyLevel;
-		
+
 		if (direction == Direction.FORWARD) {
 			if (forwardSensor == null) {
 				throw new UnsupportedOperationException();
 			} else if (forwardSensor.checkRepairStatus()){
 				throw new UnsupportedOperationException();
 			}	else {
-				
+
 				if (forwardSensor.checkRepairStatus()) {// has process wait if sensor being repaired
 					try {
 						Thread.sleep(2000);
@@ -521,7 +520,7 @@ public class UnreliableRobot implements Robot {
 						e.printStackTrace();
 					}
 				}
-				
+
 				try {
 					if (canSeeThroughTheExitIntoEternity(Direction.FORWARD)) {
 						toReturn = Integer.MAX_VALUE;
@@ -531,15 +530,15 @@ public class UnreliableRobot implements Robot {
 				} catch (Exception e) {
 					e.printStackTrace();
 					toReturn = -100;
-				} 
+				}
 			}
-			
+
 		} else if (direction == Direction.LEFT) {
 			if (leftSensor == null) {
 				throw new UnsupportedOperationException();
-			} else if (leftSensor.checkRepairStatus()){		
+			} else if (leftSensor.checkRepairStatus()){
 				throw new UnsupportedOperationException();
-				
+
 			}else {
 				if (leftSensor.checkRepairStatus()) {// has process wait if sensor being repaired
 					try {
@@ -548,8 +547,8 @@ public class UnreliableRobot implements Robot {
 						e.printStackTrace();
 					}
 				}
-				
-				CardinalDirection inputCarDir; 
+
+				CardinalDirection inputCarDir;
 				if (getCurrentDirection() == CardinalDirection.North) {
 					inputCarDir = CardinalDirection.East;
 				} else if (getCurrentDirection() == CardinalDirection.West) {
@@ -560,7 +559,7 @@ public class UnreliableRobot implements Robot {
 					assert getCurrentDirection() == CardinalDirection.East : "An exit must exist here";
 					inputCarDir = CardinalDirection.South;
 				}
-				
+
 				try {
 					if (canSeeThroughTheExitIntoEternity(Direction.LEFT)) {
 						toReturn = Integer.MAX_VALUE;
@@ -570,9 +569,9 @@ public class UnreliableRobot implements Robot {
 				} catch (Exception e) {
 					e.printStackTrace();
 					toReturn = -100;
-				} 	
+				}
 			}
-			
+
 		} else if (direction == Direction.BACKWARD) {
 			if (backSensor == null) {
 				throw new UnsupportedOperationException();
@@ -586,7 +585,7 @@ public class UnreliableRobot implements Robot {
 						e.printStackTrace();
 					}
 				}
-				
+
 				CardinalDirection inputCarDir;
 				if (getCurrentDirection() == CardinalDirection.North) {
 					inputCarDir = CardinalDirection.South;
@@ -598,20 +597,20 @@ public class UnreliableRobot implements Robot {
 					assert getCurrentDirection() == CardinalDirection.East : "An exit must exist here";
 					inputCarDir = CardinalDirection.East;
 				}
-				
+
 				try {
 					if (canSeeThroughTheExitIntoEternity(Direction.BACKWARD)) {
 						toReturn = Integer.MAX_VALUE;
 					} else {
 						toReturn = backSensor.distanceToObstacle(getCurrentPosition(), inputCarDir, energyRep);
-					}			
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					toReturn = -100;
 				}
-				
+
 			}
-			
+
 		} else {
 			if (rightSensor == null) {
 				throw new UnsupportedOperationException();
@@ -625,7 +624,7 @@ public class UnreliableRobot implements Robot {
 						e.printStackTrace();
 					}
 				}
-				
+
 				CardinalDirection inputCarDir;
 				if (getCurrentDirection() == CardinalDirection.North) {
 					inputCarDir = CardinalDirection.West;
@@ -637,7 +636,7 @@ public class UnreliableRobot implements Robot {
 					assert getCurrentDirection() == CardinalDirection.East : "An exit must exist here";
 					inputCarDir = CardinalDirection.North;
 				}
-				
+
 				try {
 					if (canSeeThroughTheExitIntoEternity(Direction.RIGHT)) {
 						toReturn = Integer.MAX_VALUE;
@@ -648,10 +647,10 @@ public class UnreliableRobot implements Robot {
 					e.printStackTrace();
 					toReturn = -100;
 				}
-				
+
 			}
 		}
-		
+
 		if (toReturn == -100) {
 			throw new UnsupportedOperationException();
 		} else {
@@ -659,7 +658,7 @@ public class UnreliableRobot implements Robot {
 			return toReturn;
 		}
 	}
-	
+
 	/**
 	 * info retrival method that tells if a sensor can identify the exit in the direction relative to the robot's current forward direction from the current position.
 	 * how it will be used; distanceToObstacle calls it to help out with seeing if it is facing an exit
@@ -675,16 +674,16 @@ public class UnreliableRobot implements Robot {
 		// returns a boolean true if ecit is in line of sight or false otherwise
 		// will throw error if no sensor/not working
 		// has assert statement on to do sanity check that final distance option is actually east
-		
+
 		boolean toReturn = false;
-		
+
 		float[] energyRep = new float[1];
 		energyRep[0] = energyLevel;
-		
+
 		if (direction == Direction.FORWARD) {
 			if (forwardSensor == null) {
 				throw new UnsupportedOperationException();
-				
+
 			}else {
 				if (forwardSensor.checkRepairStatus()){//pauses if doen for repair
 					try {
@@ -693,21 +692,21 @@ public class UnreliableRobot implements Robot {
 						e.printStackTrace();
 					}
 				}
-				
+
 				try {
 					if (forwardSensor.distanceToObstacle(getCurrentPosition(), getCurrentDirection(), energyRep) == Integer.MAX_VALUE) {
 						energyLevel = energyRep[0];
 						toReturn = true;
-					} 
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 
+				}
 			}
-			
+
 		} else if (direction == Direction.LEFT) {
 			if (leftSensor == null) {
 				throw new UnsupportedOperationException();
-				
+
 			} else {
 				if (leftSensor.checkRepairStatus()){
 					try {
@@ -716,8 +715,8 @@ public class UnreliableRobot implements Robot {
 						e.printStackTrace();
 					}
 				}
-				
-				CardinalDirection inputCarDir; 
+
+				CardinalDirection inputCarDir;
 				if (getCurrentDirection() == CardinalDirection.North) {
 					inputCarDir = CardinalDirection.East;
 				} else if (getCurrentDirection() == CardinalDirection.West) {
@@ -728,7 +727,7 @@ public class UnreliableRobot implements Robot {
 					assert getCurrentDirection() == CardinalDirection.East : "An exit must exist here";
 					inputCarDir = CardinalDirection.South;
 				}
-				
+
 				try {
 					if (leftSensor.distanceToObstacle(getCurrentPosition(), inputCarDir, energyRep) == Integer.MAX_VALUE) {
 						energyLevel = energyRep[0];
@@ -736,9 +735,9 @@ public class UnreliableRobot implements Robot {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 	
+				}
 			}
-			
+
 		} else if (direction == Direction.BACKWARD) {
 			if (backSensor == null) {
 				throw new UnsupportedOperationException();
@@ -750,7 +749,7 @@ public class UnreliableRobot implements Robot {
 						e.printStackTrace();
 					}
 				}
-				
+
 				CardinalDirection inputCarDir;
 				if (getCurrentDirection() == CardinalDirection.North) {
 					inputCarDir = CardinalDirection.South;
@@ -762,7 +761,7 @@ public class UnreliableRobot implements Robot {
 					assert getCurrentDirection() == CardinalDirection.East : "An exit must exist here";
 					inputCarDir = CardinalDirection.West;
 				}
-				
+
 				try {
 					if (backSensor.distanceToObstacle(getCurrentPosition(), inputCarDir, energyRep) == Integer.MAX_VALUE) {
 						energyLevel = energyRep[0];
@@ -770,10 +769,10 @@ public class UnreliableRobot implements Robot {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 	
-				
+				}
+
 			}
-			
+
 		} else {
 			if (rightSensor == null) {
 				throw new UnsupportedOperationException();
@@ -785,7 +784,7 @@ public class UnreliableRobot implements Robot {
 						e.printStackTrace();
 					}
 				}
-				
+
 				CardinalDirection inputCarDir;
 				if (getCurrentDirection() == CardinalDirection.North) {
 					inputCarDir = CardinalDirection.West;
@@ -797,7 +796,7 @@ public class UnreliableRobot implements Robot {
 					assert getCurrentDirection() == CardinalDirection.East : "An exit must exist here";
 					inputCarDir = CardinalDirection.North;
 				}
-				
+
 				try {
 					if (rightSensor.distanceToObstacle(getCurrentPosition(), inputCarDir, energyRep) == Integer.MAX_VALUE) {
 						energyLevel = energyRep[0];
@@ -805,25 +804,25 @@ public class UnreliableRobot implements Robot {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 	
-				
+				}
+
 			}
 		}
-		
+
 		return toReturn;
 	}
-	
+
 	/**
 	 * Starts a concurrent, independent failure and repair process that makes the sensor fail and repair itself.
 	 * Creates alternating time periods of up time and down time.
 	 * Up time: The duration of a time period when the sensor is in operational
 	 * Down time: The duration of a time period when the sensor is in repair and not operational
-	 * 
+	 *
 	 * @param direction the direction the sensor is mounted on the robot
 	 * @param meanTimeBetweenFailures is the mean time in seconds, must be greater than zero
 	 * @param meanTimeToRepair is the mean time in seconds, must be greater than zero
 	 * @throws UnsupportedOperationException if method not supported
-	 * @throws also throws exception if not implemented since optional
+	 * throws also throws exception if not implemented since optional
 	 */
 	@Override
 	public void startFailureAndRepairProcess(Direction direction, int meanTimeBetweenFailures, int meanTimeToRepair)
@@ -834,16 +833,16 @@ public class UnreliableRobot implements Robot {
 		// Up time: The duration of a time period when the sensor is in operational
 		// characterized by a distribution whose mean value is given by parameter meanTimeBetweenFailures (4 here)
 		// Down time: The duration of a time period when the sensor is in repair and not operational
-		// characterized by a distribution whose mean value is given by parameter meanTimeToRepair (2 here) 
+		// characterized by a distribution whose mean value is given by parameter meanTimeToRepair (2 here)
 		// takes a Direction paramter which is the direction the sensor is mounted on the robot
 		// takes an int parameter meanTimeBetweenFailures is the mean time in seconds, which here is 4
 		// takes an int parameter meanTimeToRepair is the mean time in seconds, which here is 2
 		// UnsupportedOperationException if method not supported
-		
+
 		if (direction == null) {
 			throw new UnsupportedOperationException();
 		}
-		
+
 		if (direction.equals(Direction.FORWARD)) {
 			try{
 				forwardSensor.startFailureAndRepairProcess(meanTimeBetweenFailures, meanTimeToRepair);
@@ -864,7 +863,7 @@ public class UnreliableRobot implements Robot {
 			}
 		} else {
 			assert direction.equals(Direction.RIGHT) : "Last remaining direction optino should be right";
-			
+
 			try{
 				rightSensor.startFailureAndRepairProcess(meanTimeBetweenFailures, meanTimeToRepair);
 			} catch (Exception e) {
@@ -873,9 +872,9 @@ public class UnreliableRobot implements Robot {
 		}
 
 	}
-	
+
 	/**
-	 * Stops the failure and repair process, 
+	 * Stops the failure and repair process,
 	 * leaves the sensor in an operational state
 	 * must have a start repair process
 	 * Stop the process as soon as the sensor is operational.
@@ -884,18 +883,18 @@ public class UnreliableRobot implements Robot {
 	 */
 	@Override
 	public void stopFailureAndRepairProcess(Direction direction) throws UnsupportedOperationException {
-		// Stops the failure and repair process, 
+		// Stops the failure and repair process,
 		// leaves the sensor in an operational state
 		// must have a start repair process
 		// Stop the process as soon as the sensor is operational.
 		// how it works: identifies which distance sensor to invoke on with direction parameter, calls that unreliable sensor's stopFialure() method
 		// Direction parameter direction the direction the sensor is mounted on the robot
 		// throws UnsupportedOperationException if method not supported or there was no thread to start
-		
+
 		if (direction == null) {
-			throw new UnsupportedOperationException(); 
+			throw new UnsupportedOperationException();
 		}
-		
+
 		if (direction.equals(Direction.FORWARD)) {
 			try{
 				forwardSensor.stopFailureAndRepairProcess();
@@ -916,7 +915,7 @@ public class UnreliableRobot implements Robot {
 			}
 		} else {
 			assert direction.equals(Direction.RIGHT) : "Last remaining direction optino should be right";
-			
+
 			try{
 				rightSensor.stopFailureAndRepairProcess();
 			} catch (Exception e) {
@@ -925,11 +924,11 @@ public class UnreliableRobot implements Robot {
 		}
 
 	}
-	
+
 	/**
 	 * Returns the reference to the specified distance sensor of the robot.
 	 * @param sensorDirection  is the direction of the sensor that is being retrieved, helps specify which sensor wanted
-	 * @return the specified distance sensor. 
+	 * @return the specified distance sensor.
 	 */
 	@Override
 	public DistanceSensor getRobotSensor(Direction sensorDirection) {
@@ -949,11 +948,11 @@ public class UnreliableRobot implements Robot {
 			return rightSensor;
 		}
 	}
-	
+
 	/**
 	 * Returns what the robot's type is based on a string
 	 * Used to decide in state playing whether to start the thread process
-	 * @return a string unreliable or reliable to represent the type of robot 
+	 * @return a string unreliable or reliable to represent the type of robot
 	 */
 	@Override
 	public String getRobotType() {
@@ -961,7 +960,7 @@ public class UnreliableRobot implements Robot {
 		//Used to decide in state playing whether to start the thread process
 		//how it works: return a string unreliable or reliable to represent the type of robot this is, this is instantiated in the contructor
 		// for this class should return the string "unreliable"
-		
+
 		return robotType;
 	}
 

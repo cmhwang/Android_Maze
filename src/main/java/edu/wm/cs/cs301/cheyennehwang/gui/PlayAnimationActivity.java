@@ -88,7 +88,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         robotConfiguration = transitionToPlay.getStringExtra("sensorConfig");
         setSensorColor(robotConfiguration);
         if (robotConfiguration.equalsIgnoreCase("Premium")){
-            robot = new ReliableRobot();
+            robot = new UnreliableRobot();
 
             ReliableSensor forwardSensor = new ReliableSensor();
             forwardSensor.setSensorDirection(Robot.Direction.FORWARD);
@@ -107,6 +107,22 @@ public class PlayAnimationActivity extends AppCompatActivity {
             robot.addDistanceSensor(backSensor, Robot.Direction.BACKWARD);
         } else if (robotConfiguration.equalsIgnoreCase("Mediocre")){
             robot = new UnreliableRobot();
+
+            ReliableSensor forwardSensor = new ReliableSensor();
+            forwardSensor.setSensorDirection(Robot.Direction.FORWARD);
+            robot.addDistanceSensor(forwardSensor, Robot.Direction.FORWARD);
+
+            ReliableSensor backSensor = new ReliableSensor();
+            backSensor.setSensorDirection(Robot.Direction.BACKWARD);
+            robot.addDistanceSensor(backSensor, Robot.Direction.BACKWARD);
+
+            UnreliableSensor leftSensor = new UnreliableSensor();
+            leftSensor.setSensorDirection(Robot.Direction.LEFT);
+            robot.addDistanceSensor(leftSensor, Robot.Direction.LEFT);
+
+            UnreliableSensor rightSensor = new UnreliableSensor();
+            rightSensor.setSensorDirection(Robot.Direction.RIGHT);
+            robot.addDistanceSensor(rightSensor, Robot.Direction.RIGHT);
 
         }
 
