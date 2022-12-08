@@ -247,10 +247,12 @@ public class PlayAnimationActivity extends AppCompatActivity {
         // checks that animation runnable isn't already running, then begins running
         anim = () -> {
             try {
-                driver.drive1Step2Exit();
+                boolean checker = driver.drive1Step2Exit(); // executes and also checker returns false if at the end
                 setEnergyUsed(driver.getEnergyConsumption());
-                setSensorColor(robot);
-                if (robot.isAtExit()) {
+                if (!robotConfiguration.equalsIgnoreCase("Premium")){
+                    setSensorColor(robot);
+                }
+                if (!checker) {
                     if(robotType.equalsIgnoreCase("wizard")){
                         ((Wizard)driver).finalDrive2End(robot.getCurrentPosition());
                         Log.w("You Won!", " Congratulations!");

@@ -87,53 +87,73 @@ public class ReliableSensor implements DistanceSensor {
 				} 
 			}
 			if (direction == CardinalDirection.North) {;
-				while (!distanceFound) { 
-					if (maze.hasWall(checkPos[0], checkPos[1], direction)) {
-						distanceFound = true;
-						if(checkPos[1] == 0) {
-							nearestWallIsBorder = true;
-						}
+				while (!distanceFound) {
+					if (checkPos[0] == maze.getExitPosition()[0] && checkPos[1] == maze.getExitPosition()[1]){
+						return Integer.MAX_VALUE;
 					} else {
-						toReturn = toReturn + 1;
-						checkPos[1] = checkPos[1] - 1;
+						if (maze.hasWall(checkPos[0], checkPos[1], direction)) {
+							distanceFound = true;
+							if(checkPos[1] == 0) {
+								nearestWallIsBorder = true;
+							}
+						} else {
+							toReturn = toReturn + 1;
+							checkPos[1] = checkPos[1] - 1;
+						}
 					}
+
 				}
 			} else if (direction == CardinalDirection.West) {
 				while (!distanceFound) {
-					if (maze.hasWall(checkPos[0], checkPos[1], direction)) {
-						distanceFound = true;
-						if(checkPos[0] == 0) {
-							nearestWallIsBorder = true;
-						}
+					if (checkPos[0] == maze.getExitPosition()[0] && checkPos[1] == maze.getExitPosition()[1]){
+						return Integer.MAX_VALUE;
 					} else {
-						toReturn = toReturn + 1;
-						checkPos[0] = checkPos[0] - 1;
+						if (maze.hasWall(checkPos[0], checkPos[1], direction)) {
+							distanceFound = true;
+							if(checkPos[0] == 0) {
+								nearestWallIsBorder = true;
+							}
+						} else {
+							toReturn = toReturn + 1;
+							checkPos[0] = checkPos[0] - 1;
+						}
 					}
+
 				}
 			} else if (direction == CardinalDirection.South) {
 				while (!distanceFound) {
-					if (maze.hasWall(checkPos[0], checkPos[1], direction)) {
-						distanceFound = true;
-						if(checkPos[1] == maze.getHeight() - 1) {
-							nearestWallIsBorder = true;
-						}
+					if (checkPos[0] == maze.getExitPosition()[0] && checkPos[1] == maze.getExitPosition()[1]){
+						return Integer.MAX_VALUE;
 					} else {
-						toReturn = toReturn + 1;
-						checkPos[1] = checkPos[1] + 1;
+						if (maze.hasWall(checkPos[0], checkPos[1], direction)) {
+							distanceFound = true;
+							if(checkPos[1] == maze.getHeight() - 1) {
+								nearestWallIsBorder = true;
+							}
+						} else {
+							toReturn = toReturn + 1;
+							checkPos[1] = checkPos[1] + 1;
+						}
 					}
+
 				}
 			} else {
 				assert direction == CardinalDirection.East : "No direction is correct here";
 				while (!distanceFound) {
-					if (maze.hasWall(checkPos[0], checkPos[1], direction)) {
-						distanceFound = true;
-						if(checkPos[0] == maze.getWidth() - 1) {
-							nearestWallIsBorder = true;
-						}
+					if (checkPos[0] == maze.getExitPosition()[0] && checkPos[1] == maze.getExitPosition()[1]){
+						return Integer.MAX_VALUE;
 					} else {
-						toReturn = toReturn + 1;
-						checkPos[0] = checkPos[0] + 1;
+						if (maze.hasWall(checkPos[0], checkPos[1], direction)) {
+							distanceFound = true;
+							if(checkPos[0] == maze.getWidth() - 1) {
+								nearestWallIsBorder = true;
+							}
+						} else {
+							toReturn = toReturn + 1;
+							checkPos[0] = checkPos[0] + 1;
+						}
 					}
+
 				}
 			}
 			
