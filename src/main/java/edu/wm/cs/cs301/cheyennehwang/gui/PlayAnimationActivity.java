@@ -396,6 +396,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 if (!playPauseCounter){
                     animPlayButton.setText("PAUSE");
                     Log.v("Animation Control hit", "Play");
+                    animHandler.postDelayed(anim, playSpeed);
 
                     Toast toastPlay = Toast.makeText(PlayAnimationActivity.this, "Play Animation", Toast.LENGTH_SHORT);
                     toastPlay.show();
