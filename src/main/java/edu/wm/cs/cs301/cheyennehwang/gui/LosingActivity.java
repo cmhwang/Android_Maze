@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,8 @@ import edu.wm.cs.cs301.cheyennehwang.R;
 
 public class LosingActivity extends AppCompatActivity {
 
+    public MediaPlayer music;
+
     /**
      * Sets up any ui features that need additional specifications
      * - specifically here sets up text fields for lose reson, shortest path, path taken, energy used, and replay button
@@ -37,6 +40,10 @@ public class LosingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loselayout);
+
+        //plays last song from soundtrack of movie
+        music = MediaPlayer.create(LosingActivity.this,R.raw.ending_theme);
+        music.start();
 
         Intent transitionToEnd = getIntent();
         // updates text field for reason you lost
@@ -75,6 +82,7 @@ public class LosingActivity extends AppCompatActivity {
                 Intent transitionToStart = new Intent(LosingActivity.this, AMazeActivity.class);
                 Toast toast = Toast.makeText(LosingActivity.this, "Return to Title Screen", Toast.LENGTH_SHORT);
                 toast.show();
+                music.stop();
                 startActivity(transitionToStart);
             }
         });
@@ -90,6 +98,7 @@ public class LosingActivity extends AppCompatActivity {
         setResult(RESULT_CANCELED);
         Toast toast = Toast.makeText(LosingActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
+        music.stop();
         Log.v("Back Button Pressed", "Returned to Title");
         finish();
 

@@ -251,33 +251,36 @@ public class PlayAnimationActivity extends AppCompatActivity {
      */
 
     public void beginAnimation(){
-        // checks that animation runnable isn't already running, then begins running
-        anim = () -> {
-            try {
-                boolean checker = driver.drive1Step2Exit(); // executes and also checker returns false if at the end
-                setEnergyUsed(driver.getEnergyConsumption());
-                if (!robotConfiguration.equalsIgnoreCase("Premium")){
-                    setSensorColor(robot);
-                }
-                if (!checker) {
-                    if (robotType.equalsIgnoreCase("wizard")) {
-                        ((Wizard)driver).finalDrive2End(robot.getCurrentPosition());
-                        Log.w("You Won!", " Congratulations!");
-                        skipEnd(true, robot.getOdometerReading(), driver.getEnergyConsumption());
-                    } else {
-                        ((WallFollower)driver).finalDrive2End(robot.getCurrentPosition());
-                        Log.w("You Won!", " Congratulations!");
-                        skipEnd(true, robot.getOdometerReading(), driver.getEnergyConsumption());
+        anim = new Runnable() {
+            @Override
+            public void run(){
+                try {
+                    boolean checker = driver.drive1Step2Exit(); // executes and also checker returns false if at the end
+                    setEnergyUsed(driver.getEnergyConsumption());
+                    if (!robotConfiguration.equalsIgnoreCase("Premium")){
+                        setSensorColor(robot);
                     }
+                    if (!checker) {
+                        if (robotType.equalsIgnoreCase("wizard")) {
+                            ((Wizard)driver).finalDrive2End(robot.getCurrentPosition());
+                            Log.w("You Won!", " Congratulations!");
+                            skipEnd(true, robot.getOdometerReading(), driver.getEnergyConsumption());
+                        } else {
+                            ((WallFollower)driver).finalDrive2End(robot.getCurrentPosition());
+                            Log.w("You Won!", " Congratulations!");
+                            skipEnd(true, robot.getOdometerReading(), driver.getEnergyConsumption());
+                        }
 
+                    }
+                    else {
+                        animHandler.postDelayed(anim, playSpeed);
+                    }
+                } catch (Exception e) {
+                    Log.w("Failure", e.toString());
+                    skipEnd(false, robot.getOdometerReading(), driver.getEnergyConsumption());
                 }
-                else {
-                    animHandler.postDelayed(anim, playSpeed);
-                }
-            } catch (Exception e) {
-                Log.w("Failure", e.toString());
-                skipEnd(false, robot.getOdometerReading(), driver.getEnergyConsumption());
             }
+
         };
         //handles the pausing
         animHandler.postDelayed(anim, playSpeed);
@@ -294,11 +297,12 @@ public class PlayAnimationActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(PlayAnimationActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
-        animHandler.removeCallbacks(anim);
+        animHandler.removeCallbacksAndMessages(anim);
         music.stop();
         finish();
 
     }
+
 
     /**
      * handles action listener for show maze switch
