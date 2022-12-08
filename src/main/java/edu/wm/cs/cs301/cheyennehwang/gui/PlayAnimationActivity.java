@@ -294,6 +294,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(PlayAnimationActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
+        animHandler.removeCallbacks(anim);
         music.stop();
         finish();
 
