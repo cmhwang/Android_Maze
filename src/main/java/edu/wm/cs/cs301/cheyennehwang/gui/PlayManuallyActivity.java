@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,8 @@ public class PlayManuallyActivity extends AppCompatActivity {
 
     public StatePlaying state;
 
+    public MediaPlayer music;
+
 
 
 
@@ -65,6 +68,10 @@ public class PlayManuallyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playmanuallayout);
+
+        //plays music from soundtrack towards middle of movie
+        music = MediaPlayer.create(PlayManuallyActivity.this,R.raw.path_of_the_wind);
+        music.start();
 
         //sets up maze and drive and state
         Maze maze = MazeSettings.getSettings().getMaze();
@@ -252,17 +259,11 @@ public class PlayManuallyActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(PlayManuallyActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
-        reset();
-        finish();
-
-    }
-
-    /**
-     * Needed otherwise won't reload maze after going back one
-     */
-    public void reset() {
         stepsTaken = 0;
         state = null;
+        music.stop();
+        finish();
+
     }
 
 
@@ -279,6 +280,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         transitionToEnd.putExtra("shortestLength", String.valueOf(shortestPath));
         Toast toast = Toast.makeText(PlayManuallyActivity.this, "Switch to Ending Screen, Path Length Taken: " + String.valueOf(stepsTaken), Toast.LENGTH_SHORT);
         toast.show();
+        music.stop();
         startActivity(transitionToEnd);
     }
 }

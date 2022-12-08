@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -48,6 +49,8 @@ public class AMazeActivity extends AppCompatActivity {
     final int mode = Activity.MODE_PRIVATE;
     final String MYPREFS = "MyPreferences_001";
 
+    public MediaPlayer music;
+
     /**
      * Sets up any ui features that need additional specifications
      * - specfically here sets up sinner for accepting generation input
@@ -72,6 +75,10 @@ public class AMazeActivity extends AppCompatActivity {
         //aggregates all the maze generation input and performs process to move to next screen, based on whether revisit or explore clicked
         goNext((Button) findViewById(R.id.exploreButton), true);
         goNext((Button) findViewById(R.id.revisitButton), false);
+
+        // plays early song from my neighbor totoro soundtrack
+        music = MediaPlayer.create(AMazeActivity.this,R.raw.hey_lets_go);
+        music.start();
 
 
 
@@ -135,6 +142,7 @@ public class AMazeActivity extends AppCompatActivity {
 
                 Toast toast = Toast.makeText(AMazeActivity.this, "Begin Maze Generation with level: " + String.valueOf(mazeLevel) + ", algorithm: " + genAlgo + ", rooms on: " + String.valueOf(incRooms), Toast.LENGTH_SHORT);
                 toast.show();
+                music.stop();
                 startActivity(transitionToGen);
             }
         });

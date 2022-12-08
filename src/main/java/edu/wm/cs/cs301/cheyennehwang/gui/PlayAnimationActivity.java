@@ -2,6 +2,7 @@ package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -66,6 +67,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
     public Runnable anim;
     public long playSpeed = 1600;
 
+    public MediaPlayer music;
+
 
 
     /**
@@ -78,6 +81,10 @@ public class PlayAnimationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playanimationlayout);
+
+        //plays music from soundtrack towards middle of movie
+        music = MediaPlayer.create(PlayAnimationActivity.this,R.raw.path_of_the_wind);
+        music.start();
 
         //sets up maze and drive and state
         Maze maze = MazeSettings.getSettings().getMaze();
@@ -269,7 +276,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 }
             } catch (Exception e) {
                 Log.w("Failure", e.toString());
-                skipEnd(false, robot.getOdometerReading(), robot.getBatteryLevel());
+                skipEnd(false, robot.getOdometerReading(), driver.getEnergyConsumption());
             }
         };
         //handles the pausing
@@ -287,6 +294,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(PlayAnimationActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
+        music.stop();
         finish();
 
     }
@@ -435,11 +443,12 @@ public class PlayAnimationActivity extends AppCompatActivity {
             transitionToEnd.putExtra("shortestLength", String.valueOf(shortestPath));
             Toast toast = Toast.makeText(PlayAnimationActivity.this, "Switch to Ending Screen, Path Length Taken: " + String.valueOf(pathLength), Toast.LENGTH_SHORT);
             toast.show();
+            music.stop();
             startActivity(transitionToEnd);
         } else {
             Log.v("Switch To End Screen", "Lose Screen");
             transitionToEnd = new Intent(PlayAnimationActivity.this, LosingActivity.class);
-            if (energyUsed > 3500f){
+            if (energyUsed >= 3500f){
                 transitionToEnd.putExtra("loseReason", "Energy Used Up");
             } else {
                 transitionToEnd.putExtra("loseReason", "Robot Failure");
@@ -450,6 +459,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             transitionToEnd.putExtra("shortestLength", String.valueOf(shortestPath));
             Toast toast = Toast.makeText(PlayAnimationActivity.this, "Switch to Ending Screen, Path Length Taken: " + String.valueOf(pathLength), Toast.LENGTH_SHORT);
             toast.show();
+            music.stop();
             startActivity(transitionToEnd);
         }
 

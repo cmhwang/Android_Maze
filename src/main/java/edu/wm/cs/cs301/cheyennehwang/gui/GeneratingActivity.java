@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -60,6 +61,9 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
     public Handler mazeHandler;
     public Thread mazeThread;
 
+    //music player
+    public MediaPlayer music;
+
     /**
      * Sets up any ui features that need additional specifications
      * - specfically here sets up sinner for accepting driver input and robot configuration
@@ -72,6 +76,11 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generationlayout);
+
+        //starts music and plays song towards beginning of my neighbor totoro soundtrack
+        music = MediaPlayer.create(GeneratingActivity.this,R.raw.mei_and_the_dust_bunnies);
+        music.start();
+
         loadProgress = 0;
 
 
@@ -194,6 +203,7 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
      */
     @Override
     public int getSeed(){
+
         return seed;
     }
 
@@ -231,15 +241,6 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
         Toast toast = Toast.makeText(GeneratingActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
-        reset();
-        finish();
-
-    }
-
-    /**
-     * Needed otherwise won't reload maze after going back one
-     */
-    public void reset() {
         mazeFactory = new MazeFactory() ;
         skillLevel = 0; // default size for maze
         builderAlgo = Builder.DFS; // default algorithm
@@ -247,15 +248,19 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
         loadProgress = 0;
         seed = 0;
         mazeProgress.setProgress(loadProgress);
+        music.stop();
+        finish();
+
     }
+
 
     /**
      * Needed to invoke the reset
      */
     @Override
     protected void onDestroy() {
+        onBackPressed();
         super.onDestroy();
-        reset();
     }
 
     /**
@@ -289,6 +294,7 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
 
                         Toast toast5 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
                         toast5.show();
+                        music.stop();
                         startActivity(transitionToPlay);
                     } else {
                         Log.v("Waiting on Generation", "Play Will Begin Soon");
@@ -310,6 +316,7 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
 
                         Toast toast2 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
                         toast2.show();
+                        music.stop();
                         startActivity(transitionToPlay);
                     } else {
                         //branch for if load not done
@@ -364,6 +371,7 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
 
                         Toast toast5 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
                         toast5.show();
+                        music.stop();
                         startActivity(transitionToPlay);
 
                     } else if (driverSetting.equalsIgnoreCase("Wizard") || driverSetting.equalsIgnoreCase("WallFollower")){
@@ -379,6 +387,7 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
 
                         Toast toast2 = Toast.makeText(GeneratingActivity.this, "Start maze play with driver: " + driverSetting + ", robot configuration: " + botConfigSetting, Toast.LENGTH_SHORT);
                         toast2.show();
+                        music.stop();
                         startActivity(transitionToPlay);
 
 

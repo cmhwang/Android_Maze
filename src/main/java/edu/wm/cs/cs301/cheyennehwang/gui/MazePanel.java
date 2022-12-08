@@ -73,7 +73,7 @@ public class MazePanel extends View implements P7PanelF22{
 
         Log.v("MazePanel", "Drawing maze panel");
 //        myTestImage(mazeCanvas);
-        commit(canvas);
+        canvas.drawBitmap(mazeBitmap, 0, 0, mazePaint);
 
 
     }
@@ -96,18 +96,6 @@ public class MazePanel extends View implements P7PanelF22{
 
     }
 
-    /**
-     * Commits all accumulated drawings to the UI.
-     * Substitute for MazePanel.update method.
-     *
-     * updates based on what's been added to the canvas
-     */
-    public void commit(Canvas c){
-        c.drawBitmap(mazeBitmap, 0, 0, mazePaint);
-//        mazeBitmap = Bitmap.createBitmap(Constants.VIEW_WIDTH, Constants.VIEW_HEIGHT, Bitmap.Config.ARGB_8888);
-//        mazeCanvas = new Canvas(mazeBitmap);
-
-    }
 
     /**
      * Tells if instance is able to draw.

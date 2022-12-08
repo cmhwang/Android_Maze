@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import edu.wm.cs.cs301.cheyennehwang.R;
 
 public class WinningActivity extends AppCompatActivity {
 
+    public MediaPlayer music;
 
     /**
      * Sets up any ui features that need additional specifications
@@ -40,6 +42,10 @@ public class WinningActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.winlayout);
+
+        //plays last song from soundtrack of movie
+        music = MediaPlayer.create(WinningActivity.this,R.raw.ending_theme);
+        music.start();
 
         // updates text field for your path taken
         Intent transitionToEnd = getIntent();
@@ -75,6 +81,7 @@ public class WinningActivity extends AppCompatActivity {
                 Intent transitionToStart = new Intent(WinningActivity.this, AMazeActivity.class);
                 Toast toast = Toast.makeText(WinningActivity.this, "Return to Title Screen", Toast.LENGTH_SHORT);
                 toast.show();
+                music.stop();
                 startActivity(transitionToStart);
             }
         });
@@ -92,6 +99,7 @@ public class WinningActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(WinningActivity.this, "Return to Title", Toast.LENGTH_SHORT);
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
+        music.stop();
         finish();
 
     }
