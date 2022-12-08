@@ -253,8 +253,12 @@ public class PlayAnimationActivity extends AppCompatActivity {
                     setSensorColor(robot);
                 }
                 if (!checker) {
-                    if(robotType.equalsIgnoreCase("wizard")){
+                    if (robotType.equalsIgnoreCase("wizard")) {
                         ((Wizard)driver).finalDrive2End(robot.getCurrentPosition());
+                        Log.w("You Won!", " Congratulations!");
+                        skipEnd(true, robot.getOdometerReading(), driver.getEnergyConsumption());
+                    } else {
+                        ((WallFollower)driver).finalDrive2End(robot.getCurrentPosition());
                         Log.w("You Won!", " Congratulations!");
                         skipEnd(true, robot.getOdometerReading(), driver.getEnergyConsumption());
                     }
