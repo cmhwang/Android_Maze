@@ -49,7 +49,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
     public Intent transitionToEnd;
 
-    public int playPauseCounter = 0;
+    public boolean playPauseCounter = true;// key: true means playing
 
     public String robotType;
     public String robotConfiguration;
@@ -393,7 +393,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         animPlayButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view){
                 //sets up the text to switch on the play button
-                if (playPauseCounter % 2 == 1){
+                if (!playPauseCounter){
                     animPlayButton.setText("PAUSE");
                     Log.v("Animation Control hit", "Play");
 
@@ -402,11 +402,12 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 } else {
                     animPlayButton.setText("PLAY");
                     Log.v("Animation Control hit", "Paused");
+                    animHandler.removeCallbacks(anim);
 
                     Toast toastPause = Toast.makeText(PlayAnimationActivity.this, "Pause Animation", Toast.LENGTH_SHORT);
                     toastPause.show();
                 }
-                playPauseCounter = playPauseCounter + 1;
+                playPauseCounter = !playPauseCounter;
             }
 
         }
