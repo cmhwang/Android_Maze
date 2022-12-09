@@ -266,6 +266,16 @@ public class PlayManuallyActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Needed to clean up music
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //clean up
+        music.stop();
+    }
+
 
     /**
      * called by state playing when at end

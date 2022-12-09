@@ -19,6 +19,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import edu.wm.cs.cs301.cheyennehwang.R;
 import edu.wm.cs.cs301.cheyennehwang.generation.Maze;
+import edu.wm.cs.cs301.cheyennehwang.generation.MazeFactory;
 import edu.wm.cs.cs301.cheyennehwang.generation.MazeSettings;
 import edu.wm.cs.cs301.cheyennehwang.gui.Robot;
 import edu.wm.cs.cs301.cheyennehwang.gui.RobotDriver;
@@ -270,7 +271,6 @@ public class PlayAnimationActivity extends AppCompatActivity {
                             Log.w("You Won!", " Congratulations!");
                             skipEnd(true, robot.getOdometerReading(), driver.getEnergyConsumption());
                         }
-
                     }
                     else {
                         animHandler.postDelayed(anim, playSpeed);
@@ -282,7 +282,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             }
 
         };
-        //handles the pausing
+        //handles the stopping
         animHandler.postDelayed(anim, playSpeed);
     }
 
@@ -298,9 +298,21 @@ public class PlayAnimationActivity extends AppCompatActivity {
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
         animHandler.removeCallbacksAndMessages(anim);
+        animHandler = null;
         music.stop();
         finish();
 
+    }
+
+    /**
+     * Needed to clean up music
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //clean up
+        animHandler.removeCallbacksAndMessages(null);
+        music.stop();
     }
 
 

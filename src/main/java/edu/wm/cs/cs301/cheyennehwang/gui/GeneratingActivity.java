@@ -242,9 +242,9 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
         toast.show();
         Log.v("Back Button Pressed", "Returned to Title");
         mazeFactory = new MazeFactory() ;
-        skillLevel = 0; // default size for maze
-        builderAlgo = Builder.DFS; // default algorithm
-        isPerfect = false; // default: maze can have rooms
+        skillLevel = 0;
+        builderAlgo = Builder.DFS;
+        isPerfect = false;
         loadProgress = 0;
         seed = 0;
         mazeProgress.setProgress(loadProgress);
@@ -255,12 +255,20 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
 
 
     /**
-     * Needed to invoke the reset
+     * Needed to clean up music
      */
     @Override
     protected void onDestroy() {
-        onBackPressed();
         super.onDestroy();
+        //clean up
+        mazeFactory = new MazeFactory();
+        skillLevel = 0;
+        builderAlgo = Builder.DFS;
+        isPerfect = false;
+        loadProgress = 0;
+        seed = 0;
+        mazeProgress.setProgress(0);
+        music.stop();
     }
 
     /**

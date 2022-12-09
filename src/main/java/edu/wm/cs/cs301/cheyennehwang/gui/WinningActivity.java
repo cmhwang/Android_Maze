@@ -104,4 +104,13 @@ public class WinningActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Needed to clean up music
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        music.stop();
+    }
+
 }
