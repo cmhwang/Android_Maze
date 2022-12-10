@@ -218,7 +218,7 @@ public class StatePlaying implements State {
 
 		firstPersonView = new FirstPersonView(Constants.VIEW_WIDTH,
 				Constants.VIEW_HEIGHT, Constants.MAP_UNIT,
-				Constants.STEP_SIZE, seenCells, maze.getRootnode(), panel) ;
+				Constants.STEP_SIZE, seenCells, maze.getRootnode()) ;
 		
 		mapView = new Map(seenCells, 15, maze) ;
 		//begin drawing
