@@ -1,9 +1,12 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.os.Vibrator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -63,6 +67,8 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
 
     //music player
     public MediaPlayer music;
+    //vibration creator
+    public Vibrator vibrator;
 
     /**
      * Sets up any ui features that need additional specifications
@@ -83,6 +89,8 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
 
         loadProgress = 0;
 
+        //sets up vibration creator
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         //gathers prior values
         Intent transitionToGen = getIntent();
@@ -225,6 +233,14 @@ public class GeneratingActivity extends AppCompatActivity implements Runnable, O
         if (loadProgress < loadPercent && loadPercent <= 100){
             loadProgress = loadPercent;
             mazeProgress.setProgress(loadProgress);
+        }
+        //adds vibration effect
+        if (loadPercent >= 100){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(500);
+            }
         }
     }
 

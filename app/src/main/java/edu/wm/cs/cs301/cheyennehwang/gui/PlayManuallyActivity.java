@@ -1,8 +1,12 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -54,6 +58,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
     public StatePlaying state;
 
     public MediaPlayer music;
+    public Vibrator vibrator;
 
 
 
@@ -105,7 +110,8 @@ public class PlayManuallyActivity extends AppCompatActivity {
         setMazeScale((Button) findViewById(R.id.incButton), 0);
         setMazeScale((Button) findViewById(R.id.decButton), 1);
 
-
+        //sets up vibration creator
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
     }
 
@@ -284,6 +290,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
     public void skipEnd(){
         // does the actual transition to the next stage and passes along the needed input
         Log.v("Switch To End Screen", "Win Screen");
+        //adds vibration effect
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            vibrator.vibrate(500);
+        }
         transitionToEnd = new Intent(PlayManuallyActivity.this, WinningActivity.class);
         transitionToEnd.putExtra("energyUsage", "N/A - Manual");
         transitionToEnd.putExtra("pathTakenLength", String.valueOf(stepsTaken));

@@ -1,10 +1,14 @@
 package edu.wm.cs.cs301.cheyennehwang.gui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -70,6 +74,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
 
     public MediaPlayer music;
 
+    public Vibrator vibrator;
+
 
 
     /**
@@ -114,11 +120,14 @@ public class PlayAnimationActivity extends AppCompatActivity {
         setMazeScale((Button) findViewById(R.id.incButton), 0);
         setMazeScale((Button) findViewById(R.id.decButton), 1);
 
+        //sets up vibration creator
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         botRemainEnergy = findViewById(R.id.energyBar);
 
         state.start(this, findViewById(R.id.tempMazeBckgd));
 
+        //sets up animation
         animHandler = new Handler();
         beginAnimation();
 
@@ -452,6 +461,13 @@ public class PlayAnimationActivity extends AppCompatActivity {
      */
     public void skipEnd(boolean win, int pathLength, float energyUsed){
         // does the actual transition to the next stage and passes along the needed input
+        //adds vibration effect
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            vibrator.vibrate(500);
+        }
+
         if (win){
             Log.v("Switch To End Screen", "Win Screen");
             transitionToEnd = new Intent(PlayAnimationActivity.this, WinningActivity.class);
